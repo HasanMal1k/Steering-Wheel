@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useState } from 'react'
@@ -7,59 +8,33 @@ export function Wheel(props) {
   const [wheelHover, setWheelHover] = useState(null)
   const [wheelClicked, setWheelClicked] = useState(false)
 
-  // For Just Grab
-  const handleWheelHoverEnter = () => {
-    setWheelHover('hovering')
-    document.body.style.cursor = 'grab'
-  }
-
-  // For Grabbing -- Closing the Hand
-  const handleWheelClick = () => {
-    setWheelHover('click')
-    document.body.style.cursor = 'grabbing'
-  }
-
-  const handleWheelHoverExit = () => {
-
-    if(wheelClicked){
-      return
-    }
-    setWheelHover(null)
-    wheelClicked(null)
-    document.body.style.cursor = 'default'
-   
-  }
-
-
-
-
   return (
-    <group 
-
-    {...props} 
-
-    dispose={null}
-
-    onPointerEnter={(e) => {
-      e.stopPropagation()
-      handleWheelHoverEnter()
-    }}
-
-    onPointerLeave={(e) => {
-      e.stopPropagation()
-      handleWheelHoverExit()
-    }}
-
-    onPointerDown={(e) => {
-      e.stopPropagation()
-      handleWheelClick()
-    }}
-    
-    onPointerUp={(e) => {
-      e.stopPropagation()
-      handleWheelHoverEnter()
-    }}
-
+    <group
+      {...props}
+      dispose={null}
+      onPointerEnter={(e) => {
+        e.stopPropagation()
+        if(document.body.style.cursor === 'grabbing') return
+        document.body.style.cursor = 'grab'
+      }}
+      onPointerLeave={(e) => {
+        e.stopPropagation()
+        // Only change cursor if not currently grabbing
+        if(document.body.style.cursor !== 'grabbing') {
+          document.body.style.cursor = 'default'
+          setWheelHover(false)
+        }
+      }}
+      onPointerDown={(e) => {
+        e.stopPropagation()
+        document.body.style.cursor = 'grabbing'
+      }}
+      onPointerUp={(e) => {
+        e.stopPropagation()
+        if(document.body.style.cursor === 'grabbing') {
+          document.body.style.cursor = 'grab'
+        }
+      }}
     >
       <mesh
         castShadow
@@ -200,7 +175,7 @@ export function Wheel(props) {
         geometry={nodes.Wheel_Center_plate.geometry}
         material={materials['Material.001']}
         position={[0.618, 6.065, -4.153]}
-        rotation={[0, -1.55, 0]}
+        rotation={[0, -1.55, 0]}  
       />
     </group>
   )
