@@ -1,0 +1,37 @@
+/* Circular Text Styles */
+.text-ring {
+  position: absolute;
+  /* width: 300px;
+  height: 300px; */
+  --inner-angle: calc((360 / var(--total)) * 1deg);
+  transform-style: preserve-3d;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.text-ring .character {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 1rem;
+  font-family: monospace;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  transform:
+    translate(-50%, -50%)
+    rotate(calc(var(--inner-angle) * var(--index)))
+    translateY(calc(var(--radius) * -1px));
+  line-height: 1;
+}
+
+/* Provide a fallback for browsers without CSS trigonometry */
+@supports not (top: calc(sin(1) * 1px)) {
+  .text-ring .character {
+    transform:
+      translate(-50%, -50%)
+      rotate(calc((360deg / var(--total)) * var(--index)))
+      translateY(calc(var(--radius) * -1px));
+  }
+}

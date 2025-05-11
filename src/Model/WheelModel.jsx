@@ -2,11 +2,17 @@
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useState } from 'react'
+import PaddleShifters from './PaddleShifters'
+
 
 export function Wheel(props) {
   const { nodes, materials } = useGLTF('/Models/Wheel.glb')
   const [wheelHover, setWheelHover] = useState(null)
   const [wheelClicked, setWheelClicked] = useState(false)
+
+  const paddlesRef = useRef()
+
+  console.log(paddlesRef.current)
 
   return (
     <group
@@ -57,7 +63,8 @@ export function Wheel(props) {
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
+      <PaddleShifters
+        // ref = {paddlesRef}
         castShadow
         receiveShadow
         geometry={nodes.PADDLE_SHIFTERS.geometry}
