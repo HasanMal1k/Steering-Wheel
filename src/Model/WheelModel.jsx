@@ -3,6 +3,9 @@ import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useState } from 'react'
 import PaddleShifters from './PaddleShifters'
+import Rotary from './Rotary'
+import Joysticks from './Joysticks'
+import CenterPlate from './CenterPlate'
 
 
 export function Wheel(props) {
@@ -10,9 +13,7 @@ export function Wheel(props) {
   const [wheelHover, setWheelHover] = useState(null)
   const [wheelClicked, setWheelClicked] = useState(false)
 
-  const paddlesRef = useRef()
 
-  console.log(paddlesRef.current)
 
   return (
     <group
@@ -71,14 +72,14 @@ export function Wheel(props) {
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
+      <Rotary
         castShadow
         receiveShadow
         geometry={nodes.side_knobs.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
+      <Joysticks
         castShadow
         receiveShadow
         geometry={nodes.joysticks.geometry}
@@ -176,7 +177,7 @@ export function Wheel(props) {
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
+      <CenterPlate
         castShadow
         receiveShadow
         geometry={nodes.Wheel_Center_plate.geometry}

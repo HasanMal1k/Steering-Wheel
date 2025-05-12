@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
 import * as THREE from 'three'
 
-function PaddleShifters({ geometry, material, position }) {
-  const paddlesRef = useRef()
+function Joysticks({ geometry, material, position }) {
+  const joysticksRef = useRef()
 
   // Create a white MeshStandardMaterial
   const whiteMaterial = new THREE.MeshStandardMaterial({ color: 'white' })
@@ -11,21 +11,21 @@ function PaddleShifters({ geometry, material, position }) {
   const [originalMaterial] = useState(material)
 
   const handlePointerOver = () => {
-    if (paddlesRef.current) {
-      paddlesRef.current.material = whiteMaterial
+    if (joysticksRef.current) {
+      joysticksRef.current.material = whiteMaterial
     }
     
   }
 
   const handlePointerOut = () => {
-    if (paddlesRef.current) {
-      paddlesRef.current.material = originalMaterial
+    if (joysticksRef.current) {
+      joysticksRef.current.material = originalMaterial
     }
   }
 
   return (
     <mesh
-      ref={paddlesRef}
+      ref={joysticksRef}
       castShadow
       receiveShadow
       geometry={geometry}
@@ -37,4 +37,4 @@ function PaddleShifters({ geometry, material, position }) {
   )
 }
 
-export default PaddleShifters
+export default Joysticks

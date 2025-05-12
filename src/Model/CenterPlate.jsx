@@ -1,8 +1,11 @@
 import React, { useRef, useState } from 'react'
 import * as THREE from 'three'
+import { useTextStore } from '../TextStore'
 
-function PaddleShifters({ geometry, material, position }) {
-  const paddlesRef = useRef()
+function CenterPlate({ geometry, material, position, rotation }) {
+  const centerPlateRef = useRef()
+  const enableText = useTextStore(state => state.enableText)
+  const disableText = useTextStore(state => state.disableText)
 
   // Create a white MeshStandardMaterial
   const whiteMaterial = new THREE.MeshStandardMaterial({ color: 'white' })
@@ -11,30 +14,32 @@ function PaddleShifters({ geometry, material, position }) {
   const [originalMaterial] = useState(material)
 
   const handlePointerOver = () => {
-    if (paddlesRef.current) {
-      paddlesRef.current.material = whiteMaterial
+    if (centerPlateRef.current) {
+      centerPlateRef.current.material = whiteMaterial
     }
-    
+    enableText()
   }
 
   const handlePointerOut = () => {
-    if (paddlesRef.current) {
-      paddlesRef.current.material = originalMaterial
+    if (centerPlateRef.current) {
+      centerPlateRef.current.material = originalMaterial
     }
+    disableText()
   }
 
   return (
     <mesh
-      ref={paddlesRef}
+      ref={centerPlateRef}
       castShadow
       receiveShadow
       geometry={geometry}
       material={material}
       position={position}
+      rotation={rotation}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     />
   )
 }
 
-export default PaddleShifters
+export default CenterPlate
