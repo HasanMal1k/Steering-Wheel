@@ -8,7 +8,7 @@ function CenterPlate({ geometry, material, position, rotation }) {
   const disableText = useTextStore(state => state.disableText)
 
   // Create a white MeshStandardMaterial
-  const whiteMaterial = new THREE.MeshStandardMaterial({ color: 'white' })
+  const whiteMaterial = new THREE.MeshStandardMaterial({ color: 'gray' })
 
   // Store original material to revert on hover out
   const [originalMaterial] = useState(material)

@@ -1,11 +1,14 @@
 import React, { useRef, useState } from 'react'
 import * as THREE from 'three'
+import { useTextStore } from '../TextStore'
 
 function Rotary({ geometry, material, position }) {
   const rotaryRef = useRef()
+  const enableText = useTextStore(state => state.enableText)
+  const disableText = useTextStore(state => state.disableText)
 
   // Create a white MeshStandardMaterial
-  const whiteMaterial = new THREE.MeshStandardMaterial({ color: 'white' })
+  const whiteMaterial = new THREE.MeshStandardMaterial({ color: 'gray' })
 
   // Store original material to revert on hover out
   const [originalMaterial] = useState(material)
@@ -14,13 +17,14 @@ function Rotary({ geometry, material, position }) {
     if (rotaryRef.current) {
       rotaryRef.current.material = whiteMaterial
     }
-    
+    enableText()
   }
 
   const handlePointerOut = () => {
     if (rotaryRef.current) {
       rotaryRef.current.material = originalMaterial
     }
+    disableText()
   }
 
   return (
