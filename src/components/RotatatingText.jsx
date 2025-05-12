@@ -2,13 +2,15 @@
 import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import './CircularText.css'
+import { useTextStore } from '../TextStore'
 
 
 
 function RotatingText() {
   const textRef = useRef(null)
   const containerRef = useRef(null)
-  
+  const textVisiblity = useTextStore(state => state.text)
+
   // Define the text to repeat three times (with space after each phrase)
   const phrase = "EDIT THIS   "
   const repeatedText = phrase.repeat(3)
@@ -41,6 +43,14 @@ function RotatingText() {
         ease: "linear",
       })
     }
+
+    if(!textVisiblity) {
+      gsap.fromTo(containerRef.current, 
+        {opacity: 1},
+        {opacity: 0, duration: 1, ease: 'power2.out'}
+      )    
+    }
+
   })
 
   useEffect(() => {
@@ -65,11 +75,13 @@ function RotatingText() {
   }, [])
 
 
-
+  useEffect(() => { 
+    gsap
+  }, [textVisiblity])
 
   return (
     <>
-      <div center ref={textRef} className='text-white pointer-events-none absolute top-0 left-0'>
+      <div center ref={textRef} className={`text-white pointer-events-none absolute top-0 left-0  transition-all duration-100`}>
         <div 
           className="text-ring"
           ref={containerRef}

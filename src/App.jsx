@@ -17,7 +17,8 @@ function App() {
         {/* <Environment preset="warehouse"/> */}
         <Scene />
       </Canvas>
-      {text ? <RotatingText/> : ''}
+      {/* {text ? <RotatingText/> : ''} */}
+      <RotatingText visible={text} />
     </div>
   )
 }
