@@ -29,6 +29,16 @@ function Rotary({ geometry, material, position }) {
     disableText()
   }
 
+  const handleClick = (e) => {
+    e.stopPropagation()
+
+    setActiveComponent(rotaryRef)
+
+    console.log('Rotary Selected')
+
+  }
+
+
   return (
     <mesh
       ref={rotaryRef}
@@ -39,7 +49,7 @@ function Rotary({ geometry, material, position }) {
       position={position}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
-      onClick={() => setActiveComponent(rotaryRef.current)}
+      onClick={handleClick}
     />
   )
 }

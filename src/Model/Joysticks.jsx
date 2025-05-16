@@ -1,12 +1,15 @@
 import React, { useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useTextStore } from '../TextStore'
+import { useConfigurationStore } from '../ConfigurationStore'
 
 
 function Joysticks({ geometry, material, position }) {
   const joysticksRef = useRef()
   const enableText = useTextStore(state => state.enableText)
   const disableText = useTextStore(state => state.disableText)
+  const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
+
 
   // Create a white MeshStandardMaterial
   const whiteMaterial = new THREE.MeshStandardMaterial({ color: 'gray' })
@@ -28,6 +31,16 @@ function Joysticks({ geometry, material, position }) {
     disableText()
   }
 
+  const handleClick = (e) => {
+    e.stopPropagation()
+
+    setActiveComponent(joysticksRef)
+
+    console.log('Rotary Selected')
+
+  }
+
+
   return (
     <mesh
       ref={joysticksRef}
@@ -38,6 +51,7 @@ function Joysticks({ geometry, material, position }) {
       position={position}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
+      onClick={handleClick}
     />
   )
 }

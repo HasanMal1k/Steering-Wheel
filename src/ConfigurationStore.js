@@ -4,19 +4,19 @@ import { create } from "zustand";
 
 
 
-export const joystickColor = [
-    'gray',
-    'blue',
-    'red',
-    'white',
-    'purple',
-    'stone',
-    'amber',
-    'forest green',
-    'silver',
-    'golden',
-    'slate'
-]
+export const joystickColor = {
+  'Gray': '#32363f',
+  'Blue': '#0060ff',
+  'Red':  '#fe0000',
+  'White': '#e6e6e6',
+  'Purple': '#55298b',
+  'Amber': '#f2be36',
+  'Forest Green': '#576848',
+  'Silver': '#c0c0c0',
+  'Orange': '#eb8f52',
+  'Stone': '#889aae'
+};
+
 
 export const rotaryColor = [
     'gray',

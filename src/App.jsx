@@ -3,6 +3,7 @@ import { Environment } from "@react-three/drei"
 import Scene from "./components/Scene"
 import RotatingText from "./components/RotatatingText"
 import { useTextStore } from "./TextStore"
+import ConfigureUI from "./Model/ConfigureUI"
 
 function App() {
 
@@ -15,10 +16,11 @@ function App() {
           <Environment background={false} files={'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/hdris/studio-small-3/studio_small_03_1k.hdr'} />
 
         {/* <Environment preset="warehouse"/> */}
-        <Scene />
+        {/* <Scene /> */}
       </Canvas>
       {/* {text ? <RotatingText/> : ''} */}
       <RotatingText visible={text} />
+      <ConfigureUI />
     </div>
   )
 }

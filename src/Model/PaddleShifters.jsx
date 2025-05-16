@@ -28,6 +28,15 @@ function PaddleShifters({ geometry, material, position }) {
     disableText()
   }
 
+  const handleClick = (e) => {
+    e.stopPropagation()
+
+    setActiveComponent(paddlesRef)
+
+    console.log('Joystick selected')
+
+  }
+
   return (
     <mesh
       ref={paddlesRef}
@@ -38,7 +47,7 @@ function PaddleShifters({ geometry, material, position }) {
       position={position}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
-      onClick={() => setActiveComponent(paddlesRef.current)}
+      onClick={handleClick}
     />
   )
 }
