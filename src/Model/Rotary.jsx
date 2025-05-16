@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useTextStore } from '../TextStore'
+import { useConfigurationStore } from '../ConfigurationStore'
 
 function Rotary({ geometry, material, position }) {
   const rotaryRef = useRef()
   const enableText = useTextStore(state => state.enableText)
   const disableText = useTextStore(state => state.disableText)
+  const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
 
   // Create a white MeshStandardMaterial
   const whiteMaterial = new THREE.MeshStandardMaterial({ color: 'gray' })
@@ -37,6 +39,7 @@ function Rotary({ geometry, material, position }) {
       position={position}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
+      onClick={() => setActiveComponent(rotaryRef.current)}
     />
   )
 }

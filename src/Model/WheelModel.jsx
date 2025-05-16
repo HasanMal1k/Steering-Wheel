@@ -6,14 +6,14 @@ import PaddleShifters from './PaddleShifters'
 import Rotary from './Rotary'
 import Joysticks from './Joysticks'
 import CenterPlate from './CenterPlate'
-
+import { useConfigurationStore } from '../ConfigurationStore'
 
 export function Wheel(props) {
   const { nodes, materials } = useGLTF('/Models/Wheel.glb')
   const [wheelHover, setWheelHover] = useState(null)
   const [wheelClicked, setWheelClicked] = useState(false)
-
-
+  const activeComponent = useConfigurationStore(state => state.activeComponent)
+  console.log(activeComponent)
 
   return (
     <group
