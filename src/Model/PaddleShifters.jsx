@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { useTextStore } from '../TextStore'
 import { useConfigurationStore } from '../ConfigurationStore'
@@ -8,33 +8,51 @@ function PaddleShifters({ geometry, material, position }) {
   const enableText = useTextStore(state => state.enableText)
   const disableText = useTextStore(state => state.disableText)
   const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
-  // Create a white MeshStandardMaterial
-  const whiteMaterial = new THREE.MeshStandardMaterial({ color: 'gray' })
+  const activeComponent = useConfigurationStore(state => state.activeComponent)
 
-  // Store original material to revert on hover out
+  // Create materials
+  const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
   const [originalMaterial] = useState(material)
+  const [currentMaterial, setCurrentMaterial] = useState(material)
+
+  // Handle selection highlight
+  useEffect(() => {
+    if (activeComponent === paddlesRef && paddlesRef.current) {
+      const selectedMaterial = new THREE.MeshStandardMaterial({ 
+        color: '#4ade80',
+        roughness: 0.3,
+        metalness: 0.7,
+        emissive: '#065f46',
+        emissiveIntensity: 0.2
+      })
+      paddlesRef.current.material = selectedMaterial
+    } else if (paddlesRef.current && activeComponent !== paddlesRef) {
+      paddlesRef.current.material = currentMaterial
+    }
+  }, [activeComponent, currentMaterial])
 
   const handlePointerOver = () => {
-    if (paddlesRef.current) {
-      paddlesRef.current.material = whiteMaterial
+    if (paddlesRef.current && activeComponent !== paddlesRef) {
+      paddlesRef.current.material = hoverMaterial
     }
     enableText()
   }
 
   const handlePointerOut = () => {
-    if (paddlesRef.current) {
-      paddlesRef.current.material = originalMaterial
+    if (paddlesRef.current && activeComponent !== paddlesRef) {
+      paddlesRef.current.material = currentMaterial
     }
     disableText()
   }
 
   const handleClick = (e) => {
     e.stopPropagation()
-
+    // Add a custom identifier to help with camera positioning
+    if (paddlesRef.current) {
+      paddlesRef.current.userData = { type: 'paddles' }
+    }
     setActiveComponent(paddlesRef)
-
-    console.log('Joystick selected')
-
+    console.log('Paddle Shifters Selected')
   }
 
   return (
@@ -43,7 +61,7 @@ function PaddleShifters({ geometry, material, position }) {
       castShadow
       receiveShadow
       geometry={geometry}
-      material={material}
+      material={currentMaterial}
       position={position}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}

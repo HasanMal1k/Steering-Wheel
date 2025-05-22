@@ -1,9 +1,6 @@
 import { createRef } from "react";
 import { create } from "zustand";
 
-
-
-
 export const joystickColor = {
   'Gray': '#32363f',
   'Blue': '#0060ff',
@@ -17,7 +14,6 @@ export const joystickColor = {
   'Stone': '#889aae'
 };
 
-
 export const rotaryColor = [
     'gray',
     'blue',
@@ -29,8 +25,7 @@ export const rotaryColor = [
     'forest green',
     'silver',
     'golden',
-    'slate',
-    'silver'
+    'slate'
 ]
 
 export const joystickDecal = [
@@ -45,13 +40,12 @@ export const joystickDecal = [
 ]
 
 export const useConfigurationStore = create((set) => ({
-
     // Active Component
     activeComponent: null,
     setActiveComponent: (component) => set({activeComponent: component}),
 
-    // Setting colors based on arrays
-    selectedJoystickColor: joystickColor[0],
+    // Setting colors based on arrays - using proper initial values
+    selectedJoystickColor: joystickColor['Gray'],
     selectedRotaryColor: rotaryColor[0],
     selectedJoystickDecal: joystickDecal[0],
 
@@ -62,11 +56,9 @@ export const useConfigurationStore = create((set) => ({
 
     // Reseting all config
     resetConfiguration: () => set({
-        selectedJoystickColor: joystickColor[0],
+        selectedJoystickColor: joystickColor['Gray'],
         selectedRotaryColor: rotaryColor[0],
-        selectedJoystickDecal: joystickDecal[0]
+        selectedJoystickDecal: joystickDecal[0],
+        activeComponent: null
     })
-
-
-
 }))
