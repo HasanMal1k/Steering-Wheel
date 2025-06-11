@@ -15,23 +15,16 @@ function ConfigureUI() {
   } = useConfigurationStore()
 
   const [isVisible, setIsVisible] = useState(false)
-  const [currentPart, setCurrentPart] = useState('')
+  const [componentType, setComponentType] = useState('')
 
   useEffect(() => {
-    if (activeComponent) {
+    if (activeComponent?.current) {
       setIsVisible(true)
-      // Determine which part is selected based on the ref
-      if (activeComponent.current) {
-        const meshName = activeComponent.current.geometry?.userData?.name || 'Unknown'
-        if (activeComponent.current.geometry === undefined) {
-          // Check if it's one of our known components
-          setCurrentPart('Joysticks')
-        } else {
-          setCurrentPart('Component')
-        }
-      }
+      const type = activeComponent.current.userData?.type || 'unknown'
+      setComponentType(type)
     } else {
       setIsVisible(false)
+      setComponentType('')
     }
   }, [activeComponent])
 
@@ -41,11 +34,6 @@ function ConfigureUI() {
   }
 
   const getPartName = () => {
-    if (!activeComponent?.current) return 'Unknown Part'
-    
-    // Check userData for component type
-    const componentType = activeComponent.current.userData?.type
-    
     switch (componentType) {
       case 'joysticks':
         return 'Joysticks'
@@ -53,6 +41,8 @@ function ConfigureUI() {
         return 'Rotary Controls'
       case 'paddles':
         return 'Paddle Shifters'
+      case 'buttons':
+        return 'Control Buttons'
       default:
         return 'Steering Component'
     }
@@ -94,6 +84,137 @@ function ConfigureUI() {
     </button>
   )
 
+  const ColorTextOption = ({ color, isSelected, onClick }) => (
+    <button
+      onClick={onClick}
+      className={`
+        px-3 py-2 rounded-lg border transition-all duration-200 
+        hover:scale-105 capitalize text-sm font-medium
+        ${isSelected
+          ? 'border-white bg-white/20 text-white shadow-white/50' 
+          : 'border-white/30 text-white/80 hover:border-white/60 hover:text-white hover:bg-white/10'
+        }
+      `}
+    >
+      {color}
+    </button>
+  )
+
+  // Render different configuration options based on component type
+  const renderConfigurationOptions = () => {
+    switch (componentType) {
+      case 'joysticks':
+        return (
+          <>
+            {/* Joystick Colors */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Joystick Color</h3>
+              <div className="grid grid-cols-4 gap-3">
+                {Object.entries(joystickColor).map(([name, colorValue]) => (
+                  <ColorOption
+                    key={name}
+                    color={name}
+                    colorValue={colorValue}
+                    isSelected={selectedJoystickColor === colorValue}
+                    onClick={() => setSelectedJoystickColor(colorValue)}
+                  />
+                ))}
+              </div>
+              <p className="text-white/60 text-xs mt-2 capitalize">
+                Selected: {Object.keys(joystickColor).find(key => joystickColor[key] === selectedJoystickColor)}
+              </p>
+            </div>
+
+            {/* Joystick Decals */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Joystick Decal</h3>
+              <div className="grid grid-cols-2 gap-2">
+                {joystickDecal.map((decal, index) => (
+                  <DecalOption
+                    key={index}
+                    decal={decal}
+                    isSelected={selectedJoystickDecal === decal}
+                    onClick={() => setSelectedJoystickDecal(decal)}
+                  />
+                ))}
+              </div>
+            </div>
+          </>
+        )
+
+      case 'rotary':
+        return (
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-3">Rotary Color</h3>
+            <div className="grid grid-cols-3 gap-2">
+              {rotaryColor.map((color, index) => (
+                <ColorTextOption
+                  key={index}
+                  color={color}
+                  isSelected={selectedRotaryColor === color}
+                  onClick={() => setSelectedRotaryColor(color)}
+                />
+              ))}
+            </div>
+            <p className="text-white/60 text-xs mt-2 capitalize">
+              Selected: {selectedRotaryColor}
+            </p>
+          </div>
+        )
+
+      case 'paddles':
+        return (
+          <div className="text-center py-8">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+              <svg className="w-8 h-8 text-white/70" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Paddle Shifters</h3>
+            <p className="text-white/70 text-sm">
+              Configuration options coming soon!
+            </p>
+            <p className="text-white/50 text-xs mt-2">
+              Future options: Material, Finish, Size
+            </p>
+          </div>
+        )
+
+      case 'buttons':
+        return (
+          <div className="text-center py-8">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+              <svg className="w-8 h-8 text-white/70" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Control Buttons</h3>
+            <p className="text-white/70 text-sm">
+              Configuration options coming soon!
+            </p>
+            <p className="text-white/50 text-xs mt-2">
+              Future options: LED Colors, Labels, Functions
+            </p>
+          </div>
+        )
+
+      default:
+        return (
+          <div className="text-center py-8">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+              <svg className="w-8 h-8 text-white/70" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Component Selected</h3>
+            <p className="text-white/70 text-sm">
+              Configuration options not available for this component yet.
+            </p>
+          </div>
+        )
+    }
+  }
+
   if (!isVisible) return null
 
   return (
@@ -119,82 +240,40 @@ function ConfigureUI() {
             </div>
           </div>
 
-          {/* Configuration Options */}
+          {/* Configuration Options - Component Specific */}
           <div className="p-6 space-y-6 max-h-96 overflow-y-auto">
-            
-            {/* Joystick Colors */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Joystick Color</h3>
-              <div className="grid grid-cols-4 gap-3">
-                {Object.entries(joystickColor).map(([name, colorValue]) => (
-                  <ColorOption
-                    key={name}
-                    color={name}
-                    colorValue={colorValue}
-                    isSelected={selectedJoystickColor === colorValue}
-                    onClick={() => setSelectedJoystickColor(colorValue)}
-                  />
-                ))}
-              </div>
-              <p className="text-white/60 text-xs mt-2 capitalize">
-                Selected: {Object.keys(joystickColor).find(key => joystickColor[key] === selectedJoystickColor)}
-              </p>
-            </div>
-
-            {/* Rotary Colors */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Rotary Color</h3>
-              <div className="grid grid-cols-3 gap-2">
-                {rotaryColor.map((color, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedRotaryColor(color)}
-                    className={`
-                      px-3 py-2 rounded-lg border transition-all duration-200 
-                      hover:scale-105 capitalize text-sm font-medium
-                      ${selectedRotaryColor === color
-                        ? 'border-white bg-white/20 text-white shadow-white/50' 
-                        : 'border-white/30 text-white/80 hover:border-white/60 hover:text-white hover:bg-white/10'
-                      }
-                    `}
-                  >
-                    {color}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Joystick Decals */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Joystick Decal</h3>
-              <div className="grid grid-cols-2 gap-2">
-                {joystickDecal.map((decal, index) => (
-                  <DecalOption
-                    key={index}
-                    decal={decal}
-                    isSelected={selectedJoystickDecal === decal}
-                    onClick={() => setSelectedJoystickDecal(decal)}
-                  />
-                ))}
-              </div>
-            </div>
+            {renderConfigurationOptions()}
           </div>
 
-          {/* Footer Actions */}
-          <div className="p-6 border-t border-white/20 space-y-3">
-            <button
-              onClick={resetConfiguration}
-              className="w-full py-3 px-4 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105"
-            >
-              Reset to Default
-            </button>
-            <button
-              onClick={closeConfigurator}
-              className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105 shadow-lg"
-            >
-              Apply Changes
-            </button>
-          </div>
+          {/* Footer Actions - Only show reset if component has configurable options */}
+          {(componentType === 'joysticks' || componentType === 'rotary') && (
+            <div className="p-6 border-t border-white/20 space-y-3">
+              <button
+                onClick={resetConfiguration}
+                className="w-full py-3 px-4 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105"
+              >
+                Reset to Default
+              </button>
+              <button
+                onClick={closeConfigurator}
+                className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+              >
+                Apply Changes
+              </button>
+            </div>
+          )}
+
+          {/* Simple close button for components without configuration */}
+          {componentType !== 'joysticks' && componentType !== 'rotary' && (
+            <div className="p-6 border-t border-white/20">
+              <button
+                onClick={closeConfigurator}
+                className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+              >
+                Close
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>
