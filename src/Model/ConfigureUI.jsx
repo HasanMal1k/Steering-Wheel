@@ -89,6 +89,9 @@ function ConfigureUI() {
         return (
           <div>
             <h3 className="text-lg font-semibold text-white mb-3">Joystick Color</h3>
+            <p className="text-white/70 text-xs mb-4">
+              ✨ Changes apply instantly as you select
+            </p>
             <div className="grid grid-cols-4 gap-3">
               {Object.entries(joystickColor).map(([name, colorValue]) => (
                 <ColorOption
@@ -107,14 +110,33 @@ function ConfigureUI() {
         )
 
       case 'rotary':
+        // Color mapping for rotary colors to hex values
+        const rotaryColorMap = {
+          'gray': '#6b7280',
+          'blue': '#3b82f6',
+          'red': '#ef4444',
+          'white': '#f9fafb',
+          'purple': '#8b5cf6',
+          'stone': '#78716c',
+          'amber': '#f59e0b',
+          'forest green': '#16a34a',
+          'silver': '#e5e7eb',
+          'golden': '#eab308',
+          'slate': '#64748b'
+        }
+
         return (
           <div>
             <h3 className="text-lg font-semibold text-white mb-3">Rotary Color</h3>
-            <div className="grid grid-cols-3 gap-2">
+            <p className="text-white/70 text-xs mb-4">
+              ✨ Changes apply instantly as you select
+            </p>
+            <div className="grid grid-cols-4 gap-3">
               {rotaryColor.map((color, index) => (
-                <ColorTextOption
+                <ColorOption
                   key={index}
                   color={color}
+                  colorValue={rotaryColorMap[color] || color}
                   isSelected={selectedRotaryColor === color}
                   onClick={() => setSelectedRotaryColor(color)}
                 />
@@ -209,39 +231,27 @@ function ConfigureUI() {
             {renderConfigurationOptions()}
           </div>
 
-          {/* Footer Actions - Only show reset if component has configurable options */}
-          {(componentType === 'joysticks' || componentType === 'rotary') && (
-            <div className="p-6 border-t border-white/20 space-y-3">
+          {/* Footer Actions - Simplified */}
+          <div className="p-6 border-t border-white/20 space-y-3">
+            {(componentType === 'joysticks' || componentType === 'rotary') && (
               <button
                 onClick={resetConfiguration}
                 className="w-full py-3 px-4 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105"
               >
                 Reset to Default
               </button>
-              <button
-                onClick={closeConfigurator}
-                className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105 shadow-lg"
-              >
-                Apply Changes
-              </button>
-            </div>
-          )}
-
-          {/* Simple close button for components without configuration */}
-          {componentType !== 'joysticks' && componentType !== 'rotary' && (
-            <div className="p-6 border-t border-white/20">
-              <button
-                onClick={closeConfigurator}
-                className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105 shadow-lg"
-              >
-                Close
-              </button>
-            </div>
-          )}
+            )}
+            <button
+              onClick={closeConfigurator}
+              className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+            >
+              Done
+            </button>
+          </div>
         </div>
       </div>
     </>
   )
 }
 
-export default ConfigureUI 
+export default ConfigureUI

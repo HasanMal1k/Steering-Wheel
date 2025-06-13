@@ -9,7 +9,6 @@ function Joysticks({ geometry, material, position }) {
   const disableText = useTextStore(state => state.disableText)
   const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
   const selectedJoystickColor = useConfigurationStore(state => state.selectedJoystickColor)
-
   const activeComponent = useConfigurationStore(state => state.activeComponent)
 
   // Create materials - clone the original to avoid affecting other components
@@ -17,7 +16,7 @@ function Joysticks({ geometry, material, position }) {
   const [originalMaterial] = useState(material.clone())
   const [currentMaterial, setCurrentMaterial] = useState(originalMaterial.clone())
 
-  // Update material when color changes
+  // Update material when color changes - exactly like rotary controls
   useEffect(() => {
     if (selectedJoystickColor && joysticksRef.current) {
       const coloredMaterial = new THREE.MeshStandardMaterial({
@@ -35,15 +34,12 @@ function Joysticks({ geometry, material, position }) {
     }
   }, [selectedJoystickColor])
 
-  // Handle selection highlight
+  // Handle selection highlight - use subtle emissive like rotary
   useEffect(() => {
     if (activeComponent === joysticksRef && joysticksRef.current) {
       const selectedMaterial = currentMaterial.clone()
-      selectedMaterial.color = new THREE.Color('#4ade80')
-      selectedMaterial.roughness = 0.3
-      selectedMaterial.metalness = 0.7
-      selectedMaterial.emissive = new THREE.Color('#065f46')
-      selectedMaterial.emissiveIntensity = 0.2
+      selectedMaterial.emissive = new THREE.Color('#22c55e')
+      selectedMaterial.emissiveIntensity = 0.1
       joysticksRef.current.material = selectedMaterial
     } else if (joysticksRef.current && activeComponent !== joysticksRef) {
       joysticksRef.current.material = currentMaterial
