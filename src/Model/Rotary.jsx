@@ -11,10 +11,10 @@ function Rotary({ geometry, material, position }) {
   const selectedRotaryColor = useConfigurationStore(state => state.selectedRotaryColor)
   const activeComponent = useConfigurationStore(state => state.activeComponent)
 
-  // Create materials
+  // Create materials - clone the original to avoid affecting other components
   const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
-  const [originalMaterial] = useState(material)
-  const [currentMaterial, setCurrentMaterial] = useState(material)
+  const [originalMaterial] = useState(material.clone())
+  const [currentMaterial, setCurrentMaterial] = useState(originalMaterial.clone())
 
   // Color mapping for rotary colors
   const rotaryColorMap = {
@@ -35,14 +35,15 @@ function Rotary({ geometry, material, position }) {
   useEffect(() => {
     if (selectedRotaryColor && rotaryRef.current) {
       const colorValue = rotaryColorMap[selectedRotaryColor] || selectedRotaryColor
-      const coloredMaterial = new THREE.MeshStandardMaterial({ 
+      const coloredMaterial = new THREE.MeshStandardMaterial({
         color: colorValue,
         roughness: 0.3,
         metalness: 0.8
       })
+      
       setCurrentMaterial(coloredMaterial)
       
-      // Only apply if not currently hovering or selected
+      // Apply immediately if not currently hovering or selected
       if (rotaryRef.current.material !== hoverMaterial && activeComponent !== rotaryRef) {
         rotaryRef.current.material = coloredMaterial
       }

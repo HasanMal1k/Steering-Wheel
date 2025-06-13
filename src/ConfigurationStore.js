@@ -28,17 +28,6 @@ export const rotaryColor = [
     'slate'
 ]
 
-export const joystickDecal = [
-    'pink',
-    'blue',
-    'green',
-    'red',
-    'yellow',
-    'gold',
-    'purple',
-    'none'
-]
-
 export const useConfigurationStore = create((set) => ({
     // Active Component
     activeComponent: null,
@@ -47,18 +36,15 @@ export const useConfigurationStore = create((set) => ({
     // Setting colors based on arrays - using proper initial values
     selectedJoystickColor: joystickColor['Gray'],
     selectedRotaryColor: rotaryColor[0],
-    selectedJoystickDecal: joystickDecal[0],
 
     // Updating colors
     setSelectedJoystickColor: (color) => set({selectedJoystickColor: color}),
     setSelectedRotaryColor: (color) => set({selectedRotaryColor: color}),
-    setSelectedJoystickDecal: (color) => set({selectedJoystickDecal: color}),
 
     // Reseting all config
     resetConfiguration: () => set({
         selectedJoystickColor: joystickColor['Gray'],
         selectedRotaryColor: rotaryColor[0],
-        selectedJoystickDecal: joystickDecal[0],
         activeComponent: null
     })
 }))

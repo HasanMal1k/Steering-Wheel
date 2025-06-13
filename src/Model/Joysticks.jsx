@@ -9,25 +9,27 @@ function Joysticks({ geometry, material, position }) {
   const disableText = useTextStore(state => state.disableText)
   const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
   const selectedJoystickColor = useConfigurationStore(state => state.selectedJoystickColor)
+
   const activeComponent = useConfigurationStore(state => state.activeComponent)
 
-  // Create materials
+  // Create materials - clone the original to avoid affecting other components
   const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
-  const [originalMaterial] = useState(material)
-  const [currentMaterial, setCurrentMaterial] = useState(material)
+  const [originalMaterial] = useState(material.clone())
+  const [currentMaterial, setCurrentMaterial] = useState(originalMaterial.clone())
 
   // Update material when color changes
   useEffect(() => {
     if (selectedJoystickColor && joysticksRef.current) {
-      const coloredMaterial = new THREE.MeshStandardMaterial({ 
+      const coloredMaterial = new THREE.MeshStandardMaterial({
         color: selectedJoystickColor,
         roughness: 0.4,
         metalness: 0.6
       })
+      
       setCurrentMaterial(coloredMaterial)
       
-      // Only apply if not currently hovering
-      if (joysticksRef.current.material !== hoverMaterial) {
+      // Apply immediately if not currently hovering or selected
+      if (joysticksRef.current.material !== hoverMaterial && activeComponent !== joysticksRef) {
         joysticksRef.current.material = coloredMaterial
       }
     }
@@ -36,13 +38,12 @@ function Joysticks({ geometry, material, position }) {
   // Handle selection highlight
   useEffect(() => {
     if (activeComponent === joysticksRef && joysticksRef.current) {
-      const selectedMaterial = new THREE.MeshStandardMaterial({ 
-        color: '#4ade80',
-        roughness: 0.3,
-        metalness: 0.7,
-        emissive: '#065f46',
-        emissiveIntensity: 0.2
-      })
+      const selectedMaterial = currentMaterial.clone()
+      selectedMaterial.color = new THREE.Color('#4ade80')
+      selectedMaterial.roughness = 0.3
+      selectedMaterial.metalness = 0.7
+      selectedMaterial.emissive = new THREE.Color('#065f46')
+      selectedMaterial.emissiveIntensity = 0.2
       joysticksRef.current.material = selectedMaterial
     } else if (joysticksRef.current && activeComponent !== joysticksRef) {
       joysticksRef.current.material = currentMaterial

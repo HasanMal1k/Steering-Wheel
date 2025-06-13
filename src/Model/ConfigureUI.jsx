@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useConfigurationStore, joystickColor, rotaryColor, joystickDecal } from '../ConfigurationStore'
+import { useConfigurationStore, joystickColor, rotaryColor } from '../ConfigurationStore'
 
 function ConfigureUI() {
   const { 
@@ -7,10 +7,8 @@ function ConfigureUI() {
     setActiveComponent,
     selectedJoystickColor,
     selectedRotaryColor, 
-    selectedJoystickDecal,
     setSelectedJoystickColor,
     setSelectedRotaryColor,
-    setSelectedJoystickDecal,
     resetConfiguration 
   } = useConfigurationStore()
 
@@ -68,22 +66,6 @@ function ConfigureUI() {
     </button>
   )
 
-  const DecalOption = ({ decal, isSelected, onClick }) => (
-    <button
-      onClick={onClick}
-      className={`
-        px-4 py-2 rounded-lg border transition-all duration-200 
-        hover:scale-105 capitalize text-sm font-medium
-        ${isSelected 
-          ? 'border-white bg-white/20 text-white shadow-white/50' 
-          : 'border-white/30 text-white/80 hover:border-white/60 hover:text-white hover:bg-white/10'
-        }
-      `}
-    >
-      {decal}
-    </button>
-  )
-
   const ColorTextOption = ({ color, isSelected, onClick }) => (
     <button
       onClick={onClick}
@@ -105,41 +87,23 @@ function ConfigureUI() {
     switch (componentType) {
       case 'joysticks':
         return (
-          <>
-            {/* Joystick Colors */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Joystick Color</h3>
-              <div className="grid grid-cols-4 gap-3">
-                {Object.entries(joystickColor).map(([name, colorValue]) => (
-                  <ColorOption
-                    key={name}
-                    color={name}
-                    colorValue={colorValue}
-                    isSelected={selectedJoystickColor === colorValue}
-                    onClick={() => setSelectedJoystickColor(colorValue)}
-                  />
-                ))}
-              </div>
-              <p className="text-white/60 text-xs mt-2 capitalize">
-                Selected: {Object.keys(joystickColor).find(key => joystickColor[key] === selectedJoystickColor)}
-              </p>
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-3">Joystick Color</h3>
+            <div className="grid grid-cols-4 gap-3">
+              {Object.entries(joystickColor).map(([name, colorValue]) => (
+                <ColorOption
+                  key={name}
+                  color={name}
+                  colorValue={colorValue}
+                  isSelected={selectedJoystickColor === colorValue}
+                  onClick={() => setSelectedJoystickColor(colorValue)}
+                />
+              ))}
             </div>
-
-            {/* Joystick Decals */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Joystick Decal</h3>
-              <div className="grid grid-cols-2 gap-2">
-                {joystickDecal.map((decal, index) => (
-                  <DecalOption
-                    key={index}
-                    decal={decal}
-                    isSelected={selectedJoystickDecal === decal}
-                    onClick={() => setSelectedJoystickDecal(decal)}
-                  />
-                ))}
-              </div>
-            </div>
-          </>
+            <p className="text-white/60 text-xs mt-2 capitalize">
+              Selected: {Object.keys(joystickColor).find(key => joystickColor[key] === selectedJoystickColor)}
+            </p>
+          </div>
         )
 
       case 'rotary':
@@ -280,4 +244,4 @@ function ConfigureUI() {
   )
 }
 
-export default ConfigureUI
+export default ConfigureUI 

@@ -10,21 +10,20 @@ function PaddleShifters({ geometry, material, position }) {
   const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
   const activeComponent = useConfigurationStore(state => state.activeComponent)
 
-  // Create materials
+  // Create materials - clone the original to avoid affecting other components
   const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
-  const [originalMaterial] = useState(material)
-  const [currentMaterial, setCurrentMaterial] = useState(material)
+  const [originalMaterial] = useState(material.clone())
+  const [currentMaterial, setCurrentMaterial] = useState(originalMaterial.clone())
 
   // Handle selection highlight
   useEffect(() => {
     if (activeComponent === paddlesRef && paddlesRef.current) {
-      const selectedMaterial = new THREE.MeshStandardMaterial({ 
-        color: '#4ade80',
-        roughness: 0.3,
-        metalness: 0.7,
-        emissive: '#065f46',
-        emissiveIntensity: 0.2
-      })
+      const selectedMaterial = currentMaterial.clone()
+      selectedMaterial.color = new THREE.Color('#4ade80')
+      selectedMaterial.roughness = 0.3
+      selectedMaterial.metalness = 0.7
+      selectedMaterial.emissive = new THREE.Color('#065f46')
+      selectedMaterial.emissiveIntensity = 0.2
       paddlesRef.current.material = selectedMaterial
     } else if (paddlesRef.current && activeComponent !== paddlesRef) {
       paddlesRef.current.material = currentMaterial
