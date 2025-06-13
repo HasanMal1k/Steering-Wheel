@@ -11,7 +11,7 @@ function CameraController() {
   // Define specific camera positions for each component type
   const cameraConfigs = {
     joysticks: {
-      position: [1.5, 1.2, 2.5],
+      position: [1.8, -1.5, 2.5],
       target: [0, 0.2, 0],
       fov: 50
     },
@@ -26,7 +26,7 @@ function CameraController() {
       fov: 55
     },
     default: {
-      position: [4, 3, 4],
+      position: [0, 0, 5],
       target: [0, 0, 0],
       fov: 75
     }
