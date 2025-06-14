@@ -17,6 +17,12 @@ export function Wheel(props) {
   
   console.log(activeComponent)
 
+  useEffect(() => {
+    console.log(wheelGroupRef.current.rotation)
+
+  }, [wheelGroupRef])
+
+
   // Handle wheel rotation when paddles are selected
   useEffect(() => {
     if (!wheelGroupRef.current) return
@@ -26,14 +32,18 @@ export function Wheel(props) {
     if (componentType === 'paddles') {
       // Rotate to show back side (180 degrees around Z-axis)
       gsap.to(wheelGroupRef.current.rotation, {
-        z: Math.PI, // 180 degrees
+        z: 0, // 180 degrees
         duration: 1.2,
         ease: "power2.inOut"
       })
-    } else {
+    }
+    else if (activeComponent == null){
+      return
+    }
+    else {
       // Return to front view for other components or when nothing is selected
       gsap.to(wheelGroupRef.current.rotation, {
-        z: 0,
+        z: Math.PI,
         duration: 1.2,
         ease: "power2.inOut"
       })

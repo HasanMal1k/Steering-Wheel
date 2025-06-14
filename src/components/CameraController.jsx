@@ -21,7 +21,7 @@ function CameraController() {
       fov: 45
     },
     paddles: {
-      position: [0, 2.5, 3],
+      position: [0, 2.5, 5],
       target: [0, 0.5, 0],
       fov: 55
     },
