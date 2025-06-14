@@ -15,11 +15,13 @@ function PaddleShifters({ geometry, material, position }) {
   const [originalMaterial] = useState(material.clone())
   const [currentMaterial, setCurrentMaterial] = useState(originalMaterial.clone())
 
+  
+
   // Handle selection highlight
   useEffect(() => {
     if (activeComponent === paddlesRef && paddlesRef.current) {
       const selectedMaterial = currentMaterial.clone()
-      selectedMaterial.color = new THREE.Color('#4ade80')
+      selectedMaterial.color = new THREE.Color('red')
       selectedMaterial.roughness = 0.3
       selectedMaterial.metalness = 0.7
       selectedMaterial.emissive = new THREE.Color('#065f46')
@@ -29,6 +31,8 @@ function PaddleShifters({ geometry, material, position }) {
       paddlesRef.current.material = currentMaterial
     }
   }, [activeComponent, currentMaterial])
+
+
 
   const handlePointerOver = () => {
     if (paddlesRef.current && activeComponent !== paddlesRef) {
