@@ -1,5 +1,4 @@
-
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useState } from 'react'
 import PaddleShifters from './PaddleShifters'
@@ -7,16 +6,43 @@ import Rotary from './Rotary'
 import Joysticks from './Joysticks'
 import CenterPlate from './CenterPlate'
 import { useConfigurationStore } from '../ConfigurationStore'
+import gsap from 'gsap'
 
 export function Wheel(props) {
   const { nodes, materials } = useGLTF('/Models/Wheel.glb')
   const [wheelHover, setWheelHover] = useState(null)
   const [wheelClicked, setWheelClicked] = useState(false)
   const activeComponent = useConfigurationStore(state => state.activeComponent)
+  const wheelGroupRef = useRef()
+  
   console.log(activeComponent)
+
+  // Handle wheel rotation when paddles are selected
+  useEffect(() => {
+    if (!wheelGroupRef.current) return
+
+    const componentType = activeComponent?.current?.userData?.type
+
+    if (componentType === 'paddles') {
+      // Rotate to show back side (180 degrees around Z-axis)
+      gsap.to(wheelGroupRef.current.rotation, {
+        z: Math.PI, // 180 degrees
+        duration: 1.2,
+        ease: "power2.inOut"
+      })
+    } else {
+      // Return to front view for other components or when nothing is selected
+      gsap.to(wheelGroupRef.current.rotation, {
+        z: 0,
+        duration: 1.2,
+        ease: "power2.inOut"
+      })
+    }
+  }, [activeComponent])
 
   return (
     <group
+      ref={wheelGroupRef}
       {...props}
       dispose={null}
       onPointerEnter={(e) => {
