@@ -11,6 +11,10 @@ import gsap from 'gsap'
 import Blue_Buttons from './Blue_Buttons'
 import Steering_Wheel from './Steering_Wheel'
 import Back_Wheel_Shifter from './Back_Wheel_Shifter'
+import Purple_Button from './Purple_Button'
+import White_Button from './White_Button'
+import Red_Buttons from './Red_Buttons'
+import Green_Buttons from './Green_Buttons'
 
 export function Wheel(props) {
   const { nodes, materials } = useGLTF('/Models/Wheel.glb')
@@ -85,155 +89,100 @@ export function Wheel(props) {
       }}
     >
       <Main_Controller
-        name="main_controler"
-        castShadow
-        receiveShadow
         geometry={nodes.main_controler.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <Blue_Buttons
-        castShadow
-        receiveShadow
-        geometry={nodes.blue_buttons.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-      />
       <Steering_Wheel
-        castShadow
-        receiveShadow
         geometry={nodes.steering_wheel.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
       <PaddleShifters
-        name="PADDLE_SHIFTERS"
-        // ref = {paddlesRef}
-        castShadow
-        receiveShadow
         geometry={nodes.PADDLE_SHIFTERS.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
       <Rotary
-        name="side_knobs"
-        castShadow
-        receiveShadow
         geometry={nodes.side_knobs.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
       <Joysticks
-        name="joysticks"
-        castShadow
-        receiveShadow
         geometry={nodes.joysticks.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
       <Back_Wheel_Shifter
-        castShadow
-        receiveShadow
         geometry={nodes.back_wheel_shifter.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
-        name="purple_button"
-        castShadow
-        receiveShadow
+      <Purple_Button
         geometry={nodes.purple_button.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
-        name="white_button" 
-        castShadow
-        receiveShadow
+      <Blue_Buttons
+        geometry_1={nodes.blue_buttons.geometry}
+        material_1={materials['Material.001']}
+        position_1={[11.857, 0.007, 45.242]}
+
+        geometry_2={nodes.blue_buttons001.geometry}
+        material_2={materials['Material.001']}
+        position_2={[11.857, 0.007, 45.242]}
+
+        
+        geometry_3={nodes.blue_buttons002.geometry}
+        material_3={materials['Material.001']}
+        position_3={[11.857, 0.007, 45.242]}
+      
+        geometry_4={nodes.blue_buttons003.geometry}
+        material_4={materials['Material.001']}
+        position_4={[11.857, 0.007, 45.242]}
+      
+      
+        geometry_5={nodes.blue_buttons004.geometry}
+        material_5={materials['Material.001']}
+        position_5={[11.857, 0.007, 45.242]}
+
+      />
+      <White_Button
         geometry={nodes.white_button.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
-        name="red_buttons"
-        castShadow
-        receiveShadow
-        geometry={nodes.red_buttons.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
+
+      <Red_Buttons
+        geometry_1={nodes.red_buttons.geometry}
+        material_1={materials['Material.001']}
+        position_1={[11.857, 0.007, 45.242]}
+
+        geometry_2={nodes.red_buttons001.geometry}
+        material_2={materials['Material.001']}
+        position_2={[11.857, 0.007, 45.242]}
+
+        geometry_3={nodes.red_buttons002.geometry}
+        material_3={materials['Material.001']}
+        position_3={[11.857, 0.007, 45.242]}
+
+        geometry_4={nodes.red_buttons003.geometry}
+        material_4={materials['Material.001']}
+        position_4={[11.857, 0.007, 45.242]}
+
+        geometry_5={nodes.red_buttons004.geometry}
+        material_5={materials['Material.001']}
+        position_5={[11.857, 0.007, 45.242]}
+        
       />
-      <mesh
-        name="green_buttons"
-        castShadow
-        receiveShadow
+
+      <Green_Buttons
         geometry={nodes.green_buttons.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
-        name="red_buttons001"
-        castShadow
-        receiveShadow
-        geometry={nodes.red_buttons001.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-      />
-      <mesh
-        name="red_buttons002"
-        castShadow
-        receiveShadow
-        geometry={nodes.red_buttons002.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-      />
-      <mesh
-        name="red_buttons003"
-        castShadow
-        receiveShadow
-        geometry={nodes.red_buttons003.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-      />
-      <mesh
-        name="red_buttons004"
-        castShadow
-        receiveShadow
-        geometry={nodes.red_buttons004.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-      />
-      <mesh
-        name="blue_buttons001"
-        castShadow
-        receiveShadow
-        geometry={nodes.blue_buttons001.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-      />
-      <mesh
-        name="blue_buttons002"
-        castShadow
-        receiveShadow
-        geometry={nodes.blue_buttons002.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-      />
-      <mesh
-        name="blue_buttons003"
-        castShadow
-        receiveShadow
-        geometry={nodes.blue_buttons003.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-      />
-      <mesh
-        name="blue_buttons004"
-        castShadow
-        receiveShadow
-        geometry={nodes.blue_buttons004.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-      />
+
+      
       <CenterPlate
         name="Wheel_Center_plate"
         castShadow

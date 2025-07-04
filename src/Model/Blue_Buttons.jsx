@@ -1,15 +1,60 @@
 import React from 'react'
 
-function Blue_Buttons({ geometry, material, position }) {
+function Blue_Buttons({
+    geometry_1, material_1, position_1,
+    geometry_2, material_2, position_2,
+    geometry_3, material_3, position_3,
+    geometry_4, material_4, position_4,
+    geometry_5, material_5, position_5}) {
   return (
+    <>
+    
     <mesh
-        name="blue_buttons"
+        name="blue_buttons_1"
         castShadow
         receiveShadow
-        geometry={geometry}
-        material={material}
-        position={position}
+        geometry_1={geometry_1}
+        material_1={material_1}
+        position_1={position_1}
       />
+
+      <mesh
+        name="blue_buttons_2"
+        castShadow
+        receiveShadow
+        geometry_2={geometry_2}
+        material_2={material_2}
+        position_2={position_2}
+      />
+      <mesh
+        name="blue_buttons_3"
+        castShadow
+        receiveShadow
+        geometry_3={geometry_3}
+        material_3={material_3}
+        position_3={position_3}
+      />
+
+      <mesh
+        name="blue_buttons_4"
+        castShadow
+        receiveShadow
+        geometry_4={geometry_4}
+        material_4={material_4}
+        position_4={position_4}
+      />
+
+      <mesh
+        name="blue_buttons_5"
+        castShadow
+        receiveShadow
+        geometry_5={geometry_5}
+        material_5={material_5}
+        position_5={position_5}
+      />
+
+    
+    </>
     )
 }
 
