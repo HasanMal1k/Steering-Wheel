@@ -51,8 +51,6 @@ function Blue_Buttons({
         material={material_5}
         position={position_5}
       />
-
-    
     </>
     )
 }
