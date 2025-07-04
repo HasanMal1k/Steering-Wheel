@@ -24,6 +24,7 @@ function ConfigureUI() {
       setIsVisible(false)
       setComponentType('')
     }
+    
   }, [activeComponent])
 
   const closeConfigurator = () => {
