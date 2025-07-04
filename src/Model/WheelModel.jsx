@@ -50,6 +50,29 @@ export function Wheel(props) {
     }
   }, [activeComponent])
 
+  // Changing material opacity
+  // useEffect(
+  //   () => {
+  //     if(wheelGroupRef){
+  //       wheelGroupRef.current.traverse((child)=>{
+  //           if(child.isMesh){
+              
+  //             const active = activeComponent?.current
+  //             console.log("active: ",active)
+  //             if (child.name === active?.name) {
+  //               child.material.transparent = true;
+  //               child.material.opacity = 0.3;
+  //             } else {
+  //               // Dim all others
+  //               child.material.transparent = true;
+  //               child.material.opacity = 1;
+  //             }
+  //           }
+  //       })
+  //     }
+  //   },
+  // [activeComponent])
+
   return (
     <group
       ref={wheelGroupRef}
@@ -85,8 +108,10 @@ export function Wheel(props) {
         geometry={nodes.main_controler.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
+        name="main_controler"
       />
       <mesh
+        name="blue_buttons"
         castShadow
         receiveShadow
         geometry={nodes.blue_buttons.geometry}
@@ -94,6 +119,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="steering_wheel"
         castShadow
         receiveShadow
         geometry={nodes.steering_wheel.geometry}
@@ -101,6 +127,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <PaddleShifters
+        name="PADDLE_SHIFTERS"
         // ref = {paddlesRef}
         castShadow
         receiveShadow
@@ -109,6 +136,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <Rotary
+        name="side_knobs"
         castShadow
         receiveShadow
         geometry={nodes.side_knobs.geometry}
@@ -116,6 +144,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <Joysticks
+        name="joysticks"
         castShadow
         receiveShadow
         geometry={nodes.joysticks.geometry}
@@ -123,6 +152,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="back_wheel_shifter"
         castShadow
         receiveShadow
         geometry={nodes.back_wheel_shifter.geometry}
@@ -130,6 +160,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="purple_button"
         castShadow
         receiveShadow
         geometry={nodes.purple_button.geometry}
@@ -137,6 +168,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="white_button" 
         castShadow
         receiveShadow
         geometry={nodes.white_button.geometry}
@@ -144,6 +176,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="red_buttons"
         castShadow
         receiveShadow
         geometry={nodes.red_buttons.geometry}
@@ -151,6 +184,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="green_buttons"
         castShadow
         receiveShadow
         geometry={nodes.green_buttons.geometry}
@@ -158,6 +192,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="red_buttons001"
         castShadow
         receiveShadow
         geometry={nodes.red_buttons001.geometry}
@@ -165,6 +200,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="red_buttons002"
         castShadow
         receiveShadow
         geometry={nodes.red_buttons002.geometry}
@@ -172,6 +208,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="red_buttons003"
         castShadow
         receiveShadow
         geometry={nodes.red_buttons003.geometry}
@@ -179,6 +216,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="red_buttons004"
         castShadow
         receiveShadow
         geometry={nodes.red_buttons004.geometry}
@@ -186,6 +224,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="blue_buttons001"
         castShadow
         receiveShadow
         geometry={nodes.blue_buttons001.geometry}
@@ -193,6 +232,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="blue_buttons002"
         castShadow
         receiveShadow
         geometry={nodes.blue_buttons002.geometry}
@@ -200,6 +240,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="blue_buttons003"
         castShadow
         receiveShadow
         geometry={nodes.blue_buttons003.geometry}
@@ -207,6 +248,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <mesh
+        name="blue_buttons004"
         castShadow
         receiveShadow
         geometry={nodes.blue_buttons004.geometry}
@@ -214,6 +256,7 @@ export function Wheel(props) {
         position={[11.857, 0.007, 45.242]}
       />
       <CenterPlate
+        name="Wheel_Center_plate"
         castShadow
         receiveShadow
         geometry={nodes.Wheel_Center_plate.geometry}

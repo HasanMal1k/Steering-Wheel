@@ -30,6 +30,7 @@ function PaddleShifters({ geometry, material, position }) {
     } else if (paddlesRef.current && activeComponent !== paddlesRef) {
       paddlesRef.current.material = currentMaterial
     }
+
   }, [activeComponent, currentMaterial])
 
 
