@@ -4,10 +4,13 @@ import { useState } from 'react'
 import PaddleShifters from './PaddleShifters'
 import Rotary from './Rotary'
 import Joysticks from './Joysticks'
+import Main_Controller from './Main_Controller'
 import CenterPlate from './CenterPlate'
 import { useConfigurationStore } from '../ConfigurationStore'
 import gsap from 'gsap'
-import Main_Controller from './Main_Controller'
+import Blue_Buttons from './Blue_Buttons'
+import Steering_Wheel from './Steering_Wheel'
+import Back_Wheel_Shifter from './Back_Wheel_Shifter'
 
 export function Wheel(props) {
   const { nodes, materials } = useGLTF('/Models/Wheel.glb')
@@ -51,29 +54,7 @@ export function Wheel(props) {
     }
   }, [activeComponent])
 
-  // Changing material opacity
-  // useEffect(
-  //   () => {
-  //     if(wheelGroupRef){
-  //       wheelGroupRef.current.traverse((child)=>{
-  //           if(child.isMesh){
-              
-  //             const active = activeComponent?.current
-  //             console.log("active: ",active)
-  //             if (child.name === active?.name) {
-  //               child.material.transparent = true;
-  //               child.material.opacity = 0.3;
-  //             } else {
-  //               // Dim all others
-  //               child.material.transparent = true;
-  //               child.material.opacity = 1;
-  //             }
-  //           }
-  //       })
-  //     }
-  //   },
-  // [activeComponent])
-
+ 
   return (
     <group
       ref={wheelGroupRef}
@@ -103,18 +84,22 @@ export function Wheel(props) {
         }
       }}
     >
-      <Main_Controller/>
-      
-      <mesh
-        name="blue_buttons"
+      <Main_Controller
+        name="main_controler"
+        castShadow
+        receiveShadow
+        geometry={nodes.main_controler.geometry}
+        material={materials['Material.001']}
+        position={[11.857, 0.007, 45.242]}
+      />
+      <Blue_Buttons
         castShadow
         receiveShadow
         geometry={nodes.blue_buttons.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
-        name="steering_wheel"
+      <Steering_Wheel
         castShadow
         receiveShadow
         geometry={nodes.steering_wheel.geometry}
@@ -146,8 +131,7 @@ export function Wheel(props) {
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
       />
-      <mesh
-        name="back_wheel_shifter"
+      <Back_Wheel_Shifter
         castShadow
         receiveShadow
         geometry={nodes.back_wheel_shifter.geometry}
