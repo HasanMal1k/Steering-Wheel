@@ -7,6 +7,7 @@ import Joysticks from './Joysticks'
 import CenterPlate from './CenterPlate'
 import { useConfigurationStore } from '../ConfigurationStore'
 import gsap from 'gsap'
+import Main_Controller from './Main_Controller'
 
 export function Wheel(props) {
   const { nodes, materials } = useGLTF('/Models/Wheel.glb')
@@ -102,14 +103,8 @@ export function Wheel(props) {
         }
       }}
     >
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.main_controler.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
-        name="main_controler"
-      />
+      <Main_Controller/>
+      
       <mesh
         name="blue_buttons"
         castShadow
