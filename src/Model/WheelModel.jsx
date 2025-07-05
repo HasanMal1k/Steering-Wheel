@@ -62,14 +62,25 @@ export function Wheel(props) {
     return materials['Material.001']
   }, [])
 
+  const clonedMaterialButtons = useMemo(() => {
+    return materials['Material.001']
+  }, [])
+
+
   useEffect(() => {
 
     if(activeComponent){
       clonedMaterial.transparent = true
       clonedMaterial.opacity = 0.4
+
+      clonedMaterialButtons.transparent = true
+      clonedMaterial.opacity = 0.4
     }
     else {
-      clonedMaterial.transparent = true
+      // clonedMaterial.transparent = true
+      clonedMaterial.opacity = 1
+
+      // clonedMaterialButtons.transparent = false
       clonedMaterial.opacity = 1
     }
     
@@ -141,20 +152,20 @@ export function Wheel(props) {
       />
       <Blue_Buttons
         geometry_1={nodes.blue_buttons.geometry}
-        material_1={clonedMaterial}
+        material_1={clonedMaterialButtons}
         position_1={[11.857, 0.007, 45.242]}
 
         geometry_2={nodes.blue_buttons001.geometry}
-        material_2={clonedMaterial}
+        material_2={clonedMaterialButtons}
         position_2={[11.857, 0.007, 45.242]}
 
         
         geometry_3={nodes.blue_buttons002.geometry}
-        material_3={clonedMaterial}
+        material_3={clonedMaterialButtons}
         position_3={[11.857, 0.007, 45.242]}
       
         geometry_4={nodes.blue_buttons003.geometry}
-        material_4={clonedMaterial}
+        material_4={clonedMaterialButtons}
         position_4={[11.857, 0.007, 45.242]}
       
       
@@ -165,36 +176,36 @@ export function Wheel(props) {
       />
       <White_Button
         geometry={nodes.white_button.geometry}
-        material={clonedMaterial}
+        material={clonedMaterialButtons}
         position={[11.857, 0.007, 45.242]}
       />
 
       <Red_Buttons
         geometry_1={nodes.red_buttons.geometry}
-        material_1={clonedMaterial}
+        material_1={clonedMaterialButtons}
         position_1={[11.857, 0.007, 45.242]}
 
         geometry_2={nodes.red_buttons001.geometry}
-        material_2={clonedMaterial}
+        material_2={clonedMaterialButtons}
         position_2={[11.857, 0.007, 45.242]}
 
         geometry_3={nodes.red_buttons002.geometry}
-        material_3={clonedMaterial}
+        material_3={clonedMaterialButtons}
         position_3={[11.857, 0.007, 45.242]}
 
         geometry_4={nodes.red_buttons003.geometry}
-        material_4={clonedMaterial}
+        material_4={clonedMaterialButtons}
         position_4={[11.857, 0.007, 45.242]}
 
         geometry_5={nodes.red_buttons004.geometry}
-        material_5={clonedMaterial}
+        material_5={clonedMaterialButtons}
         position_5={[11.857, 0.007, 45.242]}
         
       />
 
       <Green_Buttons
         geometry={nodes.green_buttons.geometry}
-        material={clonedMaterial}
+        material={clonedMaterialButtons}
         position={[11.857, 0.007, 45.242]}
       />
 
