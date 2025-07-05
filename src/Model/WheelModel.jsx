@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useState } from 'react'
 import PaddleShifters from './PaddleShifters'
@@ -58,6 +58,22 @@ export function Wheel(props) {
     }
   }, [activeComponent])
 
+  const clonedMaterial = useMemo(() => {
+    return materials['Material.001']
+  }, [])
+
+  useEffect(() => {
+
+    if(activeComponent){
+      clonedMaterial.transparent = true
+      clonedMaterial.opacity = 0.4
+    }
+    else {
+      clonedMaterial.transparent = true
+      clonedMaterial.opacity = 1
+    }
+    
+  }, [activeComponent])
  
   return (
     <group
@@ -90,12 +106,12 @@ export function Wheel(props) {
     >
       <Main_Controller
         geometry={nodes.main_controler.geometry}
-        material={materials['Material.001']}
+        material={clonedMaterial}
         position={[11.857, 0.007, 45.242]}
       />
       <Steering_Wheel
         geometry={nodes.steering_wheel.geometry}
-        material={materials['Material.001']}
+        material={clonedMaterial}
         position={[11.857, 0.007, 45.242]}
       />
       <PaddleShifters
@@ -115,70 +131,70 @@ export function Wheel(props) {
       />
       <Back_Wheel_Shifter
         geometry={nodes.back_wheel_shifter.geometry}
-        material={materials['Material.001']}
+        material={clonedMaterial}
         position={[11.857, 0.007, 45.242]}
       />
       <Purple_Button
         geometry={nodes.purple_button.geometry}
-        material={materials['Material.001']}
+        material={clonedMaterial}
         position={[11.857, 0.007, 45.242]}
       />
       <Blue_Buttons
         geometry_1={nodes.blue_buttons.geometry}
-        material_1={materials['Material.001']}
+        material_1={clonedMaterial}
         position_1={[11.857, 0.007, 45.242]}
 
         geometry_2={nodes.blue_buttons001.geometry}
-        material_2={materials['Material.001']}
+        material_2={clonedMaterial}
         position_2={[11.857, 0.007, 45.242]}
 
         
         geometry_3={nodes.blue_buttons002.geometry}
-        material_3={materials['Material.001']}
+        material_3={clonedMaterial}
         position_3={[11.857, 0.007, 45.242]}
       
         geometry_4={nodes.blue_buttons003.geometry}
-        material_4={materials['Material.001']}
+        material_4={clonedMaterial}
         position_4={[11.857, 0.007, 45.242]}
       
       
         geometry_5={nodes.blue_buttons004.geometry}
-        material_5={materials['Material.001']}
+        material_5={clonedMaterial}
         position_5={[11.857, 0.007, 45.242]}
 
       />
       <White_Button
         geometry={nodes.white_button.geometry}
-        material={materials['Material.001']}
+        material={clonedMaterial}
         position={[11.857, 0.007, 45.242]}
       />
 
       <Red_Buttons
         geometry_1={nodes.red_buttons.geometry}
-        material_1={materials['Material.001']}
+        material_1={clonedMaterial}
         position_1={[11.857, 0.007, 45.242]}
 
         geometry_2={nodes.red_buttons001.geometry}
-        material_2={materials['Material.001']}
+        material_2={clonedMaterial}
         position_2={[11.857, 0.007, 45.242]}
 
         geometry_3={nodes.red_buttons002.geometry}
-        material_3={materials['Material.001']}
+        material_3={clonedMaterial}
         position_3={[11.857, 0.007, 45.242]}
 
         geometry_4={nodes.red_buttons003.geometry}
-        material_4={materials['Material.001']}
+        material_4={clonedMaterial}
         position_4={[11.857, 0.007, 45.242]}
 
         geometry_5={nodes.red_buttons004.geometry}
-        material_5={materials['Material.001']}
+        material_5={clonedMaterial}
         position_5={[11.857, 0.007, 45.242]}
         
       />
 
       <Green_Buttons
         geometry={nodes.green_buttons.geometry}
-        material={materials['Material.001']}
+        material={clonedMaterial}
         position={[11.857, 0.007, 45.242]}
       />
 
@@ -188,7 +204,7 @@ export function Wheel(props) {
         castShadow
         receiveShadow
         geometry={nodes.Wheel_Center_plate.geometry}
-        material={materials['Material.001']}
+        material={clonedMaterial}
         position={[0.618, 6.065, -4.153]}
         rotation={[0, -1.55, 0]}  
       />

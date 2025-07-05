@@ -1,33 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useConfigurationStore } from "../ConfigurationStore"
 
+// All meshes use the same materials
 
 function Blue_Buttons({
     geometry_1, material_1, position_1,
-    geometry_2, material_2, position_2,
-    geometry_3, material_3, position_3,
-    geometry_4, material_4, position_4,
-    geometry_5, material_5, position_5}) {
-    
-    const activeComponent = useConfigurationStore(state => state.activeComponent)
-
-    const clonedMaterial = useMemo(() => material_1.clone(), [])
-
-    
-    useEffect(()=>{
-
-        if(activeComponent){
-
-            clonedMaterial.transparent = true
-            clonedMaterial.opacity = 0.3
-        }
-        else{
-            clonedMaterial.transparent = false
-            clonedMaterial.opacity = 1
-        }
-
-    }, [activeComponent])
-
+    geometry_2, position_2,
+    geometry_3, position_3,
+    geometry_4, position_4,
+    geometry_5, position_5}) {
 
 
   return (
@@ -38,7 +19,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_1}
-        material={clonedMaterial}
+        material={material_1}
         position={position_1}
         
       />
@@ -48,7 +29,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_2}
-        material={clonedMaterial}
+        material={material_1}
         position={position_2}
       />
       <mesh
@@ -56,7 +37,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_3}
-        material={clonedMaterial}
+        material={material_1}
         position={position_3}
       />
 
@@ -65,7 +46,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_4}
-        material={clonedMaterial}
+        material={material_1}
         position={position_4}
       />
 
@@ -74,7 +55,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_5}
-        material={clonedMaterial}
+        material={material_1}
         position={position_5}
       />
     </>
