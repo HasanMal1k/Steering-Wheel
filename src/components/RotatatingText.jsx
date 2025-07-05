@@ -4,12 +4,11 @@ import gsap from 'gsap'
 import './CircularText.css'
 import { useTextStore } from '../TextStore'
 
-
-
 function RotatingText() {
   const textRef = useRef(null)
   const containerRef = useRef(null)
   const textVisiblity = useTextStore(state => state.text)
+  const rotationTween = useRef(null)
 
   // Define the text to repeat three times (with space after each phrase)
   const phrase = "EDIT THIS   "
@@ -26,62 +25,73 @@ function RotatingText() {
   // Assumed character width of 1ch
   const characterWidth = 1
   const calculatedRadius = characterWidth / Math.sin(innerAngle)
-  
+
+  // Initialize rotation animation and position following
   useEffect(() => {
     if (containerRef.current) {
-      
-      gsap.fromTo(containerRef.current, 
-        {opacity: 0},
-        {opacity: 1, duration: 1, ease: 'power2.out'}
-      )
-
-      // Create rotation animation with GSAP
-      gsap.to(containerRef.current, {
+      // Start continuous rotation
+      rotationTween.current = gsap.to(containerRef.current, {
         rotation: '+=360',
         duration: 14,
         repeat: -1,
         ease: "linear",
       })
+
+      // Set up mouse following
+      const handleMouseMove = (e) => {
+        if (containerRef.current) {
+          gsap.to(containerRef.current, {
+            left: e.clientX,
+            top: e.clientY,
+            duration: 0.2,
+            ease: 'power2.out'
+          })
+        }
+      }
+
+      document.addEventListener('mousemove', handleMouseMove)
+
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove)
+        if (rotationTween.current) {
+          rotationTween.current.kill()
+        }
+      }
     }
-
-    if(!textVisiblity) {
-      gsap.fromTo(containerRef.current, 
-        {opacity: 1},
-        {opacity: 0, duration: 1, ease: 'power2.out'}
-      )    
-    }
-
-  })
-
-  useEffect(() => {
-    
-    document.addEventListener('mousemove', (e) => {
-      
-      if(containerRef.current){
-
-      // const rect = containerRef.current.getBoundingClientRect()
-      // const halfWidth = rect.width / 2
-      // const halfHeight = rect.height / 2
-
-      gsap.to(containerRef.current, {
-        left: e.clientX ,
-        top: e.clientY ,
-        duration: 0.2,
-        ease: 'linear'
-      })
-    }
-    })
-
   }, [])
 
+  // Handle visibility changes with smooth animations
+  useEffect(() => {
+    if (!containerRef.current) return
 
-  useEffect(() => { 
-    gsap
+    if (textVisiblity) {
+      // Fade in smoothly without scale
+      gsap.fromTo(containerRef.current, 
+        { 
+          opacity: 0,
+          filter: 'blur(10px)'
+        },
+        { 
+          opacity: 1,
+          filter: 'blur(0px)',
+          duration: 0.8,
+          ease: 'power3.out'
+        }
+      )
+    } else {
+      // Fade out smoothly without scale
+      gsap.to(containerRef.current, {
+        opacity: 0,
+        filter: 'blur(10px)',
+        duration: 0.5,
+        ease: 'power2.in'
+      })
+    }
   }, [textVisiblity])
 
   return (
     <>
-      <div center ref={textRef} className={`text-white pointer-events-none absolute top-0 left-0  transition-all duration-100`}>
+      <div center ref={textRef} className="text-white pointer-events-none absolute top-0 left-0 transition-all duration-100">
         <div 
           className="text-ring"
           ref={containerRef}
@@ -89,7 +99,8 @@ function RotatingText() {
             '--total': totalChars,
             '--radius': calculatedRadius * 10, // Multiply by scaling factor for better visibility
             '--character-width': characterWidth,
-          
+            opacity: 0, // Start invisible, GSAP will handle visibility
+            transform: 'translate(-50%, -50%)'
           }}
         >
           {chars.map((char, index) => {
@@ -101,10 +112,11 @@ function RotatingText() {
             return (
               <span 
                 key={index} 
-                className="character" 
+                className="character transition-all duration-300" 
                 style={{ 
                   '--index': index,
-                  color: color
+                  color: color,
+                  textShadow: '0 0 10px rgba(255, 255, 255, 0.5)'
                 }}
               >
                 {char}

@@ -27,9 +27,7 @@ export function Wheel(props) {
 
   useEffect(() => {
     console.log(wheelGroupRef.current.rotation)
-
   }, [wheelGroupRef])
-
 
   // Handle wheel rotation when paddles are selected
   useEffect(() => {
@@ -66,28 +64,47 @@ export function Wheel(props) {
     return materials['Material.001'].clone()
   }, [])
 
-
+  // Animate opacity changes for main components
   useEffect(() => {
-
-      if (activeComponent) {
+    if (activeComponent) {
+      // Fade non-interactive components when something is selected
       clonedMaterial.transparent = true
-      clonedMaterial.opacity = 0.4
+      clonedMaterialButtons.transparent = true
+      
+      gsap.to([clonedMaterial, clonedMaterialButtons], {
+        opacity: 0.4,
+        duration: 0.6,
+        ease: "power2.out",
+        onUpdate: () => {
+          clonedMaterial.needsUpdate = true
+          clonedMaterialButtons.needsUpdate = true
+        }
+      })
+      
+      // Also disable depth write for better transparency
       clonedMaterial.depthWrite = false
         
-      clonedMaterialButtons.transparent = true
-      clonedMaterialButtons.opacity = 0.4
-      // clonedMaterialButtons.depthWrite = false
-
     } else {
-      clonedMaterial.transparent = false
-      clonedMaterial.opacity = 1
-      clonedMaterial.depthWrite = true
-
-
-      clonedMaterialButtons.transparent = false
-      clonedMaterialButtons.opacity = 1
+      // Restore full opacity when nothing is selected
+      clonedMaterial.transparent = true
+      clonedMaterialButtons.transparent = true
+      
+      gsap.to([clonedMaterial, clonedMaterialButtons], {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        onUpdate: () => {
+          clonedMaterial.needsUpdate = true
+          clonedMaterialButtons.needsUpdate = true
+        },
+        onComplete: () => {
+          clonedMaterial.transparent = false
+          clonedMaterialButtons.transparent = false
+          clonedMaterial.depthWrite = true
+        }
+      })
     }
-  }, [activeComponent])
+  }, [activeComponent, clonedMaterial, clonedMaterialButtons])
  
   return (
     <group

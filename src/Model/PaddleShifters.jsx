@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { useTextStore } from '../TextStore'
 import { useConfigurationStore } from '../ConfigurationStore'
+import gsap from 'gsap'
 
 function PaddleShifters({ geometry, material, position }) {
   const paddlesRef = useRef()
@@ -15,23 +16,48 @@ function PaddleShifters({ geometry, material, position }) {
   const [originalMaterial] = useState(material.clone())
   const [currentMaterial, setCurrentMaterial] = useState(originalMaterial)
 
-  const lowerMaterialOpacity = () => {
-    currentMaterial.transparent = true 
-    currentMaterial.opacity = 0.4
-  }
-
-  const increaseMaterialOpacity = () => {
-    currentMaterial.transparent = false 
-    currentMaterial.opacity = 1
-  }
-
-  // Handle selection highlight
+  // Handle selection highlight with animations
   useEffect(() => {
-    if ((activeComponent === paddlesRef && paddlesRef.current) || !activeComponent) {
-      increaseMaterialOpacity() // Fixed: added parentheses to call the function
-    } else if (paddlesRef.current && activeComponent !== paddlesRef && activeComponent) {
-      lowerMaterialOpacity() // Fixed: added parentheses to call the function
+    if (!paddlesRef.current) return
+
+    if (activeComponent === paddlesRef) {
+      // This component is selected - animate to full opacity
+      currentMaterial.transparent = true
+      
+      gsap.to(currentMaterial, {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          currentMaterial.transparent = false
+        }
+      })
+      
+    } else if (activeComponent && activeComponent !== paddlesRef) {
+      // Another component is selected - animate to faded opacity
+      currentMaterial.transparent = true
+      
+      gsap.to(currentMaterial, {
+        opacity: 0.4,
+        duration: 0.6,
+        ease: "power2.out"
+      })
+      
+    } else {
+      // No component selected - animate to normal opacity
+      currentMaterial.transparent = true
+      
+      gsap.to(currentMaterial, {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          currentMaterial.transparent = false
+        }
+      })
     }
+    
+    currentMaterial.needsUpdate = true
   }, [activeComponent, currentMaterial])
 
   const handlePointerOver = () => {
@@ -42,8 +68,25 @@ function PaddleShifters({ geometry, material, position }) {
   }
 
   const handlePointerOut = () => {
-    if (paddlesRef.current && activeComponent !== paddlesRef) {
+    if (paddlesRef.current) {
+      // Always restore to the current material
       paddlesRef.current.material = currentMaterial
+      
+      // Then apply the appropriate state
+      if (activeComponent === paddlesRef) {
+        // This component is selected - restore full opacity
+        currentMaterial.transparent = false
+        currentMaterial.opacity = 1
+      } else if (activeComponent && activeComponent !== paddlesRef) {
+        // Another component is selected - restore faded state
+        currentMaterial.transparent = true
+        currentMaterial.opacity = 0.4
+      } else {
+        // No component selected - restore normal state
+        currentMaterial.transparent = false
+        currentMaterial.opacity = 1
+      }
+      currentMaterial.needsUpdate = true
     }
     disableText()
   }

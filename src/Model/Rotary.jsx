@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { useTextStore } from '../TextStore'
 import { useConfigurationStore } from '../ConfigurationStore'
+import gsap from 'gsap'
 
 function Rotary({ geometry, material, position }) {
   const rotaryRef = useRef()
@@ -45,7 +46,7 @@ function Rotary({ geometry, material, position }) {
     }
   }, [selectedRotaryColor])
 
-  // Handle selection and opacity logic
+  // Handle selection and opacity logic with animations
   useEffect(() => {
     if (!rotaryRef.current) return
 
@@ -53,22 +54,46 @@ function Rotary({ geometry, material, position }) {
       // This component is selected - full opacity with selection highlight
       currentMaterial.emissive = new THREE.Color('#22c55e')
       currentMaterial.emissiveIntensity = 0.1
-      currentMaterial.transparent = false
-      currentMaterial.opacity = 1
+      currentMaterial.transparent = true
+      
+      // Animate to full opacity
+      gsap.to(currentMaterial, {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          currentMaterial.transparent = false
+        }
+      })
       
     } else if (activeComponent && activeComponent !== rotaryRef) {
       // Another component is selected - fade this one
       currentMaterial.transparent = true
-      currentMaterial.opacity = 0.4
       currentMaterial.emissive = new THREE.Color('#000000')
       currentMaterial.emissiveIntensity = 0
       
+      // Animate to faded opacity
+      gsap.to(currentMaterial, {
+        opacity: 0.4,
+        duration: 0.6,
+        ease: "power2.out"
+      })
+      
     } else {
       // No component selected - normal appearance
-      currentMaterial.transparent = false
-      currentMaterial.opacity = 1
+      currentMaterial.transparent = true
       currentMaterial.emissive = new THREE.Color('#000000')
       currentMaterial.emissiveIntensity = 0
+      
+      // Animate to full opacity
+      gsap.to(currentMaterial, {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          currentMaterial.transparent = false
+        }
+      })
     }
     
     rotaryRef.current.material = currentMaterial
@@ -86,14 +111,29 @@ function Rotary({ geometry, material, position }) {
       // Restore the appropriate material based on current state
       if (activeComponent && activeComponent !== rotaryRef) {
         currentMaterial.transparent = true
-        currentMaterial.opacity = 0.4
         currentMaterial.emissive = new THREE.Color('#000000')
         currentMaterial.emissiveIntensity = 0
+        
+        // Smooth transition back to faded state
+        gsap.to(currentMaterial, {
+          opacity: 0.4,
+          duration: 0.3,
+          ease: "power2.out"
+        })
       } else {
-        currentMaterial.transparent = false
-        currentMaterial.opacity = 1
+        currentMaterial.transparent = true
         currentMaterial.emissive = new THREE.Color('#000000')
         currentMaterial.emissiveIntensity = 0
+        
+        // Smooth transition back to normal state
+        gsap.to(currentMaterial, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.out",
+          onComplete: () => {
+            currentMaterial.transparent = false
+          }
+        })
       }
       rotaryRef.current.material = currentMaterial
     }
