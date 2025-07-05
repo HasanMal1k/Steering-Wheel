@@ -11,46 +11,19 @@ function Blue_Buttons({
     
     const activeComponent = useConfigurationStore(state => state.activeComponent)
 
-    const clonedMaterial_1 = useMemo(() => material_1.clone(), [])
-    const clonedMaterial_2 = useMemo(() => material_2.clone(), [])
-    const clonedMaterial_3 = useMemo(() => material_3.clone(), [])
-    const clonedMaterial_4 = useMemo(() => material_4.clone(), [])
-    const clonedMaterial_5 = useMemo(() => material_5.clone(), [])
+    const clonedMaterial = useMemo(() => material_1.clone(), [])
+
     
     useEffect(()=>{
 
         if(activeComponent){
 
-            clonedMaterial_1.transparent = true
-            clonedMaterial_1.opacity = 0.3
-
-            clonedMaterial_2.transparent = true
-            clonedMaterial_2.opacity = 0.3
-
-            clonedMaterial_3.transparent = true
-            clonedMaterial_3.opacity = 0.3
-
-            clonedMaterial_4.transparent = true
-            clonedMaterial_4.opacity = 0.3
-
-            clonedMaterial_5.transparent = true
-            clonedMaterial_5.opacity = 0.3
+            clonedMaterial.transparent = true
+            clonedMaterial.opacity = 0.3
         }
         else{
-            clonedMaterial_1.transparent = false
-            clonedMaterial_1.opacity = 1
-
-            clonedMaterial_2.transparent = false
-            clonedMaterial_2.opacity = 1
-
-            clonedMaterial_3.transparent = false
-            clonedMaterial_3.opacity = 1
-
-            clonedMaterial_4.transparent = false
-            clonedMaterial_4.opacity = 1
-
-            clonedMaterial_5.transparent = false
-            clonedMaterial_5.opacity = 1
+            clonedMaterial.transparent = false
+            clonedMaterial.opacity = 1
         }
 
     }, [activeComponent])
@@ -65,7 +38,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_1}
-        material={clonedMaterial_1}
+        material={clonedMaterial}
         position={position_1}
         
       />
@@ -75,7 +48,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_2}
-        material={clonedMaterial_2}
+        material={clonedMaterial}
         position={position_2}
       />
       <mesh
@@ -83,7 +56,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_3}
-        material={clonedMaterial_3}
+        material={clonedMaterial}
         position={position_3}
       />
 
@@ -92,7 +65,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_4}
-        material={clonedMaterial_4}
+        material={clonedMaterial}
         position={position_4}
       />
 
@@ -101,7 +74,7 @@ function Blue_Buttons({
         castShadow
         receiveShadow
         geometry={geometry_5}
-        material={clonedMaterial_5}
+        material={clonedMaterial}
         position={position_5}
       />
     </>
