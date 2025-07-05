@@ -59,31 +59,34 @@ export function Wheel(props) {
   }, [activeComponent])
 
   const clonedMaterial = useMemo(() => {
-    return materials['Material.001']
+    return materials['Material.001'].clone()
   }, [])
 
   const clonedMaterialButtons = useMemo(() => {
-    return materials['Material.001']
+    return materials['Material.001'].clone()
   }, [])
 
 
   useEffect(() => {
 
-    if(activeComponent){
+      if (activeComponent) {
       clonedMaterial.transparent = true
       clonedMaterial.opacity = 0.4
-
+      clonedMaterial.depthWrite = false
+        
       clonedMaterialButtons.transparent = true
-      clonedMaterial.opacity = 0.4
-    }
-    else {
-      // clonedMaterial.transparent = true
-      clonedMaterial.opacity = 1
+      clonedMaterialButtons.opacity = 0.4
+      // clonedMaterialButtons.depthWrite = false
 
-      // clonedMaterialButtons.transparent = false
+    } else {
+      clonedMaterial.transparent = false
       clonedMaterial.opacity = 1
+      clonedMaterial.depthWrite = true
+
+
+      clonedMaterialButtons.transparent = false
+      clonedMaterialButtons.opacity = 1
     }
-    
   }, [activeComponent])
  
   return (
