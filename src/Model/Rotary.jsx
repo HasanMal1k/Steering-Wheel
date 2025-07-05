@@ -14,7 +14,7 @@ function Rotary({ geometry, material, position }) {
   // Create materials - clone the original to avoid affecting other components
   const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
   const [originalMaterial] = useState(material.clone())
-  const [currentMaterial, setCurrentMaterial] = useState(originalMaterial.clone())
+  const [currentMaterial, setCurrentMaterial] = useState(originalMaterial)
 
   // Color mapping for rotary colors
   const rotaryColorMap = {
@@ -33,7 +33,7 @@ function Rotary({ geometry, material, position }) {
 
   // Update material when color changes
   useEffect(() => {
-    if (selectedRotaryColor && rotaryRef.current) {
+    if (selectedRotaryColor) {
       const colorValue = rotaryColorMap[selectedRotaryColor] || selectedRotaryColor
       const coloredMaterial = new THREE.MeshStandardMaterial({
         color: colorValue,
@@ -42,24 +42,36 @@ function Rotary({ geometry, material, position }) {
       })
       
       setCurrentMaterial(coloredMaterial)
-      
-      // Apply immediately if not currently hovering or selected
-      if (rotaryRef.current.material !== hoverMaterial && activeComponent !== rotaryRef) {
-        rotaryRef.current.material = coloredMaterial
-      }
     }
   }, [selectedRotaryColor])
 
-  // Handle selection highlight - use subtle emissive instead of changing whole color
+  // Handle selection and opacity logic
   useEffect(() => {
-    if (activeComponent === rotaryRef && rotaryRef.current) {
-      const selectedMaterial = currentMaterial.clone()
-      selectedMaterial.emissive = new THREE.Color('#22c55e')
-      selectedMaterial.emissiveIntensity = 0.1
-      rotaryRef.current.material = selectedMaterial
-    } else if (rotaryRef.current && activeComponent !== rotaryRef) {
-      rotaryRef.current.material = currentMaterial
+    if (!rotaryRef.current) return
+
+    if (activeComponent === rotaryRef) {
+      // This component is selected - full opacity with selection highlight
+      currentMaterial.emissive = new THREE.Color('#22c55e')
+      currentMaterial.emissiveIntensity = 0.1
+      currentMaterial.transparent = false
+      currentMaterial.opacity = 1
+      
+    } else if (activeComponent && activeComponent !== rotaryRef) {
+      // Another component is selected - fade this one
+      currentMaterial.transparent = true
+      currentMaterial.opacity = 0.4
+      currentMaterial.emissive = new THREE.Color('#000000')
+      currentMaterial.emissiveIntensity = 0
+      
+    } else {
+      // No component selected - normal appearance
+      currentMaterial.transparent = false
+      currentMaterial.opacity = 1
+      currentMaterial.emissive = new THREE.Color('#000000')
+      currentMaterial.emissiveIntensity = 0
     }
+    
+    rotaryRef.current.material = currentMaterial
   }, [activeComponent, currentMaterial])
 
   const handlePointerOver = () => {
@@ -71,6 +83,18 @@ function Rotary({ geometry, material, position }) {
 
   const handlePointerOut = () => {
     if (rotaryRef.current && activeComponent !== rotaryRef) {
+      // Restore the appropriate material based on current state
+      if (activeComponent && activeComponent !== rotaryRef) {
+        currentMaterial.transparent = true
+        currentMaterial.opacity = 0.4
+        currentMaterial.emissive = new THREE.Color('#000000')
+        currentMaterial.emissiveIntensity = 0
+      } else {
+        currentMaterial.transparent = false
+        currentMaterial.opacity = 1
+        currentMaterial.emissive = new THREE.Color('#000000')
+        currentMaterial.emissiveIntensity = 0
+      }
       rotaryRef.current.material = currentMaterial
     }
     disableText()

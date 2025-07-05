@@ -13,27 +13,26 @@ function PaddleShifters({ geometry, material, position }) {
   // Create materials - clone the original to avoid affecting other components
   const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
   const [originalMaterial] = useState(material.clone())
-  const [currentMaterial, setCurrentMaterial] = useState(originalMaterial.clone())
+  const [currentMaterial, setCurrentMaterial] = useState(originalMaterial)
 
-  
+  const lowerMaterialOpacity = () => {
+    currentMaterial.transparent = true 
+    currentMaterial.opacity = 0.4
+  }
+
+  const increaseMaterialOpacity = () => {
+    currentMaterial.transparent = false 
+    currentMaterial.opacity = 1
+  }
 
   // Handle selection highlight
   useEffect(() => {
-    if (activeComponent === paddlesRef && paddlesRef.current) {
-      const selectedMaterial = currentMaterial.clone()
-      selectedMaterial.color = new THREE.Color('red')
-      selectedMaterial.roughness = 0.3
-      selectedMaterial.metalness = 0.7
-      selectedMaterial.emissive = new THREE.Color('#065f46')
-      selectedMaterial.emissiveIntensity = 0.2
-      paddlesRef.current.material = selectedMaterial
-    } else if (paddlesRef.current && activeComponent !== paddlesRef) {
-      paddlesRef.current.material = currentMaterial
+    if ((activeComponent === paddlesRef && paddlesRef.current) || !activeComponent) {
+      increaseMaterialOpacity() // Fixed: added parentheses to call the function
+    } else if (paddlesRef.current && activeComponent !== paddlesRef && activeComponent) {
+      lowerMaterialOpacity() // Fixed: added parentheses to call the function
     }
-
   }, [activeComponent, currentMaterial])
-
-
 
   const handlePointerOver = () => {
     if (paddlesRef.current && activeComponent !== paddlesRef) {

@@ -16,9 +16,9 @@ function Joysticks({ geometry, material, position }) {
   const [originalMaterial] = useState(material.clone())
   const [currentMaterial, setCurrentMaterial] = useState(originalMaterial.clone())
 
-  // Update material when color changes - exactly like rotary controls
+  // Update material when color changes
   useEffect(() => {
-    if (selectedJoystickColor && joysticksRef.current) {
+    if (selectedJoystickColor) {
       const coloredMaterial = new THREE.MeshStandardMaterial({
         color: selectedJoystickColor,
         roughness: 0.4,
@@ -26,24 +26,37 @@ function Joysticks({ geometry, material, position }) {
       })
       
       setCurrentMaterial(coloredMaterial)
-      
-      // Apply immediately if not currently hovering or selected
-      if (joysticksRef.current.material !== hoverMaterial && activeComponent !== joysticksRef) {
-        joysticksRef.current.material = coloredMaterial
-      }
     }
   }, [selectedJoystickColor])
 
-  // Handle selection highlight - use subtle emissive like rotary
+  // Handle selection and opacity logic
   useEffect(() => {
-    if (activeComponent === joysticksRef && joysticksRef.current) {
-      const selectedMaterial = currentMaterial.clone()
-      selectedMaterial.emissive = new THREE.Color('#22c55e')
-      selectedMaterial.emissiveIntensity = 0.1
-      joysticksRef.current.material = selectedMaterial
-    } else if (joysticksRef.current && activeComponent !== joysticksRef) {
-      joysticksRef.current.material = currentMaterial
+    if (!joysticksRef.current) return
+
+    if (activeComponent === joysticksRef) {
+      // This component is selected - full opacity with selection highlight
+      currentMaterial.emissive.set('#22c55e')
+      currentMaterial.emissiveIntensity = 0.1
+      currentMaterial.transparent = false
+      currentMaterial.opacity = 1
+      
+    } else if (activeComponent && activeComponent !== joysticksRef) {
+      // Another component is selected - fade this one
+      currentMaterial.transparent = true
+      currentMaterial.opacity = 0.4
+      currentMaterial.emissive.set('#000000')
+      currentMaterial.emissiveIntensity = 0
+      
+    } else {
+      // No component selected - normal appearance
+      currentMaterial.transparent = false
+      currentMaterial.opacity = 1
+      currentMaterial.emissive.set('#000000')
+      currentMaterial.emissiveIntensity = 0
     }
+    
+    // Force material update
+    currentMaterial.needsUpdate = true
   }, [activeComponent, currentMaterial])
 
   const handlePointerOver = () => {
@@ -55,7 +68,19 @@ function Joysticks({ geometry, material, position }) {
 
   const handlePointerOut = () => {
     if (joysticksRef.current && activeComponent !== joysticksRef) {
-      joysticksRef.current.material = currentMaterial
+      // Restore the appropriate material based on current state
+      if (activeComponent && activeComponent !== joysticksRef) {
+        currentMaterial.transparent = true
+        currentMaterial.opacity = 0.4
+        currentMaterial.emissive.set('#000000')
+        currentMaterial.emissiveIntensity = 0
+      } else {
+        currentMaterial.transparent = false
+        currentMaterial.opacity = 1
+        currentMaterial.emissive.set('#000000')
+        currentMaterial.emissiveIntensity = 0
+      }
+      currentMaterial.needsUpdate = true
     }
     disableText()
   }
