@@ -3,7 +3,7 @@
 import { Canvas } from "@react-three/fiber"
 import { Environment } from "@react-three/drei"
 import Scene from "./components/Scene"
-import RotatingText from "./components/RotatatingText"
+import RotatingText from "./components/RotatingText"
 import { useTextStore } from "./TextStore"
 import ConfigureUI from "./model-components/ConfigureUI"
 
@@ -26,3 +26,4 @@ function Main() {
   )
 }
 
+export default Main

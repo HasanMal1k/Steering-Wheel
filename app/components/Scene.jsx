@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react'
 import { OrbitControls } from '@react-three/drei'
-import { Wheel } from '../model-components/WheelModel'
+import { Wheel } from '../model-components/WheelModel' 
 import CameraController from './CameraController'
 
 function Scene() {

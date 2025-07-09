@@ -1,6 +1,5 @@
 'use client'
 
-
 import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import './CircularText.css'
@@ -93,7 +92,7 @@ function RotatingText() {
 
   return (
     <>
-      <div center ref={textRef} className="text-white pointer-events-none absolute top-0 left-0 transition-all duration-100">
+      <div ref={textRef} className="text-white pointer-events-none absolute top-0 left-0 transition-all duration-100">
         <div 
           className="text-ring"
           ref={containerRef}
