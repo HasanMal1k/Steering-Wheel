@@ -1,10 +1,3 @@
-const query = `
-  query {
-    shop {
-      name
-    }
-  }
-`;
 
 export async function shopifyAdminQuery(query, variables = {}) {
   const res = await fetch(process.env.SHOPIFY_ADMIN_API_URL, {
