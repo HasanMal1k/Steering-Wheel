@@ -1,8 +1,8 @@
 'use client'
 
-
 import React, { useState, useEffect } from 'react'
 import { useConfigurationStore, joystickColor, rotaryColor } from '../ConfigurationStore'
+import JoystickToggle from './ConfiguratorUIComponents/JoystickToggle'
 
 function ConfigureUI() {
   const { 
@@ -253,6 +253,7 @@ function ConfigureUI() {
             </button>
           </div>
         </div>
+        <JoystickToggle/>
       </div>
       
     </>
