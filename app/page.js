@@ -5,7 +5,7 @@ import { Environment } from "@react-three/drei"
 import Scene from "./components/Scene"
 import RotatingText from "./components/RotatingText"
 import { useTextStore } from "./TextStore"
-import ConfigureUI from "./model-components/ConfigureUI"
+import ConfigureUI from "./components/ConfigureUI"
 
 function Main() {
   const text = useTextStore(state => state.text)
