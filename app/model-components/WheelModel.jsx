@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useMemo } from 'react'
 import { useGLTF } from '@react-three/drei'
+import { useThree } from '@react-three/fiber'
 import { useState } from 'react'
 import PaddleShifters from './PaddleShifters'
 import Rotary from './Rotary'
@@ -9,6 +10,7 @@ import Joysticks from './Joysticks'
 import Main_Controller from './Main_Controller'
 import CenterPlate from './CenterPlate'
 import { useConfigurationStore } from '../ConfigurationStore'
+import useResponsiveScale from '../hooks/useResponsiveScale'
 import gsap from 'gsap'
 import Blue_Buttons from './Blue_Buttons'
 import Steering_Wheel from './Steering_Wheel'
@@ -24,6 +26,7 @@ export function Wheel(props) {
   const [wheelClicked, setWheelClicked] = useState(false)
   const activeComponent = useConfigurationStore(state => state.activeComponent)
   const wheelGroupRef = useRef()
+  const  scale  = useResponsiveScale()
   
   console.log(activeComponent)
 

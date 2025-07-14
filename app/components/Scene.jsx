@@ -4,9 +4,11 @@ import React, { useRef } from 'react'
 import { OrbitControls } from '@react-three/drei'
 import { Wheel } from '../model-components/WheelModel' 
 import CameraController from './CameraController'
+import useResponsiveScale from '../hooks/useResponsiveScale'
 
 function Scene() {
   const controlsRef = useRef()
+  const scale = useResponsiveScale()
 
   return (
     <>
@@ -33,7 +35,7 @@ function Scene() {
       />
       <pointLight position={[-10, -10, -10]} intensity={0.3} />
       
-      <Wheel scale={[0.015, 0.015, 0.015]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]}/>
+      <Wheel scale={[0.015 * scale, 0.015 * scale, 0.015 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]}/>
     </>
   )
 }
