@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useConfigurationStore, joystickColor, rotaryColor } from '../ConfigurationStore'
-import JoystickToggle from './ConfiguratorUIComponents/JoystickToggle'
+import JoystickToggle from './configurator-components/JoystickToggle'
 
 function ConfigureUI() {
   const { 
