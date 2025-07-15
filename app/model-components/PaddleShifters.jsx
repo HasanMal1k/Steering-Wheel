@@ -20,7 +20,7 @@ function PaddleShifters({ geometry, material, position }) {
   useEffect(() => {
     if (!paddlesRef.current) return
 
-    if (activeComponent === paddlesRef) {
+    if (activeComponent === 'paddles') {
       // This component is selected - animate to full opacity
       currentMaterial.transparent = true
       
@@ -33,7 +33,7 @@ function PaddleShifters({ geometry, material, position }) {
         }
       })
       
-    } else if (activeComponent && activeComponent !== paddlesRef) {
+    } else if (activeComponent && activeComponent !== 'paddles') {
       // Another component is selected - animate to faded opacity
       currentMaterial.transparent = true
       
@@ -61,7 +61,7 @@ function PaddleShifters({ geometry, material, position }) {
   }, [activeComponent, currentMaterial])
 
   const handlePointerOver = () => {
-    if (paddlesRef.current && activeComponent !== paddlesRef) {
+    if (paddlesRef.current && activeComponent !== 'paddles') {
       paddlesRef.current.material = hoverMaterial
     }
     enableText()
@@ -73,11 +73,11 @@ function PaddleShifters({ geometry, material, position }) {
       paddlesRef.current.material = currentMaterial
       
       // Then apply the appropriate state
-      if (activeComponent === paddlesRef) {
+      if (activeComponent === 'paddles') {
         // This component is selected - restore full opacity
         currentMaterial.transparent = false
         currentMaterial.opacity = 1
-      } else if (activeComponent && activeComponent !== paddlesRef) {
+      } else if (activeComponent && activeComponent !== 'paddles') {
         // Another component is selected - restore faded state
         currentMaterial.transparent = true
         currentMaterial.opacity = 0.4

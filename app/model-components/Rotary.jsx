@@ -109,7 +109,7 @@ function Rotary({ geometry, material, position }) {
   const handlePointerOut = () => {
     if (rotaryRef.current && activeComponent !== 'rotary') {
       // Restore the appropriate material based on current state
-      if (activeComponent && activeComponent !== rotaryRef) {
+      if (activeComponent && activeComponent !== 'rotary') {
         currentMaterial.transparent = true
         currentMaterial.emissive = new THREE.Color('#000000')
         currentMaterial.emissiveIntensity = 0
@@ -142,7 +142,7 @@ function Rotary({ geometry, material, position }) {
 
   const handleClick = (e) => {
     e.stopPropagation()
-    // Add a custom identifier to help with camera positioning
+    // Add a custom identifier to help with camera positioning (OLD WAY, I DON'T DO THIS WAY NOW, ONLY NAME IS ENOUGH)
     if (rotaryRef.current) {
       rotaryRef.current.userData = { type: 'rotary' }
     }

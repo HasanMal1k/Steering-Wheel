@@ -34,7 +34,7 @@ function Joysticks({ geometry, material, position }) {
   useEffect(() => {
     if (!joysticksRef.current) return
 
-    if (activeComponent === joysticksRef) {
+    if (activeComponent === 'joysticks') {
       // This component is selected - full opacity with selection highlight
       currentMaterial.emissive.set('#22c55e')
       currentMaterial.emissiveIntensity = 0.1
@@ -50,7 +50,7 @@ function Joysticks({ geometry, material, position }) {
         }
       })
       
-    } else if (activeComponent && activeComponent !== joysticksRef) {
+    } else if (activeComponent && activeComponent !== 'joysticks') {
       // Another component is selected - fade this one
       currentMaterial.transparent = true
       currentMaterial.emissive.set('#000000')
@@ -85,7 +85,7 @@ function Joysticks({ geometry, material, position }) {
   }, [activeComponent, currentMaterial])
 
   const handlePointerOver = () => {
-    if (joysticksRef.current && activeComponent !== joysticksRef) {
+    if (joysticksRef.current && activeComponent !== 'joysticks') {
       joysticksRef.current.material = hoverMaterial
     }
     enableText()
@@ -127,7 +127,7 @@ function Joysticks({ geometry, material, position }) {
 
   const handleClick = (e) => {
     e.stopPropagation()
-    // Add a custom identifier to help with camera positioning
+    // Add a custom identifier to help with camera positioning (OLD WAY, I DON'T DO THIS WAY NOW, ONLY NAME IS ENOUGH)
     if (joysticksRef.current) {
       joysticksRef.current.userData = { type: 'joysticks' }
     }
