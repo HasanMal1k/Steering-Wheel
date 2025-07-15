@@ -7,10 +7,11 @@ import RotatingText from "./components/RotatingText"
 import { useTextStore } from "./TextStore"
 import ConfigureUI from "./components/ConfigureUI"
 import Logo from "./components/Logo"
+import useMobile from "./hooks/useMobile"
 
 function Main() {
   const text = useTextStore(state => state.text)
-  console.log(text)
+  const isMobile = useMobile()
 
   return (
     <div className="h-screen w-full bg-black overflow-hidden">
@@ -22,7 +23,8 @@ function Main() {
         />
         <Scene />
       </Canvas>
-      <RotatingText visible={text} />
+
+      {!isMobile && <RotatingText visible={text} />}
       <ConfigureUI />
     </div>
   )
