@@ -6,6 +6,7 @@ import Scene from "./components/Scene"
 import RotatingText from "./components/RotatingText"
 import { useTextStore } from "./TextStore"
 import ConfigureUI from "./components/ConfigureUI"
+import Logo from "./components/Logo"
 
 function Main() {
   const text = useTextStore(state => state.text)
@@ -13,6 +14,7 @@ function Main() {
 
   return (
     <div className="h-screen w-full bg-black overflow-hidden">
+      <Logo/>
       <Canvas> 
         <Environment 
           background={false} 
