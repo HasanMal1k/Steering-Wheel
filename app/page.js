@@ -8,6 +8,7 @@ import { useTextStore } from "./TextStore"
 import ConfigureUI from "./components/ConfigureUI"
 import Logo from "./components/Logo"
 import useMobile from "./hooks/useMobile"
+import PartSelector from "./components/PartSelector"
 
 function Main() {
   const text = useTextStore(state => state.text)
@@ -25,7 +26,7 @@ function Main() {
       </Canvas>
 
       {!isMobile && <RotatingText visible={text} />}
-      <ConfigureUI />
+      <PartSelector />
     </div>
   )
 }
