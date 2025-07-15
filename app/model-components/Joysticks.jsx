@@ -92,9 +92,9 @@ function Joysticks({ geometry, material, position }) {
   }
 
   const handlePointerOut = () => {
-    if (joysticksRef.current && activeComponent !== joysticksRef) {
+    if (joysticksRef.current && activeComponent !== 'joysticks') {
       // Restore the appropriate material based on current state
-      if (activeComponent && activeComponent !== joysticksRef) {
+      if (activeComponent && activeComponent !== 'joysticks') {
         currentMaterial.transparent = true
         currentMaterial.emissive.set('#000000')
         currentMaterial.emissiveIntensity = 0
@@ -131,7 +131,7 @@ function Joysticks({ geometry, material, position }) {
     if (joysticksRef.current) {
       joysticksRef.current.userData = { type: 'joysticks' }
     }
-    setActiveComponent(joysticksRef)
+    setActiveComponent('joysticks')
     console.log('Joysticks Selected')
   }
 

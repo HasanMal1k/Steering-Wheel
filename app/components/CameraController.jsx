@@ -34,37 +34,16 @@ function CameraController() {
     }
   }
 
-  // Function to identify component type
-  const identifyComponentType = (component) => {
-    if (!component?.current) return 'default'
-    
-    // Check userData first (our custom identifier)
-    if (component.current.userData?.type) {
-      return component.current.userData.type
-    }
-    
-    // Fallback to position-based identification
-    const mesh = component.current
-    const position = mesh.position || { x: 0, y: 0, z: 0 }
-    
-    if (Math.abs(position.x) < 0.5 && position.y < 1) {
-      return 'joysticks'
-    } else if (Math.abs(position.x) > 0.5 || Math.abs(position.z) > 0.5) {
-      return 'rotary'
-    } else {
-      return 'paddles'
-    }
-  }
-
   useEffect(() => {
     if (!camera) return
 
     let targetConfig = cameraConfigs.default
     let componentType = 'default'
 
-    if (activeComponent) {
-      componentType = identifyComponentType(activeComponent)
-      targetConfig = cameraConfigs[componentType] || cameraConfigs.default
+    // Check if activeComponent is one of the valid component types
+    if (activeComponent && ['paddles', 'joysticks', 'rotary'].includes(activeComponent)) {
+      componentType = activeComponent
+      targetConfig = cameraConfigs[componentType]
     }
 
     // Only animate if the component has changed

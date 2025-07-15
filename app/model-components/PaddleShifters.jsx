@@ -97,7 +97,7 @@ function PaddleShifters({ geometry, material, position }) {
     if (paddlesRef.current) {
       paddlesRef.current.userData = { type: 'paddles' }
     }
-    setActiveComponent(paddlesRef)
+    setActiveComponent('paddles')
     console.log('Paddle Shifters Selected')
   }
 

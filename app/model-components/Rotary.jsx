@@ -50,7 +50,7 @@ function Rotary({ geometry, material, position }) {
   useEffect(() => {
     if (!rotaryRef.current) return
 
-    if (activeComponent === rotaryRef) {
+    if (activeComponent === 'rotary') {
       // This component is selected - full opacity with selection highlight
       currentMaterial.emissive = new THREE.Color('#22c55e')
       currentMaterial.emissiveIntensity = 0.1
@@ -66,7 +66,7 @@ function Rotary({ geometry, material, position }) {
         }
       })
       
-    } else if (activeComponent && activeComponent !== rotaryRef) {
+    } else if (activeComponent && activeComponent !== 'rotary') {
       // Another component is selected - fade this one
       currentMaterial.transparent = true
       currentMaterial.emissive = new THREE.Color('#000000')
@@ -100,14 +100,14 @@ function Rotary({ geometry, material, position }) {
   }, [activeComponent, currentMaterial])
 
   const handlePointerOver = () => {
-    if (rotaryRef.current && activeComponent !== rotaryRef) {
+    if (rotaryRef.current && activeComponent !== 'rotary') {
       rotaryRef.current.material = hoverMaterial
     }
     enableText()
   }
 
   const handlePointerOut = () => {
-    if (rotaryRef.current && activeComponent !== rotaryRef) {
+    if (rotaryRef.current && activeComponent !== 'rotary') {
       // Restore the appropriate material based on current state
       if (activeComponent && activeComponent !== rotaryRef) {
         currentMaterial.transparent = true
@@ -146,7 +146,7 @@ function Rotary({ geometry, material, position }) {
     if (rotaryRef.current) {
       rotaryRef.current.userData = { type: 'rotary' }
     }
-    setActiveComponent(rotaryRef)
+    setActiveComponent('rotary')
     console.log('Rotary Selected')
   }
 

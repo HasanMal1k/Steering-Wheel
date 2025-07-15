@@ -38,7 +38,7 @@ export function Wheel(props) {
   useEffect(() => {
     if (!wheelGroupRef.current) return
 
-    const componentType = activeComponent?.current?.userData?.type
+    const componentType = activeComponent
 
     if (componentType === 'paddles') {
       // Rotate to show back side (180 degrees around Z-axis)

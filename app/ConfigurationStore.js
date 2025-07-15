@@ -28,6 +28,12 @@ export const rotaryColor = [
     'slate'
 ]
 
+const components = [
+    'paddles',
+    'rotary',
+    'joysticks'
+]
+
 export const useConfigurationStore = create((set) => ({
     // Active Component
     activeComponent: null,
