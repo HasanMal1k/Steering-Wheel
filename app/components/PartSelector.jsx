@@ -17,7 +17,7 @@ function PartSelector() {
 
   const handleValueChange = (value) => {
     setSelectValue(value)
-    setActiveComponent('')
+    setActiveComponent(value)
   }
 
 
@@ -26,7 +26,7 @@ function PartSelector() {
   const joyStickComponent = {    
     current: {
       userData: {
-        type: 'joystick'
+        type: 'joysticks'
       }
     }
   }
