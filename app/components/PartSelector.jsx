@@ -16,10 +16,8 @@ function PartSelector() {
   
   // Get string value from activeComponent
   const getSelectValue = () => {
-    if (!activeComponent) return 'default'
-    if (typeof activeComponent === 'string') return activeComponent
-    return activeComponent.current?.userData?.type || 'default'
-  }
+  return activeComponent || 'default'
+}
   
   const [selectValue, setSelectValue] = useState(getSelectValue())
 

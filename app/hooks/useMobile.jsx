@@ -12,7 +12,7 @@ function useMobile(breakpoint = 1000) {
 
         handleResize()
 
-        return window.removeEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
 
 }, [])
 

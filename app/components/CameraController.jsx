@@ -86,13 +86,13 @@ function CameraController() {
       }, 0)
 
       // Add a subtle rotation for dynamic feel
-      if (activeComponent) {
-        tl.to(camera.rotation, {
-          y: camera.rotation.y + (Math.random() - 0.5) * 0.1,
-          duration: 1.2,
-          ease: "power2.inOut"
-        }, 0)
-      }
+      // if (activeComponent) {
+      //   tl.to(camera.rotation, {
+      //     y: camera.rotation.y + (Math.random() - 0.5) * 0.1,
+      //     duration: 1.2,
+      //     ease: "power2.inOut"
+      //   }, 0)
+      // }
 
       previousComponent.current = activeComponent
     }

@@ -19,16 +19,15 @@ function ConfigureUI() {
   const [componentType, setComponentType] = useState('')
 
   useEffect(() => {
-    if (activeComponent?.current) {
-      setIsVisible(true)
-      const type = activeComponent.current.userData?.type || 'unknown'
-      setComponentType(type)
-    } else {
-      setIsVisible(false)
-      setComponentType('')
-    }
-    
-  }, [activeComponent])
+  if (activeComponent) {  
+    setIsVisible(true)
+    const type = activeComponent || 'unknown'  
+    setComponentType(type)
+  } else {
+    setIsVisible(false)
+    setComponentType('')
+  }
+}, [activeComponent])
 
   const closeConfigurator = () => {
     setActiveComponent(null)
