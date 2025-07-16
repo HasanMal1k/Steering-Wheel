@@ -10,13 +10,19 @@ gsap.registerPlugin(Draggable, InertiaPlugin)
 
 function DraggableCard() {
   const cardRef = useRef()
-  
+  const draggableInstance = useRef()
+
   const activeComponent = useConfigurationStore(state => state.activeComponent)
   const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
   const selectedJoystickColor = useConfigurationStore(state => state.selectedJoystickColor)
   const setSelectedJoystickColor = useConfigurationStore(state => state.setSelectedJoystickColor)
   const selectedRotaryColor = useConfigurationStore(state => state.selectedRotaryColor)
   const setSelectedRotaryColor = useConfigurationStore(state => state.setSelectedRotaryColor)
+
+
+
+  // The count here is checking if items is rendering for the first time or not, if it isnt the closing opacity 0 animation can happend instead of making the elemtn go hidden
+  let count = 0
 
   useEffect(() => {
     if (cardRef.current) {
@@ -27,22 +33,30 @@ function DraggableCard() {
         inertia: true,
       })
     }
+    
   }, [])
 
-  // Use the same color mapping from your Rotary component
-  const rotaryColorMap = {
-    'gray': '#6b7280',
-    'blue': '#3b82f6',
-    'red': '#ef4444',
-    'white': '#f9fafb',
-    'purple': '#8b5cf6',
-    'stone': '#78716c',
-    'amber': '#f59e0b',
-    'forest green': '#16a34a',
-    'silver': '#e5e7eb',
-    'golden': '#eab308',
-    'slate': '#64748b'
+  // Using same as logic as logo but reverse
+  useEffect(() => {
+  if (!activeComponent) {
+    gsap.to(cardRef.current, {
+      opacity: 0,
+      filter: 'blur(10px)',
+      duration: 1.2,
+      ease: 'power2.out',
+    })
+
+  } else {
+    cardRef.current.classList.remove('hidden')
+    gsap.to(cardRef.current, {
+      opacity: 1,
+      filter: 'blur(0px)',
+      duration: 1.2,
+      ease: 'power2.out',
+    })
+    count ++
   }
+}, [activeComponent])
 
   const ColorCircle = ({ color, isSelected, onClick }) => (
     <button
@@ -110,11 +124,11 @@ function DraggableCard() {
     }
   }
 
-  if (!activeComponent) return null
+  // if (!activeComponent) return null
 
   return (
     <Card 
-      className='fixed right-6 top-1/2 -translate-y-1/2 w-80 z-1000 bg-black border-gray-700 backdrop-blur-sm cursor-move' 
+      className={`fixed right-6 top-1/2 -translate-y-1/2 w-80 z-1000 bg-black border-gray-700 backdrop-blur-sm cursor-move ${!activeComponent && (count > 0) ? 'hidden' : ''}`} 
       ref={cardRef}
     >
       <div className='p-4 pt-0 space-y-4'>
