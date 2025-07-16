@@ -20,10 +20,6 @@ function DraggableCard() {
   const setSelectedRotaryColor = useConfigurationStore(state => state.setSelectedRotaryColor)
 
 
-
-  // The count here is checking if items is rendering for the first time or not, if it isnt the closing opacity 0 animation can happend instead of making the elemtn go hidden
-  let count = 0
-
   useEffect(() => {
     if (cardRef.current) {
       Draggable.create(cardRef.current, {
@@ -128,7 +124,7 @@ function DraggableCard() {
 
   return (
     <Card 
-      className={`fixed right-6 top-1/2 -translate-y-1/2 w-80 z-1000 bg-black border-gray-700 backdrop-blur-sm cursor-move ${!activeComponent && (count > 0) ? 'hidden' : ''}`} 
+      className={`fixed right-6 top-1/2 -translate-y-1/2 w-80 z-1000 bg-black border-gray-700 backdrop-blur-sm cursor-move hidden`} 
       ref={cardRef}
     >
       <div className='p-4 pt-0 space-y-4'>
