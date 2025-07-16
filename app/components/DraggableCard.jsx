@@ -157,7 +157,7 @@ function DraggableCard() {
 
   return (
     <Card 
-      className={`fixed right-6 top-1/2 -translate-y-1/2 w-80 z-1000 bg-black border-gray-700 backdrop-blur-sm cursor-move hidden`} 
+      className={`fixed right-6 top-1/2 -translate-y-1/2 w-80 z-1000 bg-black/50 border-gray-700 backdrop-blur-sm cursor-move hidden`} 
       ref={cardRef}
       style={{
         // KEY FIX: Ensure proper touch behavior on the card
