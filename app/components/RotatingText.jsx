@@ -59,32 +59,63 @@ function RotatingText() {
         }
       }
     }
-  }, [])
+  }, []) // Remove textVisiblity dependency
+
+  // Initialize rotation animation and position following
+  useEffect(() => {
+    if (containerRef.current) {
+      // Start continuous rotation
+      rotationTween.current = gsap.to(containerRef.current, {
+        rotation: '+=360',
+        duration: 14,
+        repeat: -1,
+        ease: "linear",
+      })
+
+      // Set up mouse following
+      const handleMouseMove = (e) => {
+        if (containerRef.current) {
+          gsap.to(containerRef.current, {
+            left: e.clientX,
+            top: e.clientY,
+            duration: 0.2,
+            ease: 'power2.out'
+          })
+        }
+      }
+
+      document.addEventListener('mousemove', handleMouseMove)
+
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove)
+        if (rotationTween.current) {
+          rotationTween.current.kill()
+        }
+      }
+    }
+  }, []) // Empty dependency array so it only runs once
 
   // Handle visibility changes with smooth animations
   useEffect(() => {
     if (!containerRef.current) return
 
+    // Kill any existing OPACITY animations to prevent conflicts (but not rotation)
+    gsap.killTweensOf(containerRef.current, "opacity,filter")
+
     if (textVisiblity) {
       // Fade in smoothly without scale
-      gsap.fromTo(containerRef.current, 
-        { 
-          opacity: 0,
-          filter: 'blur(10px)'
-        },
-        { 
-          opacity: 1,
-          filter: 'blur(0px)',
-          duration: 0.8,
-          ease: 'power3.out'
-        }
-      )
+      gsap.to(containerRef.current, {
+        opacity: 1,
+        filter: 'blur(0px)',
+        duration: 0.4,
+        ease: 'power3.out'
+      })
     } else {
       // Fade out smoothly without scale
       gsap.to(containerRef.current, {
         opacity: 0,
         filter: 'blur(10px)',
-        duration: 0.5,
+        duration: 0.3,
         ease: 'power2.in'
       })
     }
