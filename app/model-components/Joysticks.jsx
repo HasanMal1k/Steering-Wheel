@@ -84,14 +84,16 @@ function Joysticks({ geometry, material, position }) {
     currentMaterial.needsUpdate = true
   }, [activeComponent, currentMaterial])
 
-  const handlePointerOver = () => {
+  const handlePointerOver = (e) => {
+    e.stopPropagation()
     if (joysticksRef.current && activeComponent !== 'joysticks') {
       joysticksRef.current.material = hoverMaterial
     }
     enableText()
   }
 
-  const handlePointerOut = () => {
+  const handlePointerOut = (e) => {
+    e.stopPropagation()
     if (joysticksRef.current && activeComponent !== 'joysticks') {
       // Restore the appropriate material based on current state
       if (activeComponent && activeComponent !== 'joysticks') {

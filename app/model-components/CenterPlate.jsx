@@ -13,14 +13,16 @@ function CenterPlate({ geometry, material, position, rotation }) {
   // Store original material to revert on hover out
   const [originalMaterial] = useState(material)
 
-  const handlePointerOver = () => {
+  const handlePointerOver = (e) => {
+     e.stopPropagation()
     if (centerPlateRef.current) {
       centerPlateRef.current.material = whiteMaterial
     }
     enableText()
   }
 
-  const handlePointerOut = () => {
+  const handlePointerOut = (e) => {
+    e.stopPropagation()
     if (centerPlateRef.current) {
       centerPlateRef.current.material = originalMaterial
     }

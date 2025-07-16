@@ -99,14 +99,16 @@ function Rotary({ geometry, material, position }) {
     rotaryRef.current.material = currentMaterial
   }, [activeComponent, currentMaterial])
 
-  const handlePointerOver = () => {
+  const handlePointerOver = (e) => {
+    e.stopPropagation()
     if (rotaryRef.current && activeComponent !== 'rotary') {
       rotaryRef.current.material = hoverMaterial
     }
     enableText()
   }
 
-  const handlePointerOut = () => {
+  const handlePointerOut = (e) => {
+    e.stopPropagation()
     if (rotaryRef.current && activeComponent !== 'rotary') {
       // Restore the appropriate material based on current state
       if (activeComponent && activeComponent !== 'rotary') {
