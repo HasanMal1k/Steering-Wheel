@@ -50,10 +50,13 @@ function Rotary({ geometry, material, position }) {
   useEffect(() => {
     if (!rotaryRef.current) return
 
+    // Always ensure the mesh is using the current material, not hover material
+    rotaryRef.current.material = currentMaterial
+
     if (activeComponent === 'rotary') {
-      // This component is selected - full opacity with selection highlight
-      currentMaterial.emissive = new THREE.Color('#22c55e')
-      currentMaterial.emissiveIntensity = 0.1
+      // This component is selected - full opacity with no emissive glow
+      currentMaterial.emissive = new THREE.Color('#000000')
+      currentMaterial.emissiveIntensity = 0
       currentMaterial.transparent = true
       
       // Animate to full opacity
@@ -96,7 +99,8 @@ function Rotary({ geometry, material, position }) {
       })
     }
     
-    rotaryRef.current.material = currentMaterial
+    // Force material update
+    currentMaterial.needsUpdate = true
   }, [activeComponent, currentMaterial])
 
   const handlePointerOver = (e) => {
@@ -110,33 +114,7 @@ function Rotary({ geometry, material, position }) {
   const handlePointerOut = (e) => {
     e.stopPropagation()
     if (rotaryRef.current && activeComponent !== 'rotary') {
-      // Restore the appropriate material based on current state
-      if (activeComponent && activeComponent !== 'rotary') {
-        currentMaterial.transparent = true
-        currentMaterial.emissive = new THREE.Color('#000000')
-        currentMaterial.emissiveIntensity = 0
-        
-        // Smooth transition back to faded state
-        gsap.to(currentMaterial, {
-          opacity: 0.4,
-          duration: 0.3,
-          ease: "power2.out"
-        })
-      } else {
-        currentMaterial.transparent = true
-        currentMaterial.emissive = new THREE.Color('#000000')
-        currentMaterial.emissiveIntensity = 0
-        
-        // Smooth transition back to normal state
-        gsap.to(currentMaterial, {
-          opacity: 1,
-          duration: 0.3,
-          ease: "power2.out",
-          onComplete: () => {
-            currentMaterial.transparent = false
-          }
-        })
-      }
+      // Simply restore the current material - let the useEffect handle the rest
       rotaryRef.current.material = currentMaterial
     }
     disableText()

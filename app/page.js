@@ -9,6 +9,7 @@ import ConfigureUI from "./components/ConfigureUI"
 import Logo from "./components/Logo"
 import useMobile from "./hooks/useMobile"
 import PartSelector from "./components/PartSelector"
+import DraggableCard from "./components/DraggableCard"
 
 function Main() {
   const text = useTextStore(state => state.text)
@@ -27,6 +28,7 @@ function Main() {
 
       {!isMobile && <RotatingText visible={text} />}
       <PartSelector />
+      <DraggableCard/>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { useTextStore } from '../TextStore'
 import { useConfigurationStore } from '../ConfigurationStore'
+import { joystickColor } from '../ConfigurationStore'
 import gsap from 'gsap'
 
 function Joysticks({ geometry, material, position }) {
@@ -34,10 +35,13 @@ function Joysticks({ geometry, material, position }) {
   useEffect(() => {
     if (!joysticksRef.current) return
 
+    // Always ensure the mesh is using the current material, not hover material
+    joysticksRef.current.material = currentMaterial
+
     if (activeComponent === 'joysticks') {
-      // This component is selected - full opacity with selection highlight
-      currentMaterial.emissive.set('#22c55e')
-      currentMaterial.emissiveIntensity = 0.1
+      // This component is selected - full opacity with no emissive glow
+      currentMaterial.emissive.set('#000000')  // No emissive color
+      currentMaterial.emissiveIntensity = 0
       currentMaterial.transparent = true
       
       // Animate to full opacity
@@ -53,7 +57,7 @@ function Joysticks({ geometry, material, position }) {
     } else if (activeComponent && activeComponent !== 'joysticks') {
       // Another component is selected - fade this one
       currentMaterial.transparent = true
-      currentMaterial.emissive.set('#000000')
+      currentMaterial.emissive.set('#000000')  // Black color, not the material
       currentMaterial.emissiveIntensity = 0
       
       // Animate to faded opacity
@@ -65,7 +69,7 @@ function Joysticks({ geometry, material, position }) {
       
     } else {
       // No component selected - normal appearance
-      currentMaterial.emissive.set('#000000')
+      currentMaterial.emissive.set('#000000')  // Black color, not the material
       currentMaterial.emissiveIntensity = 0
       currentMaterial.transparent = true
       
@@ -95,34 +99,8 @@ function Joysticks({ geometry, material, position }) {
   const handlePointerOut = (e) => {
     e.stopPropagation()
     if (joysticksRef.current && activeComponent !== 'joysticks') {
-      // Restore the appropriate material based on current state
-      if (activeComponent && activeComponent !== 'joysticks') {
-        currentMaterial.transparent = true
-        currentMaterial.emissive.set('#000000')
-        currentMaterial.emissiveIntensity = 0
-        
-        // Smooth transition back to faded state
-        gsap.to(currentMaterial, {
-          opacity: 0.4,
-          duration: 0.3,
-          ease: "power2.out"
-        })
-      } else {
-        currentMaterial.transparent = true
-        currentMaterial.emissive.set('#000000')
-        currentMaterial.emissiveIntensity = 0
-        
-        // Smooth transition back to normal state
-        gsap.to(currentMaterial, {
-          opacity: 1,
-          duration: 0.3,
-          ease: "power2.out",
-          onComplete: () => {
-            currentMaterial.transparent = false
-          }
-        })
-      }
-      currentMaterial.needsUpdate = true
+      // Simply restore the current material - let the useEffect handle the rest
+      joysticksRef.current.material = currentMaterial
     }
     disableText()
   }

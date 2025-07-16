@@ -60,14 +60,16 @@ function PaddleShifters({ geometry, material, position }) {
     currentMaterial.needsUpdate = true
   }, [activeComponent, currentMaterial])
 
-  const handlePointerOver = () => {
+  const handlePointerOver = (e) => {
+    e.stopPropagation()
     if (paddlesRef.current && activeComponent !== 'paddles') {
       paddlesRef.current.material = hoverMaterial
     }
     enableText()
   }
 
-  const handlePointerOut = () => {
+  const handlePointerOut = (e) => {
+    e.stopPropagation()
     if (paddlesRef.current) {
       // Always restore to the current material
       paddlesRef.current.material = currentMaterial
