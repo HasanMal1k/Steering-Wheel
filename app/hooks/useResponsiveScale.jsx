@@ -5,8 +5,8 @@ import { useThree } from '@react-three/fiber'
 function useResponsiveScale() {
     const { size } = useThree() // Use size instead of viewport
     const scales = {
-        'small': 0.5,
-        'medium': 0.8,
+        'small': 0.65,
+        'medium': 0.85,
         'large': 1
     }
 

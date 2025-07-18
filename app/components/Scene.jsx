@@ -35,7 +35,7 @@ function Scene() {
       />
       <pointLight position={[-10, -10, -10]} intensity={0.3} />
       
-      <Wheel scale={[0.015 * scale, 0.015 * scale, 0.015 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]}/>
+      <Wheel scale={[0.018 * scale, 0.018 * scale, 0.018 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]}/>
     </>
   )
 }
