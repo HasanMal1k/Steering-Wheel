@@ -167,10 +167,10 @@ function DraggableCard() {
       <div className='p-4 pt-0 space-y-4'>
         {/* Header - make this draggable area */}
         <div 
-          className='flex items-start justify-between cursor-move'
+          className='flex items-start justify-between cursor-grab'
           style={{ touchAction: 'none' }} // This area should be draggable
         >
-          <h2 className='text-white text-lg capitalize font-semibold flex-1 pb-3 cursor-move'>
+          <h2 className='text-white text-lg capitalize font-semibold flex-1 pb-3'>
             {activeComponent} Options
           </h2>
           <button

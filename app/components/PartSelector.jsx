@@ -39,7 +39,7 @@ function PartSelector() {
   }
 
   return (
-    <div className='fixed top-6 right-6 md:top-10 md:right-20 z-10 flex items-center gap-2 md:gap-4'>
+    <div className='fixed bottom-6 right-10 md:bottom-10 md:right-10 z-10 flex items-center gap-2 md:gap-4'>
       <Select value={selectValue} onValueChange={handleValueChange}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Select Part" className='text-white'/>

@@ -10,6 +10,7 @@ import Logo from "./components/Logo"
 import useMobile from "./hooks/useMobile"
 import PartSelector from "./components/PartSelector"
 import DraggableCard from "./components/DraggableCard"
+import BottomText from "./components/BottomText"
 
 function Main() {
   const text = useTextStore(state => state.text)
@@ -21,7 +22,8 @@ function Main() {
       <Canvas> 
         <Environment 
           background={false} 
-          files={'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/hdris/studio-small-3/studio_small_03_1k.hdr'} 
+          files={'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/hdris/studio-small-3/studio_small_03_1k.hdr'}
+          // environmentIntensity={1} 
         />
         <Scene />
       </Canvas>
@@ -29,6 +31,7 @@ function Main() {
       {!isMobile && <RotatingText visible={text} />}
       <PartSelector />
       <DraggableCard/>
+      <BottomText/>
     </div>
   )
 }
