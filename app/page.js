@@ -28,7 +28,11 @@ function Main() {
           files={'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/hdris/studio-small-3/studio_small_03_1k.hdr'}
           // environmentIntensity={1} 
         />
-        <Suspense fallback={<LoadingAnimation/>}>
+        <Suspense fallback={
+          <div className="fixed inset-0 z-[9999]">
+            <LoadingAnimation />
+          </div>
+        }>
         <Scene />
         </Suspense>
       </Canvas>
