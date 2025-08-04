@@ -14,6 +14,7 @@ import BottomText from "./components/BottomText"
 import { Suspense, useState, useEffect } from "react"
 import LoadingAnimation from "./components/LoadingAnimation"
 import { useAnimationStore } from "./utils/AnimationStore"
+import ToolTip from "./components/ToolTip"
 
 function LoadingProgress({ onLoaded }) {
   const { progress } = useProgress()
@@ -58,7 +59,7 @@ function Main() {
         {!isMobile && <RotatingText visible={text} />}
         <PartSelector />
         <DraggableCard/>
-        <BottomText/>
+        <ToolTip/>
       </div>
     </div>
   )
