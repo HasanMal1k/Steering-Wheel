@@ -170,9 +170,12 @@ function DraggableCard() {
           className='flex items-start justify-between cursor-grab'
           style={{ touchAction: 'none' }} // This area should be draggable
         >
-          <h2 className='text-white text-lg capitalize font-semibold flex-1 pb-3'>
-            {activeComponent} Options
-          </h2>
+          <div className='flex-1 pb-3'>
+            <h2 className='text-white text-lg capitalize font-semibold'>
+              {activeComponent} Options
+            </h2>
+            <p className='text-gray-500 text-xs'>Drag to move this card</p>
+          </div>
           <button
             onClick={(e) => {
               e.stopPropagation()

@@ -61,14 +61,18 @@ function LoadingAnimation() {
     console.log('loading', loadingComplete)
 
     return (
-        <div className='bg-black z-[1000] h-screen w-full absolute top-0 left-0 flex items-center justify-center overflow-hidden'>
-            <div className='text-[#f6f6f6] text-5xl text-center font-bold relative overflow-hidden whitespace-nowrap uppercase cursor-pointer'>
-                <div className='overflow-clip'>
-                    <p ref={textRef1} style={{fontFamily: 'var(--font-geist-sans)'}} className='font-medium'>Triple Seven</p>
-                    <p ref={textRef2} style={{fontFamily: 'var(--font-geist-sans)'}} className='font-medium hidden'>Wheel Configurator</p>
-                </div>
+        <div className='bg-black z-[1000] h-screen w-full absolute top-0 left-0 flex items-center justify-center overflow-hidden px-4'>
+        <div className='text-[#f6f6f6] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-center font-bold relative overflow-hidden whitespace-nowrap uppercase cursor-pointer max-w-full'>
+            <div className='overflow-clip'>
+                <p ref={textRef1} style={{fontFamily: 'var(--font-geist-sans)'}} className='font-medium'>
+                    Triple Seven
+                </p>
+                <p ref={textRef2} style={{fontFamily: 'var(--font-geist-sans)'}} className='font-medium hidden'>
+                    Wheel Configurator
+                </p>
             </div>
         </div>
+    </div>
     )
 }
 
