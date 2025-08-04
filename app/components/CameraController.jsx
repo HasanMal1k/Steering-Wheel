@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { useThree } from '@react-three/fiber'
-import { useConfigurationStore } from '../ConfigurationStore'
+import { useConfigurationStore } from '../utils/ConfigurationStore'
 import gsap from 'gsap'
 
 function CameraController() {

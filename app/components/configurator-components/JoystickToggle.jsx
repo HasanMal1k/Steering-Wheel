@@ -1,6 +1,6 @@
 import React from 'react'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group' 
-import { joystickColor } from '@/app/ConfigurationStore'
+import { joystickColor } from '@/app/utils/ConfigurationStore'
 
 function JoystickToggle() {
     const colors = Object.values(joystickColor)

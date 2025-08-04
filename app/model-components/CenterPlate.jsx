@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import * as THREE from 'three'
-import { useTextStore } from '../TextStore'
+import { useTextStore } from '../utils/TextStore'
 
 function CenterPlate({ geometry, material, position, rotation }) {
   const centerPlateRef = useRef()

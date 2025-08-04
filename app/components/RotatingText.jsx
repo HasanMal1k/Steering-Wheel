@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import './CircularText.css'
-import { useTextStore } from '../TextStore'
+import { useTextStore } from '../utils/TextStore'
 
 function RotatingText() {
   const textRef = useRef(null)

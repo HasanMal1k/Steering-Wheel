@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
-import { useTextStore } from '../TextStore'
-import { useConfigurationStore } from '../ConfigurationStore'
+import { useTextStore } from '../utils/TextStore'
+import { useConfigurationStore } from '../utils/ConfigurationStore'
 import gsap from 'gsap'
 
 function Rotary({ geometry, material, position }) {

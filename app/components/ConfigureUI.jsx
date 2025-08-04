@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useConfigurationStore, joystickColor, rotaryColor } from '../ConfigurationStore'
+import { useConfigurationStore, joystickColor, rotaryColor } from '../utils/ConfigurationStore'
 import JoystickToggle from './configurator-components/JoystickToggle'
 
 function ConfigureUI() {

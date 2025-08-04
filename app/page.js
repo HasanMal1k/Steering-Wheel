@@ -4,7 +4,7 @@ import { Canvas } from "@react-three/fiber"
 import { Environment, useProgress } from "@react-three/drei"
 import Scene from "./components/Scene"
 import RotatingText from "./components/RotatingText"
-import { useTextStore } from "./TextStore"
+import { useTextStore } from "./utils/TextStore"
 import ConfigureUI from "./components/ConfigureUI"
 import Logo from "./components/Logo"
 import useMobile from "./hooks/useMobile"
@@ -13,17 +13,18 @@ import DraggableCard from "./components/DraggableCard"
 import BottomText from "./components/BottomText"
 import { Suspense, useState, useEffect } from "react"
 import LoadingAnimation from "./components/LoadingAnimation"
+import { useAnimationStore } from "./utils/AnimationStore"
 
 function LoadingProgress({ onLoaded }) {
   const { progress } = useProgress()
-  
+  const loadingComplete = useAnimationStore(state => state.loadingComplete)
+
+
   useEffect(() => {
-    if (progress === 100) {
-      setTimeout(() => {
-        onLoaded()
-      }, 500)
+  if (loadingComplete) {
+      onLoaded() 
     }
-  }, [progress, onLoaded])
+}, [loadingComplete])
 
   return null 
 }

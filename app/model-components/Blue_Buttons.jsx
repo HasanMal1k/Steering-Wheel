@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { useConfigurationStore } from "../ConfigurationStore"
+import { useConfigurationStore } from "../utils/ConfigurationStore"
 
 function Blue_Buttons({
     geometry_1, material_1, position_1,

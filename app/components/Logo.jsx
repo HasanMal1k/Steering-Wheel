@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import gsap from 'gsap'
-import { useConfigurationStore } from '../ConfigurationStore'
+import { useConfigurationStore } from '../utils/ConfigurationStore'
 
 function Logo() {
     const { activeComponent } = useConfigurationStore()

@@ -1,15 +1,15 @@
 import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import SplitText from 'gsap/SplitText'
-import { useConfigurationStore } from '../ConfigurationStore'
+import { useAnimationStore } from '../utils/AnimationStore'
 
 gsap.registerPlugin(SplitText)
 
 function LoadingAnimation() {
     const textRef1 = useRef(null)
     const textRef2 = useRef(null)
-    const loadingComplete = useConfigurationStore( state => state.loadingComplete )
-    const handleLoadingComplete = useConfigurationStore( state => state.handleLoadingComplete )
+    const loadingComplete = useAnimationStore( state => state.loadingComplete )
+    const handleLoadingComplete = useAnimationStore( state => state.handleLoadingComplete )
 
     useEffect(() => {
         const split1 = new SplitText(textRef1.current, {
@@ -53,6 +53,8 @@ function LoadingAnimation() {
                     ease: "power2.out"
                 }
             )
+            .to({}, {duration: 1.5})
+            .call(() => handleLoadingComplete(true))
                 
     }, [])
 
