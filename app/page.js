@@ -15,6 +15,7 @@ import { Suspense, useState, useEffect } from "react"
 import LoadingAnimation from "./components/LoadingAnimation"
 import { useAnimationStore } from "./utils/AnimationStore"
 import ToolTip from "./components/ToolTip"
+import CartButton from "./components/CartButton"
 
 function LoadingProgress({ onLoaded }) {
   const { progress } = useProgress()
@@ -57,9 +58,12 @@ function Main() {
         </Canvas>
 
         {!isMobile && <RotatingText visible={text} />}
+
+        <CartButton />
         <PartSelector />
         <DraggableCard/>
         <ToolTip/>
+
       </div>
     </div>
   )
