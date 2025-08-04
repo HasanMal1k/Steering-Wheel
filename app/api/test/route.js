@@ -10,8 +10,40 @@ const query = `
   }
 `;
 
+const query1 = `
+   {
+  nodes(ids: [
+    "gid://shopify/Product/7857253843083",
+    "gid://shopify/Product/7857252597899",
+    "gid://shopify/Product/7857247191179",
+    "gid://shopify/Product/7820462096523",
+    "gid://shopify/Product/7820462096523"
+  ]) {
+    ... on Product {
+      id
+      title
+      status
+      totalInventory
+      productType
+      variants(first: 100) {
+        edges {
+          node {
+            id
+            title
+            inventoryQuantity
+            sku
+          }
+        }
+      }
+    }
+  }
+}
+
+
+`
+
    try{
-      const data = await shopifyAdminQuery(query);
+      const data = await shopifyAdminQuery(query1);
 
       console.log(data)
       return NextResponse.json({

@@ -14,13 +14,11 @@ import BottomText from "./components/BottomText"
 import { Suspense, useState, useEffect } from "react"
 import LoadingAnimation from "./components/LoadingAnimation"
 
-// Loading progress component that goes inside Canvas
 function LoadingProgress({ onLoaded }) {
   const { progress } = useProgress()
   
   useEffect(() => {
     if (progress === 100) {
-      // Small delay to ensure everything is rendered
       setTimeout(() => {
         onLoaded()
       }, 500)
@@ -41,10 +39,8 @@ function Main() {
 
   return ( 
     <div className="h-screen w-full bg-black overflow-hidden relative">
-      {/* Loading Animation - outside Canvas */}
       {!isLoaded && <LoadingAnimation />}
       
-      {/* Main content */}
       <div className={`h-full w-full transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <Logo/>
         <Canvas> 
