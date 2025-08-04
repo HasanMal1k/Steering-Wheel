@@ -55,3 +55,10 @@ export const useConfigurationStore = create((set) => ({
         activeComponent: null
     })
 }))
+
+// Adding a loading variable so they can see the complete laoding:
+const loadingComplete = false
+
+// const handleLoadingComplete = (value) => {
+//   loadingComplete = value
+// }

@@ -1,12 +1,15 @@
 import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import SplitText from 'gsap/SplitText'
+import { useConfigurationStore } from '../ConfigurationStore'
 
 gsap.registerPlugin(SplitText)
 
 function LoadingAnimation() {
     const textRef1 = useRef(null)
     const textRef2 = useRef(null)
+    const loadingComplete = useConfigurationStore( state => state.loadingComplete )
+    const handleLoadingComplete = useConfigurationStore( state => state.handleLoadingComplete )
 
     useEffect(() => {
         const split1 = new SplitText(textRef1.current, {
@@ -52,6 +55,8 @@ function LoadingAnimation() {
             )
                 
     }, [])
+
+    console.log('loading', loadingComplete)
 
     return (
         <div className='bg-black z-[1000] h-screen w-full absolute top-0 left-0 flex items-center justify-center overflow-hidden'>
