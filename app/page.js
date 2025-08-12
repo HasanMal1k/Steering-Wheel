@@ -35,7 +35,7 @@ function Main() {
     <div className="h-screen w-full bg-black overflow-hidden relative">
       {!isLoaded && <LoadingAnimation progressValue={ progress }/>}
       
-      <div className={`h-full w-full transition-opacity duration-1000 opacity-100`}>
+      <div className={`h-full w-full transition-opacity duration-1000 ${isLoaded ? `opacity-100` : `opacity-0`}`}>
         <Logo/>
         <Canvas> 
           <Environment 

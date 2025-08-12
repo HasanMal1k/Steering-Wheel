@@ -18,7 +18,7 @@ function LoadingAnimation({ progressValue }) {
         <div className='bg-black z-[1000] h-screen w-full absolute top-0 left-0 flex items-center justify-center overflow-hidden px-4'>
 
             {/* Our Logo */}
-            <div className='flex items-center justify-center flex-col gap-14'>
+            <div className='flex items-center justify-center flex-col gap-10'>
                 <div className='flex items-center justify-center gap-5'>
                     <Link href="https://tripleseven-na.com/" target="_blank" rel="noopener noreferrer">
                     <Image 
@@ -40,8 +40,8 @@ function LoadingAnimation({ progressValue }) {
                     </h1>
                 </div>
                 <div className='flex items-center justify-center flex-col w-full gap-2'>
-                    <Progress value={progressValue} className={'max-w-52'}/>
-                    <h1 className='pt-3' style={{fontFamily: 'var(--font-geist-sans)'}}>{`${Math.round(progressValue)}`}</h1>
+                    <Progress value={progressValue} className={'max-w-64'}/>
+                    {/* <h1 className='pt-1 font-light text-lg tracking-wide' style={{fontFamily: 'var(--font-geist-sans)'}}>{`${Math.round(progressValue)}`}</h1> */}
                 </div>
             </div>
 
