@@ -39,8 +39,10 @@ function LoadingAnimation({ progressValue }) {
                         <span className="sm:hidden">Configurator</span>
                     </h1>
                 </div>
-                <Progress value={progressValue} className={'max-w-2'}/>
-                <h1>{`${progressValue}`}</h1>
+                <div className='flex items-center justify-center flex-col w-full gap-2'>
+                    <Progress value={progressValue} className={'max-w-52'}/>
+                    <h1 className='pt-3' style={{fontFamily: 'var(--font-geist-sans)'}}>{`${Math.round(progressValue)}`}</h1>
+                </div>
             </div>
 
             {/* Loading bar */}
