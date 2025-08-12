@@ -21,7 +21,7 @@ import Red_Buttons from './Red_Buttons'
 import Green_Buttons from './Green_Buttons'
 
 export function Wheel(props) {
-  const { nodes, materials } = useGLTF('/Models/Wheel.glb')
+  const { nodes, materials } = useGLTF('/Models/Hub.glb')
   const [wheelHover, setWheelHover] = useState(null)
   const [wheelClicked, setWheelClicked] = useState(false)
   const activeComponent = useConfigurationStore(state => state.activeComponent)
@@ -248,4 +248,4 @@ export function Wheel(props) {
   )
 }
 
-useGLTF.preload('/Models/Wheel.glb')
+useGLTF.preload('/Models/Hub.glb')

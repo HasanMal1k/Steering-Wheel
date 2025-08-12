@@ -1,78 +1,52 @@
 import React, { useRef, useEffect } from 'react'
-import gsap from 'gsap'
-import SplitText from 'gsap/SplitText'
+import { Progress } from './ui/progress'
 import { useAnimationStore } from '../utils/AnimationStore'
+import Link from 'next/link'
+import Image from 'next/image'
 
-gsap.registerPlugin(SplitText)
-
-function LoadingAnimation() {
-    const textRef1 = useRef(null)
-    const textRef2 = useRef(null)
+function LoadingAnimation({ progressValue }) {
     const loadingComplete = useAnimationStore( state => state.loadingComplete )
     const handleLoadingComplete = useAnimationStore( state => state.handleLoadingComplete )
 
     useEffect(() => {
-        const split1 = new SplitText(textRef1.current, {
-            type: 'words, chars'
-        });
-        
-        const split2 = new SplitText(textRef2.current, {
-            type: 'words, chars'
-        })
-        
-        const totalAnimation = gsap.timeline({
-            delay: 3
-        })
-        
-        totalAnimation
-            .to(split1.chars, {
-                y: -100,
-                autoAlpha: 0,
-                stagger: {
-                    amount: 0.5,
-                    from: 'start',
-                },
-                duration: 1,
-                ease: "power2.out"
-            })
-            .to({}, { duration: 0.3 })
-            .set(textRef2.current,   { display: 'block' })
-            .fromTo(split2.chars, 
-                {
-                    y: 100,
-                    autoAlpha: 0
-                }, 
-                {
-                    y: 0,
-                    autoAlpha: 1,
-                    stagger: {
-                        amount: 0.3,
-                        from: 'end',
-                    },
-                    duration: 0.8,
-                    ease: "power2.out"
-                }
-            )
-            .to({}, {duration: 1.5})
-            .call(() => handleLoadingComplete(true))
-                
-    }, [])
-
-    console.log('loading', loadingComplete)
+        if(progressValue == 100){
+            handleLoadingComplete(true)
+        }
+    }, [progressValue])
 
     return (
         <div className='bg-black z-[1000] h-screen w-full absolute top-0 left-0 flex items-center justify-center overflow-hidden px-4'>
-        <div className='text-[#f6f6f6] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-center font-bold relative overflow-hidden whitespace-nowrap uppercase cursor-pointer max-w-full'>
-            <div className='overflow-clip'>
-                <p ref={textRef1} style={{fontFamily: 'var(--font-geist-sans)'}} className='font-medium'>
-                    Triple Seven
-                </p>
-                <p ref={textRef2} style={{fontFamily: 'var(--font-geist-sans)'}} className='font-medium hidden'>
-                    Wheel Configurator
-                </p>
+
+            {/* Our Logo */}
+            <div className='flex items-center justify-center flex-col gap-14'>
+                <div className='flex items-center justify-center gap-5'>
+                    <Link href="https://tripleseven-na.com/" target="_blank" rel="noopener noreferrer">
+                    <Image 
+                    src="/images/logo.png" 
+                    width={150} 
+                    height={140} 
+                    alt="777 Performance" 
+                    priority 
+                    className="w-20 h-auto sm:w-24 md:w-32 lg:w-[150px]"
+                    />
+                    </Link>
+                
+                    <div className="w-px h-8 sm:h-12 md:h-16 bg-[#f6f6f6]"></div>
+                
+                    <h1 className='text-[#f6f6f6] text-sm sm:text-lg md:text-2xl font-light font-sans tracking-wide'
+                        style={{fontFamily: 'var(--font-geist-sans)'}}>
+                        <span className="hidden sm:inline">Wheel Configurator</span>
+                        <span className="sm:hidden">Configurator</span>
+                    </h1>
+                </div>
+                <Progress value={progressValue} className={'max-w-2'}/>
+                <h1>{`${progressValue}`}</h1>
             </div>
+
+            {/* Loading bar */}
+            
+
         </div>
-    </div>
     )
 }
 

@@ -5,46 +5,37 @@ import { Environment, useProgress } from "@react-three/drei"
 import Scene from "./components/Scene"
 import RotatingText from "./components/RotatingText"
 import { useTextStore } from "./utils/TextStore"
-import ConfigureUI from "./components/ConfigureUI"
 import Logo from "./components/Logo"
 import useMobile from "./hooks/useMobile"
 import PartSelector from "./components/PartSelector"
 import DraggableCard from "./components/DraggableCard"
-import BottomText from "./components/BottomText"
 import { Suspense, useState, useEffect } from "react"
 import LoadingAnimation from "./components/LoadingAnimation"
-import { useAnimationStore } from "./utils/AnimationStore"
 import ToolTip from "./components/ToolTip"
 import CartButton from "./components/CartButton"
-
-function LoadingProgress({ onLoaded }) {
-  const { progress } = useProgress()
-  const loadingComplete = useAnimationStore(state => state.loadingComplete)
-
-
-  useEffect(() => {
-  if (loadingComplete) {
-      onLoaded() 
-    }
-}, [loadingComplete])
-
-  return null 
-}
 
 function Main() {
   const text = useTextStore(state => state.text)
   const isMobile = useMobile()
   const [isLoaded, setIsLoaded] = useState(false)
 
-  const handleLoaded = () => {
-    setIsLoaded(true)
-  }
+  // const handleLoaded = () => {
+  //   setIsLoaded(true)
+  // }
+
+  const { progress } = useProgress()
+
+  useEffect(() => {
+    if(progress >= 100){
+      setIsLoaded(true)
+    }
+  }, [progress])
 
   return ( 
     <div className="h-screen w-full bg-black overflow-hidden relative">
-      {!isLoaded && <LoadingAnimation />}
+      {!isLoaded && <LoadingAnimation progressValue={ progress }/>}
       
-      <div className={`h-full w-full transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`h-full w-full transition-opacity duration-1000 opacity-100`}>
         <Logo/>
         <Canvas> 
           <Environment 
@@ -53,13 +44,12 @@ function Main() {
           />
           <Suspense fallback={null}>
             <Scene />
-            <LoadingProgress onLoaded={handleLoaded} />
           </Suspense>
         </Canvas>
 
         {!isMobile && <RotatingText visible={text} />}
 
-        <CartButton />
+        <CartButton  />
         <PartSelector />
         <DraggableCard/>
         <ToolTip/>
