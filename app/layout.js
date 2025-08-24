@@ -30,7 +30,8 @@ export default function RootLayout({ children }) {
             enableSystem
             disableTransitionOnChange
           >
-        <GQLProvider>{children}</GQLProvider>
+        {/* <GQLProvider client>{children}</GQLProvider> */}
+        {children}
         </ThemeProvider>
       </body>
     </html>

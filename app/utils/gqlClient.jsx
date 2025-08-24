@@ -1,37 +1,32 @@
-'use client'
+// 'use client'
+// import { useMemo } from 'react'
+// import { cacheExchange, Client, fetchExchange, Provider, ssrExchange } from 'urql'
 
-import { useMemo } from 'react'
-import { cacheExchange, createClient, fetchExchange, Provider, ssrExchange } from 'urql'
+// const GQLProvider = ({ children }) => {
+//   const [client, ssr] = useMemo(() => {
+//     const ssr = ssrExchange({
+//       isClient: typeof window !== 'undefined'
+//     })
 
-const GQLProvider = ({ children }) => {
+//     const client = new Client({
+//       url: '/api/shopify/graphql', 
+//       exchanges: [cacheExchange({}), ssr, fetchExchange],
+//       fetchOptions: {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         }
+//       }
+//     })
 
-    const url = process.env.SHOPIFY_ADMIN_API_URL
+//     return [client, ssr]
+//   }, [])
 
-    const [client, ssr] = useMemo(() => {
-        const ssr = ssrExchange({
-            isClient: typeof window !== 'undefined'
-        }) 
+//   return (
+//     <Provider value={client}>
+//       {children}
+//     </Provider>
+//   )
+// }
 
-        const client = createClient( {
-            url,
-            exchanges: [cacheExchange({}), ssr, fetchExchange],
-            fetchOptions: () => ({
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_API_TOKEN,
-                }
-            })
-        } )
-
-        return [client, ssr]
-
-    }, [url])
-
-    return (
-        <Provider client ={client} ssr={ssr}>
-            {children}
-        </Provider>
-    )
-}
-
-export default GQLProvider
+// export default GQLProvider
