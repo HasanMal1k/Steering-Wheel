@@ -13,6 +13,8 @@ import { Suspense, useState, useEffect } from "react"
 import LoadingAnimation from "./components/LoadingAnimation"
 import ToolTip from "./components/configurator-components/ToolTip"
 import CartButton from "./components/configurator-components/CartButton"
+import OptionsButton from "./components/configurator-components/OptionsButton"
+import TopOptions from "./components/configurator-components/TopOptions"
 
 function Main() {
   const text = useTextStore(state => state.text)
@@ -49,7 +51,9 @@ function Main() {
 
         {!isMobile && <RotatingText visible={text} />}
 
-        <CartButton  />
+        {/* <CartButton  />
+        <OptionsButton /> */}
+        <TopOptions />
         <PartSelector />
         <DraggableCard/>
         <ToolTip/>
