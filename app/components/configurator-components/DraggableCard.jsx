@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from 'react'
-import { Card } from './ui/card'
+import { Card } from '../ui/card'
 import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
 import gsap from 'gsap'
-import { useConfigurationStore, joystickColor, rotaryColor } from '../utils/ConfigurationStore'
+import { useConfigurationStore, joystickColor, rotaryColor } from '../../utils/ConfigurationStore'
 import { X } from 'lucide-react'
 
 gsap.registerPlugin(Draggable, InertiaPlugin)

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Triple Seven",
-  description: "3D Wheel Configurator",
+  title: "Triple Seven - Custom Wheel Configurator",
+  description: "Build Your Own Custom Wheels in 3D – Interactive Wheel Configurator Tool",
 };
 
 export default function RootLayout({ children }) {

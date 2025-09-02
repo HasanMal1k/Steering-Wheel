@@ -7,8 +7,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./ui/select"
-import { useConfigurationStore } from '../utils/ConfigurationStore'
+} from "../ui/select"
+import { useConfigurationStore } from '../../utils/ConfigurationStore'
 
 function PartSelector() {
   const activeComponent = useConfigurationStore(state => state.activeComponent)

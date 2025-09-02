@@ -7,12 +7,12 @@ import RotatingText from "./components/RotatingText"
 import { useTextStore } from "./utils/TextStore"
 import Logo from "./components/Logo"
 import useMobile from "./hooks/useMobile"
-import PartSelector from "./components/PartSelector"
-import DraggableCard from "./components/DraggableCard"
+import PartSelector from "./components/configurator-components/PartSelector.jsx"
+import DraggableCard from "./components/configurator-components/DraggableCard"
 import { Suspense, useState, useEffect } from "react"
 import LoadingAnimation from "./components/LoadingAnimation"
-import ToolTip from "./components/ToolTip"
-import CartButton from "./components/CartButton"
+import ToolTip from "./components/configurator-components/ToolTip"
+import CartButton from "./components/configurator-components/CartButton"
 
 function Main() {
   const text = useTextStore(state => state.text)
