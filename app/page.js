@@ -56,7 +56,7 @@ function Main() {
         <TopOptions />
         <PartSelector />
         <DraggableCard/>
-        <ToolTip/>
+        {/* <ToolTip/> */}
 
       </div>
     </div>

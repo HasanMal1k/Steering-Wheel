@@ -18,7 +18,7 @@ function Scene() {
     <>
       <OrbitControls 
         ref={controlsRef}
-        enablePan={true}
+        enablePan={false}
         enableZoom={true}
         enableRotate={true}
         minDistance={2}
