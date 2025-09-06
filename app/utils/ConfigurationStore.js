@@ -38,7 +38,10 @@ const components = [
 export const useConfigurationStore = create((set) => ({
     // Active Component
     activeComponent: null,
+    cartCard: false,
     setActiveComponent: (component) => set({activeComponent: component}),
+    disableCardComponent: () => set({cartCard: false}),
+    enableCartComponent: () => set({cartCard: true}),
 
     // Setting colors based on arrays - using proper initial values
     selectedJoystickColor: joystickColor['gray'],
