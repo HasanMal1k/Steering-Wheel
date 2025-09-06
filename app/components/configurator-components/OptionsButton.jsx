@@ -25,17 +25,28 @@ function OptionsButton() {
     // Trigger download
     const link = document.createElement("a");
     link.href = dataURL;
-    link.download = `screenshot-${Date.now()}.png`;
+    link.download = `My Configuration.png`;
     link.click();
   };
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center justify-center gap-1 sm:gap-2 border-1 border-gray-50/70 px-3 sm:px-4 py-2 rounded-md hover:cursor-pointer hover:bg-yellow-600" style={{ fontFamily: 'var(--font-geist-sans)' }}>
-        <span className="flex items-center justify-center gap-1 sm:gap-2">
-          <span><Settings strokeWidth={1.5} className="w-4 h-4 sm:w-5 sm:h-5" /></span>
-          <span className="text-xs sm:text-sm uppercase hidden xs:inline sm:inline">{' ' + 'Options'}</span>
-        </span>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex items-center justify-center gap-1 sm:gap-2 
+                     border border-white/30 
+                     bg-white/10 backdrop-blur-sm 
+                     px-3 sm:px-4 py-2 rounded-md 
+                     hover:bg-yellow-600/80 
+                     text-white transition-colors
+                     h-9 sm:h-10"
+          style={{ fontFamily: 'var(--font-geist-sans)' }}
+        >
+          <Settings strokeWidth={1.5} className="w-[18px] h-[18px] sm:w-5 sm:h-5" />
+          <span className="text-xs sm:text-sm uppercase hidden xs:inline sm:inline">
+            {' ' + 'Options'}
+          </span>
+        </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-48 sm:w-56">

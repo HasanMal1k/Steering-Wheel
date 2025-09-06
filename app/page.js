@@ -15,6 +15,7 @@ import ToolTip from "./components/configurator-components/ToolTip"
 import CartButton from "./components/configurator-components/CartButton"
 import OptionsButton from "./components/configurator-components/OptionsButton"
 import TopOptions from "./components/configurator-components/TopOptions"
+import { CartCard } from "./components/configurator-components/CartCard"
 
 function Main() {
   const text = useTextStore(state => state.text)
@@ -56,6 +57,7 @@ function Main() {
         <TopOptions />
         <PartSelector />
         <DraggableCard/>
+        <CartCard />
         {/* <ToolTip/> */}
 
       </div>

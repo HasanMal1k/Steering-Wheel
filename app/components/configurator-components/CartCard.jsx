@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button"
+import { useConfigurationStore } from "@/app/utils/ConfigurationStore"
+import { Button } from "../ui/button"
 import {
   Card,
   CardAction,
@@ -7,59 +8,36 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "../ui/card"
+import { XIcon } from "lucide-react"
 
-export function CardDemo() {
+export function CartCard() {
+  const { cartCard, disableCardComponent, enableComponent } = useConfigurationStore()
   return (
-    <div className="h-full max-w-full z-[1000] backdrop-blur-md">
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
-        <CardAction>
-          <Button variant="link">Sign Up</Button>
-        </CardAction>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <a
-                  href="#"
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                >
-                  Forgot your password?
-                </a>
-              </div>
-              <Input id="password" type="password" required />
-            </div>
-          </div>
-        </form>
-      </CardContent>
-      <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full">
-          Login
-        </Button>
-        <Button variant="outline" className="w-full">
-          Login with Google
-        </Button>
-      </CardFooter>
-    </Card>
-    </div>
+    <>
+      {cartCard && (
+        <div className="h-full max-w-full z-[10000] backdrop-blur-md fixed inset-0 flex items-center justify-center">
+          <Card className="w-full max-w-sm">
+            <CardHeader>
+              <CardTitle>Your Configuration Items</CardTitle>
+              {/* <CardDescription>
+                Enter your email below to login to your account
+              </CardDescription> */}
+              <CardAction>
+                <Button onClick={disableCardComponent}><XIcon /></Button>
+              </CardAction>
+            </CardHeader>
+            <CardContent>
+                <p>... All Configuration Items</p>
+            </CardContent>
+            <CardFooter className="flex-col gap-2">
+              <Button type="submit" className="w-full">
+                Confirm Configuration
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
+      )}
+    </>
   )
 }
