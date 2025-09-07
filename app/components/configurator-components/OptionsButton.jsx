@@ -39,7 +39,7 @@ function OptionsButton() {
                      px-3 sm:px-4 py-2 rounded-md 
                      hover:bg-yellow-600/80 
                      text-white transition-colors
-                     h-9 sm:h-10"
+                     h-9 sm:h-10 hover:cursor-pointer"
           style={{ fontFamily: 'var(--font-geist-sans)' }}
         >
           <Settings strokeWidth={1.5} className="w-[18px] h-[18px] sm:w-5 sm:h-5" />

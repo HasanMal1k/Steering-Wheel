@@ -23,7 +23,7 @@ function CartButton() {
                 px-3 sm:px-4 py-2 rounded-md 
                 hover:bg-green-600/80 
                 text-white transition-colors
-                h-9 sm:h-10"
+                h-9 sm:h-10 hover:cursor-pointer"
       style={{ fontFamily: 'var(--font-geist-sans)' }}
       onClick={handleClick}
     >
