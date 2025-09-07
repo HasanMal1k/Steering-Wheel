@@ -15,7 +15,7 @@ function JoystickToggle() {
         array.push(row)
     }
 
-    console.log(array)
+    // console.log(array)
 
     return (
         <div className='flex items-center flex-col gap-3'>

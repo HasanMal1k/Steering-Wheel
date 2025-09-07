@@ -11,7 +11,7 @@ function CartButton() {
   const { enableCartComponent, cartCard } = useConfigurationStore()
 
   const handleClick = () => {
-    console.log('button clicked', cartCard)
+    // console.log('button clicked', cartCard)
     enableCartComponent()
   }
 

@@ -127,7 +127,7 @@ function Rotary({ geometry, material, position }) {
       rotaryRef.current.userData = { type: 'rotary' }
     }
     setActiveComponent('rotary')
-    console.log('Rotary Selected')
+    // console.log('Rotary Selected')
   }
 
   return (

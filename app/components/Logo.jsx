@@ -7,7 +7,7 @@ import { useConfigurationStore } from '../utils/ConfigurationStore'
 function Logo() {
     const { activeComponent } = useConfigurationStore()
     const logoRef = useRef(null)
-    console.log('logo', activeComponent)
+    // console.log('logo', activeComponent)
 
     // Animations so that when component is active, the logo fades away
     useEffect(() => {

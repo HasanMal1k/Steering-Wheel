@@ -45,7 +45,7 @@ const query1 = `
    try{
       const data = await shopifyAdminQuery(query1);
 
-      console.log(data)
+      // console.log(data)
       return NextResponse.json({
          success: true,
          data: data

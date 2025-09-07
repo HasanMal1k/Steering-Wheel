@@ -112,7 +112,7 @@ function Joysticks({ geometry, material, position }) {
       joysticksRef.current.userData = { type: 'joysticks' }
     }
     setActiveComponent('joysticks')
-    console.log('Joysticks Selected')
+    // console.log('Joysticks Selected')
   }
 
   return (

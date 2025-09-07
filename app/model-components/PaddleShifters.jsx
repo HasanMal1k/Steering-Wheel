@@ -100,7 +100,7 @@ function PaddleShifters({ geometry, material, position }) {
       paddlesRef.current.userData = { type: 'paddles' }
     }
     setActiveComponent('paddles')
-    console.log('Paddle Shifters Selected')
+    // console.log('Paddle Shifters Selected')
   }
 
   return (

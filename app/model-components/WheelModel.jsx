@@ -19,6 +19,7 @@ import Purple_Button from './Purple_Button'
 import White_Button from './White_Button'
 import Red_Buttons from './Red_Buttons'
 import Green_Buttons from './Green_Buttons'
+import { Toyota } from './logos/Toyota'
 
 export function Wheel(props) {
   const { nodes, materials } = useGLTF('/Models/Hub.glb')
@@ -28,10 +29,10 @@ export function Wheel(props) {
   const wheelGroupRef = useRef()
   const  scale  = useResponsiveScale()
   
-  console.log(activeComponent)
+  // console.log(activeComponent)
 
   useEffect(() => {
-    console.log(wheelGroupRef.current.rotation)
+    // console.log(wheelGroupRef.current.rotation)
   }, [wheelGroupRef])
 
   // Handle wheel rotation when paddles are selected
@@ -245,6 +246,7 @@ export function Wheel(props) {
         rotation={[0, -1.55, 0]}  
       />
      
+     <Toyota />
 
     </group>
   )
