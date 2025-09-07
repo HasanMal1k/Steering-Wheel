@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-import { Settings, Camera, Info } from "lucide-react";
+import { Settings, Camera, Info, Phone } from "lucide-react";
 import { useScreenshotStore } from "../../utils/ScreenshotStore";
 
 function OptionsButton() {
@@ -55,6 +55,11 @@ function OptionsButton() {
         </DropdownMenuItem>
         <DropdownMenuItem className="hover:cursor-pointer">
           <span className="mr-2"><Info /></span> How To Use
+        </DropdownMenuItem>
+        <DropdownMenuItem className="hover:cursor-pointer">
+          <a href="https://tripleseven-na.com/pages/contact" target="_blank" rel="noopener noreferrer" className="flex gap-2">
+            <span className="mr-2 inline"><Phone /></span> Contact Us
+          </a>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
