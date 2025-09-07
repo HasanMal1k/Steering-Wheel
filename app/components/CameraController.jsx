@@ -27,6 +27,11 @@ function CameraController() {
       target: [0, 0.5, 0],
       fov: 55
     },
+    hub: {
+      position: [0, 0, 3],
+      target: [0, 0, 0],
+      fov: 45
+    },
     default: {
       position: [0, 0, 5],
       target: [0, 0, 0],

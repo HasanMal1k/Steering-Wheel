@@ -30,18 +30,16 @@ function Scene() {
       />
       <CameraController />
       <ambientLight intensity={0.4} />
-      <directionalLight 
+      {/* <directionalLight 
         position={[10, 10, 5]} 
         intensity={1} 
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
-      />
-      <pointLight position={[-10, -10, -10]} intensity={0.3} />
+      /> */}
+      {/* <pointLight position={[-10, -10, -10]} intensity={0.3} /> */}
       
       <Wheel scale={[0.018 * scale, 0.018 * scale, 0.018 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]}/>
-
-      
 
     </>
   )
