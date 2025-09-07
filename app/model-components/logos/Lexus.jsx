@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Model(props) {
+export function Lexus(props) {
   const { nodes, materials } = useGLTF('/car-logos/Lexus.glb')
   return (
     <group {...props} dispose={null}>

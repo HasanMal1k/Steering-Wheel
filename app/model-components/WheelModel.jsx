@@ -244,6 +244,8 @@ export function Wheel(props) {
         position={[0.618, 6.065, -4.153]}
         rotation={[0, -1.55, 0]}  
       />
+     
+
     </group>
   )
 }
