@@ -19,24 +19,7 @@ import Purple_Button from './Purple_Button'
 import White_Button from './White_Button'
 import Red_Buttons from './Red_Buttons'
 import Green_Buttons from './Green_Buttons'
-import { Toyota } from './logos/Toyota'
-import { Volkswagen } from './logos/Volkswagen'
-import { Nissan } from './logos/Nissan'
-import { Acura } from './logos/Acura'
-import { Audi } from './logos/Audi'
-import { BMW } from './logos/BMW'
-import { Corvette } from './logos/Corvette'
-import { Ford } from './logos/Ford'
-import { Honda } from './logos/Honda'
-import { Hyundai } from './logos/Hyundai'
-import { Lamborghini } from './logos/Lamborghini'
-import { Lexus } from './logos/Lexus'
-import { Mazda } from './logos/Mazda'
-import { Mercedes } from './logos/Mercedes'
-import { Mini } from './logos/Mini'
-import { Mustang } from './logos/Mustang'
-import { Porsche } from './logos/Porsche'
-import { Subaru } from './logos/Subaru'
+import Car_Logos from './Car_Logos'
 
 export function Wheel(props) {
   const { nodes, materials } = useGLTF('/Models/Hub.glb')
@@ -384,12 +367,14 @@ export function Wheel(props) {
         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
         scale={50} /> */}
 
-        <Volkswagen 
+        {/* <Volkswagen 
         castShadow
         receiveShadow
         position={[0, 8.3, 0]} 
         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} />
+        scale={60} /> */}
+
+        <Car_Logos />
 
     </group>
   )
