@@ -9,12 +9,38 @@ import {
 } from "../ui/dropdown-menu"
 import { Settings, Camera, Info, Phone } from "lucide-react";
 import { useScreenshotStore } from "../../utils/ScreenshotStore";
+import { useConfigurationStore } from "@/app/utils/ConfigurationStore";
+import { useThree } from "@react-three/fiber";
 
 function OptionsButton() {
   const { gl, scene, camera } = useScreenshotStore();
+  const { setActiveComponent } = useConfigurationStore()
+  const { controls } = useThree()
+
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+  const moveCameraToDefaultPosition = () => {
+    if (controls?.target) {
+        tl.to(controls.target, {
+          x: 0,
+          y: 0,
+          z: 5,
+          duration: 1.2,
+          ease: "power2.inOut",
+          onUpdate: () => {
+            controls.update()
+          }
+        }, 0)
+      }
+  }
+
 
   const takeScreenshot = () => {
     if (!gl || !scene || !camera) return;
+
+    // First reset the camera position to default
+    moveCameraToDefaultPosition()
+    sleep(1500)
 
     // Render once more to ensure the frame is up to date
     gl.render(scene, camera);
