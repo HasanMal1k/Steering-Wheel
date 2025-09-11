@@ -28,6 +28,27 @@ export const rotaryColor = {
     'slate': '#64748b'
   }
 
+export const hubLogos = {
+  'acura': '/car-logos-images/acura.png',
+  'audi': '/car-logos-images/audi.png',
+  'bmw': '/car-logos-images/bmw.png',
+  'corvette': '/car-logos-images/corvette.png',
+  'ford': '/car-logos-images/ford.png',
+  'honda': '/car-logos-images/honda.png',
+  'hyundai': '/car-logos-images/hyundai.png',
+  'lamborghini': '/car-logos-images/lamborghini.png',
+  'lexus': '/car-logos-images/lexus.png',
+  'mazda': '/car-logos-images/mazda.png',
+  'mercedes': '/car-logos-images/mercedes.png',
+  'mini': '/car-logos-images/mini.png',
+  'mustang': '/car-logos-images/mustang.png',
+  'nissan': '/car-logos-images/nissan.png',
+  'porsche': '/car-logos-images/porsche.png',
+  'subaru': '/car-logos-images/subaru.png',
+  'toyota': '/car-logos-images/toyota.png',
+  'volkswagen': '/car-logos-images/volkswagen.png',
+}
+
 
 const components = [
     'paddles',
@@ -55,12 +76,16 @@ export const useConfigurationStore = create((set) => ({
     resetConfiguration: () => set({
         selectedJoystickColor: joystickColor['gray'],
         selectedRotaryColor: rotaryColor['gray'],
-        activeComponent: null
-    })
+        activeComponent: null,
+        selectedHubLogo: null
+    }),
+
+    selectedHubLogo: null,
+    setSelectedHubLogo: (logo) => set({ selectedHubLogo: logo }),
 }))
 
 // Adding a loading variable so they can see the complete laoding:
-const loadingComplete = false
+// const loadingComplete = false
 
 // const handleLoadingComplete = (value) => {
 //   loadingComplete = value

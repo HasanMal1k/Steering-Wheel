@@ -12,7 +12,10 @@ function ConfigureUI() {
     selectedRotaryColor, 
     setSelectedJoystickColor,
     setSelectedRotaryColor,
-    resetConfiguration 
+    resetConfiguration,
+    hubLogos,
+    selectedHubLogo,
+    setSelectedHubLogo
   } = useConfigurationStore()
 
   const [isVisible, setIsVisible] = useState(false)
@@ -44,6 +47,8 @@ function ConfigureUI() {
         return 'Paddle Shifters'
       case 'buttons':
         return 'Control Buttons'
+      case 'hub':
+        return 'Hub Logo'
       default:
         return 'Steering Component'
     }
@@ -187,6 +192,66 @@ function ConfigureUI() {
           </div>
         )
 
+      case 'hub':
+      return (
+        <div>
+          <h3 className="text-lg font-semibold text-white mb-3">Hub Logo</h3>
+          <p className="text-white/70 text-xs mb-4">
+            Select your preferred car brand
+          </p>
+          <div className="grid grid-cols-3 gap-3 max-h-64 overflow-y-auto">
+            {Object.entries(hubLogos).map(([brand, imagePath]) => (
+              <button
+                key={brand}
+                onClick={() => setSelectedHubLogo(brand)}
+                className={`
+                  relative p-3 rounded-lg border-2 transition-all duration-200 
+                  hover:scale-105 hover:shadow-lg bg-white/10 backdrop-blur-sm
+                  ${selectedHubLogo === brand 
+                    ? 'border-white shadow-white/50' 
+                    : 'border-white/30 hover:border-white/60'
+                  }
+                `}
+              >
+                <img 
+                  src={imagePath} 
+                  alt={brand}
+                  className="w-full h-12 object-contain filter brightness-0 invert"
+                  onError={(e) => {
+                    // Fallback if image doesn't load
+                    e.target.style.display = 'none'
+                    e.target.nextSibling.style.display = 'block'
+                  }}
+                />
+                <div className="hidden text-white text-xs capitalize mt-1 font-medium">
+                  {brand}
+                </div>
+                {selectedHubLogo === brand && (
+                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+          {selectedHubLogo && (
+            <div className="mt-4 p-3 bg-white/10 rounded-lg">
+              <p className="text-white/80 text-sm capitalize font-medium">
+                Selected: {selectedHubLogo}
+              </p>
+            </div>
+          )}
+          <button
+            onClick={() => setSelectedHubLogo(null)}
+            className="w-full mt-3 py-2 px-3 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+          >
+            Clear Selection
+          </button>
+        </div>
+      )
+
       default:
         return (
           <div className="text-center py-8">
@@ -236,14 +301,14 @@ function ConfigureUI() {
 
           {/* Footer Actions - Simplified */}
           <div className="p-6 border-t border-white/20 space-y-3">
-            {(componentType === 'joysticks' || componentType === 'rotary') && (
-              <button
-                onClick={resetConfiguration}
-                className="w-full py-3 px-4 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105"
-              >
-                Reset to Default
-              </button>
-            )}
+            {(componentType === 'joysticks' || componentType === 'rotary' || componentType === 'hub') && (
+                <button
+                  onClick={resetConfiguration}
+                  className="w-full py-3 px-4 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105"
+                >
+                  Reset to Default
+                </button>
+              )}
             <button
               onClick={closeConfigurator}
               className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg text-white font-medium transition-all duration-200 hover:scale-105 shadow-lg"

@@ -3,7 +3,7 @@ import { Card } from '../ui/card'
 import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
 import gsap from 'gsap'
-import { useConfigurationStore, joystickColor, rotaryColor } from '../../utils/ConfigurationStore'
+import { useConfigurationStore, joystickColor, rotaryColor, hubLogos } from '../../utils/ConfigurationStore'
 import { X } from 'lucide-react'
 
 gsap.registerPlugin(Draggable, InertiaPlugin)
@@ -18,6 +18,8 @@ function DraggableCard() {
   const setSelectedJoystickColor = useConfigurationStore(state => state.setSelectedJoystickColor)
   const selectedRotaryColor = useConfigurationStore(state => state.selectedRotaryColor)
   const setSelectedRotaryColor = useConfigurationStore(state => state.setSelectedRotaryColor)
+  const selectedHubLogo = useConfigurationStore(state => state.selectedHubLogo)
+  const setSelectedHubLogo = useConfigurationStore(state => state.setSelectedHubLogo)
 
   useEffect(() => {
     if (cardRef.current) {
@@ -42,7 +44,9 @@ function DraggableCard() {
           if (e.target.tagName === 'BUTTON' || 
               e.target.closest('button') || 
               e.target.classList.contains('color-circle') ||
-              e.target.closest('.color-circle')) {
+              e.target.closest('.color-circle') ||
+              e.target.classList.contains('logo-button') ||
+              e.target.closest('.logo-button')) {
             return false; // Cancel the drag
           }
         }
@@ -104,6 +108,55 @@ function DraggableCard() {
     />
   )
 
+  const LogoButton = ({ brand, imagePath, isSelected, onClick }) => (
+    <button
+      onClick={(e) => {
+        e.stopPropagation()
+        onClick()
+      }}
+      onTouchEnd={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        onClick()
+      }}
+      className={`
+        logo-button relative p-2 rounded-lg border-2 transition-all duration-200 
+        hover:scale-105 hover:shadow-lg bg-white/10 backdrop-blur-sm
+        touch-manipulation w-full aspect-square flex items-center justify-center
+        ${isSelected 
+          ? 'border-white shadow-white/50' 
+          : 'border-gray-600 hover:border-white/60'
+        }
+      `}
+      style={{ 
+        touchAction: 'manipulation',
+        WebkitTouchCallout: 'none',
+        WebkitUserSelect: 'none',
+        userSelect: 'none'
+      }}
+    >
+      <img 
+        src={imagePath} 
+        alt={brand}
+        className="w-8 h-8 object-contain filter brightness-0 invert"
+        onError={(e) => {
+          e.target.style.display = 'none'
+          e.target.nextSibling.style.display = 'block'
+        }}
+      />
+      <div className="hidden text-white text-xs capitalize mt-1 font-medium">
+        {brand}
+      </div>
+      {isSelected && (
+        <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+          </svg>
+        </div>
+      )}
+    </button>
+  )
+
   const renderJoystickColors = () => (
     <div className='space-y-3'>
       <div className='flex flex-wrap gap-2 align-middle'>
@@ -134,12 +187,52 @@ function DraggableCard() {
     </div>
   )
 
+  const renderHubLogos = () => (
+    <div className='space-y-3'>
+      <div className='grid grid-cols-4 gap-2 max-h-48 overflow-y-auto'>
+        {Object.entries(hubLogos).map(([brand, imagePath]) => (
+          <LogoButton
+            key={brand}
+            brand={brand}
+            imagePath={imagePath}
+            isSelected={selectedHubLogo === brand}
+            onClick={() => setSelectedHubLogo(brand)}
+          />
+        ))}
+      </div>
+      {selectedHubLogo && (
+        <div className="mt-3 p-2 bg-white/10 rounded-lg">
+          <p className="text-white/80 text-xs capitalize font-medium">
+            Selected: {selectedHubLogo}
+          </p>
+        </div>
+      )}
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          setSelectedHubLogo(null)
+        }}
+        onTouchEnd={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          setSelectedHubLogo(null)
+        }}
+        className="w-full mt-2 py-1 px-2 text-xs text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+        style={{ touchAction: 'manipulation' }}
+      >
+        Clear Selection
+      </button>
+    </div>
+  )
+
   const renderComponentOptions = () => {
     switch (activeComponent) {
       case 'joysticks':
         return renderJoystickColors()
       case 'rotary':
         return renderRotaryColors()
+      case 'hub':
+        return renderHubLogos()
       case 'paddles':
         return (
           <div className='space-y-3'>

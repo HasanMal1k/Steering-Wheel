@@ -46,7 +46,7 @@ function CameraController() {
     let componentType = 'default'
 
     // Check if activeComponent is one of the valid component types
-    if (activeComponent && ['paddles', 'joysticks', 'rotary'].includes(activeComponent)) {
+    if (activeComponent && ['paddles', 'joysticks', 'rotary', 'hub'].includes(activeComponent)) {
       componentType = activeComponent
       targetConfig = cameraConfigs[componentType]
     }
