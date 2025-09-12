@@ -6,13 +6,48 @@ import { Wheel } from '../model-components/WheelModel'
 import CameraController from './CameraController'
 import useResponsiveScale from '../hooks/useResponsiveScale'
 import useThreeStore from '../hooks/useThreeStore'
+import { useEffect } from 'react'
+import gsap from 'gsap'
 
 function Scene() {
   const controlsRef = useRef()
   const scale = useResponsiveScale()
+  const wheelRef = useRef()
 
   // Giving GL, Scene and Camera values to the Store
   useThreeStore() 
+
+  // Initial Animation
+  // Increasing z position to 0.5
+  useEffect(() => {
+    if(wheelRef.current){
+      const tl = gsap.timeline({delay: 0.2})
+
+      tl.fromTo(
+        wheelRef.current.rotation,
+        { 
+          z: Math.PI * 0.76
+        },
+        { 
+          z: Math.PI * 1,
+          duration: 1.3
+        }
+      )
+
+      tl.fromTo(
+        wheelRef.current.position,
+        {
+          z: -2
+        },
+        {
+          z: 0.5,
+          duration: 1.3
+        },
+        "<" // "<" means run at the same time as previous
+      )
+
+    }
+  }, [])
 
   return (
     <>
@@ -39,7 +74,7 @@ function Scene() {
       /> */}
       {/* <pointLight position={[-10, -10, -10]} intensity={0.3} /> */}
       
-      <Wheel scale={[0.018 * scale, 0.018 * scale, 0.018 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]}/>
+      <Wheel scale={[0.018 * scale, 0.018 * scale, 0.018 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]} ref={wheelRef}/>
 
     </>
   )

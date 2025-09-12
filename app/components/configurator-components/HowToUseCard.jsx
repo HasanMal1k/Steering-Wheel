@@ -1,13 +1,43 @@
-import React from 'react'
-import { useConfigurationStore } from '../utils/ConfigurationStore'
+import React, { useEffect } from 'react'
+import { useConfigurationStore } from '../../utils/ConfigurationStore'
+import { useRef } from 'react'
+import gsap from 'gsap'
 
 function HowToUseCard() {
   const { guideCard, setGuideCardFalse } = useConfigurationStore()
+  const cardRef = useRef()
+
+  useEffect(() => {
+  if (!cardRef.current) return;
+
+  if (guideCard) {
+    cardRef.current.classList.remove("hidden");
+    gsap.fromTo(
+      cardRef.current,
+      { opacity: 0, filter: "blur(10px)" },
+      {
+        opacity: 1,
+        filter: "blur(0px)",
+        duration: 0.5,
+        ease: "power2.inOut",
+      }
+    );
+  } else {
+    gsap.to(cardRef.current, {
+      opacity: 0,
+      filter: "blur(10px)",
+      duration: 0.5,
+      ease: "power2.inOut",
+      onComplete: () => cardRef.current.classList.add("hidden"),
+    });
+  }
+}, [guideCard]);
+
 
   return (
     <>
-      {guideCard && (
-        <div className="fixed inset-0 flex items-center justify-center z-[1000]">
+      {/* {guideCard && ( */}
+        <div className="fixed flex inset-0 items-center justify-center z-[1000] hidden" ref={cardRef}>
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
@@ -60,7 +90,7 @@ function HowToUseCard() {
             </button>
           </div>
         </div>
-      )}
+      {/* )} */}
     </>
   )
 }

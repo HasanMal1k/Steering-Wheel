@@ -16,7 +16,7 @@ import CartButton from "./components/configurator-components/CartButton"
 import OptionsButton from "./components/configurator-components/OptionsButton"
 import TopOptions from "./components/configurator-components/TopOptions"
 import { CartCard } from "./components/configurator-components/CartCard"
-import HowToUseCard from "./components/HowToUseCard"
+import HowToUseCard from "./components/configurator-components/HowToUseCard"
 
 function Main() {
   const text = useTextStore(state => state.text)

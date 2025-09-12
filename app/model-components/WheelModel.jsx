@@ -31,9 +31,16 @@ export function Wheel(props) {
   
   // console.log(activeComponent)
 
-  useEffect(() => {
-    // console.log(wheelGroupRef.current.rotation)
-  }, [wheelGroupRef])
+
+  // Tried initial animation here, but will put code in scene
+  // useEffect(() => {
+  //   if(wheelGroupRef.current){
+  //     gsap.fromTo(wheelGroupRef.current.rotation, 
+  //       { z: 0.3 },
+  //       { z: 1, duration: 1 }
+  //     )
+  //   }
+  // }, [wheelGroupRef])
 
   // Handle wheel rotation when paddles are selected
   useEffect(() => {

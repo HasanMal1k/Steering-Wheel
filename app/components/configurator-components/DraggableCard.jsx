@@ -109,53 +109,77 @@ function DraggableCard() {
   )
 
   const LogoButton = ({ brand, imagePath, isSelected, onClick }) => (
-    <button
-      onClick={(e) => {
-        e.stopPropagation()
-        onClick()
-      }}
-      onTouchEnd={(e) => {
-        e.stopPropagation()
-        e.preventDefault()
-        onClick()
-      }}
+  <button
+    onClick={(e) => {
+      e.stopPropagation()
+      onClick()
+    }}
+    onTouchEnd={(e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      onClick()
+    }}
+    className={`
+      logo-button relative p-2 transition-all duration-200
+      hover:scale-105 hover:shadow-lg
+      touch-manipulation w-12 h-12 flex items-center justify-center
+      ring-2 ${isSelected ? 'ring-white' : 'ring-transparent'}
+    `}
+    style={{
+      touchAction: 'manipulation',
+      WebkitTouchCallout: 'none',
+      WebkitUserSelect: 'none',
+      userSelect: 'none'
+    }}
+  >
+    <img
+      src={imagePath}
+      alt={brand}
       className={`
-        logo-button relative p-2 rounded-lg border-2 transition-all duration-200 
-        hover:scale-105 hover:shadow-lg bg-white/10 backdrop-blur-sm
-        touch-manipulation w-full aspect-square flex items-center justify-center
-        ${isSelected 
-          ? 'border-white shadow-white/50' 
-          : 'border-gray-600 hover:border-white/60'
-        }
+        w-8 h-8 object-contain transition-all duration-200
+        ${isSelected
+          ? 'filter-none'
+          : 'filter grayscale hover:filter-none'}
       `}
-      style={{ 
-        touchAction: 'manipulation',
-        WebkitTouchCallout: 'none',
-        WebkitUserSelect: 'none',
-        userSelect: 'none'
+      onError={(e) => {
+        e.target.style.display = 'none'
+        e.target.nextSibling.style.display = 'block'
       }}
-    >
-      <img 
-        src={imagePath} 
-        alt={brand}
-        className="w-8 h-8 object-contain filter brightness-0 invert"
-        onError={(e) => {
-          e.target.style.display = 'none'
-          e.target.nextSibling.style.display = 'block'
-        }}
-      />
-      <div className="hidden text-white text-xs capitalize mt-1 font-medium">
-        {brand}
-      </div>
-      {isSelected && (
-        <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
-          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-          </svg>
-        </div>
-      )}
-    </button>
-  )
+    />
+    <div className="hidden text-white text-xs capitalize mt-1 font-medium">
+      {brand}
+    </div>
+  </button>
+)
+
+const NoLogoButton = ({ isSelected, onClick }) => (
+  <button
+    onClick={(e) => {
+      e.stopPropagation()
+      onClick()
+    }}
+    onTouchEnd={(e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      onClick()
+    }}
+    className={`
+      logo-button relative p-2 transition-all duration-200
+      hover:scale-105 hover:shadow-lg
+      touch-manipulation w-12 h-12 flex items-center justify-center
+      ring-2 ${isSelected ? 'ring-white' : 'ring-transparent'}
+    `}
+    style={{
+      touchAction: 'manipulation',
+      WebkitTouchCallout: 'none',
+      WebkitUserSelect: 'none',
+      userSelect: 'none'
+    }}
+  >
+    <X size={16} className="text-gray-400" />
+  </button>
+)
+
 
   const renderJoystickColors = () => (
     <div className='space-y-3'>
@@ -188,42 +212,26 @@ function DraggableCard() {
   )
 
   const renderHubLogos = () => (
-    <div className='space-y-3'>
-      <div className='grid grid-cols-4 gap-2 max-h-48 overflow-y-auto'>
-        {Object.entries(hubLogos).map(([brand, imagePath]) => (
-          <LogoButton
-            key={brand}
-            brand={brand}
-            imagePath={imagePath}
-            isSelected={selectedHubLogo === brand}
-            onClick={() => setSelectedHubLogo(brand)}
-          />
-        ))}
-      </div>
-      {selectedHubLogo && (
-        <div className="mt-3 p-2 bg-white/10 rounded-lg">
-          <p className="text-white/80 text-xs capitalize font-medium">
-            Selected: {selectedHubLogo}
-          </p>
-        </div>
-      )}
-      <button
-        onClick={(e) => {
-          e.stopPropagation()
-          setSelectedHubLogo(null)
-        }}
-        onTouchEnd={(e) => {
-          e.stopPropagation()
-          e.preventDefault()
-          setSelectedHubLogo(null)
-        }}
-        className="w-full mt-2 py-1 px-2 text-xs text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"
-        style={{ touchAction: 'manipulation' }}
-      >
-        Clear Selection
-      </button>
+  <div className="space-y-3">
+    <div className="flex flex-wrap justify-center gap-3 max-h-48 overflow-y-hidde py-2">
+      <NoLogoButton
+        isSelected={selectedHubLogo === null}
+        onClick={() => setSelectedHubLogo(null)}
+      />
+      {Object.entries(hubLogos).map(([brand, imagePath]) => (
+        <LogoButton
+          key={brand}
+          brand={brand}
+          imagePath={imagePath}
+          isSelected={selectedHubLogo === brand}
+          onClick={() => setSelectedHubLogo(brand)}
+        />
+      ))}
     </div>
-  )
+
+  </div>
+)
+
 
   const renderComponentOptions = () => {
     switch (activeComponent) {
@@ -250,7 +258,7 @@ function DraggableCard() {
 
   return (
     <Card 
-      className={`fixed right-6 top-1/2 -translate-y-1/2 w-80 z-1000 bg-black/50 border-gray-700 backdrop-blur-sm cursor-move hidden`} 
+      className={`fixed right-6 top-1/2 -translate-y-1/2 min-w-80 max-w-md z-1000 bg-black/50 border-gray-700 backdrop-blur-sm cursor-move hidden`} 
       ref={cardRef}
       style={{
         // KEY FIX: Ensure proper touch behavior on the card
