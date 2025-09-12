@@ -10,37 +10,81 @@ import {
 import { Settings, Camera, Info, Phone } from "lucide-react";
 import { useScreenshotStore } from "../../utils/ScreenshotStore";
 import { useConfigurationStore } from "@/app/utils/ConfigurationStore";
-import { useThree } from "@react-three/fiber";
+import { gsap } from "gsap"; // Add this import
 
 function OptionsButton() {
-  const { gl, scene, camera } = useScreenshotStore();
+  const { gl, scene, camera, controls } = useScreenshotStore();
   const { setActiveComponent } = useConfigurationStore()
-  const { controls } = useThree()
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
   const moveCameraToDefaultPosition = () => {
-    if (controls?.target) {
-        tl.to(controls.target, {
-          x: 0,
-          y: 0,
-          z: 5,
-          duration: 1.2,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            controls.update()
-          }
-        }, 0)
+    return new Promise((resolve) => {
+      console.log('moveCameraToDefaultPosition called');
+      console.log('Camera exists:', !!camera);
+      console.log('Controls exists:', !!controls);
+      
+      if (!camera || !controls) {
+        console.log('Missing camera or controls, resolving immediately');
+        resolve();
+        return;
       }
+
+      console.log('Starting GSAP animation...');
+      // Create a timeline like your CameraController
+      const tl = gsap.timeline({
+        onComplete: () => {
+          console.log('GSAP animation completed');
+          resolve();
+        }
+      });
+
+      // Animate camera position (this was missing!)
+      tl.to(camera.position, {
+        x: 0,
+        y: 0,
+        z: 5,
+        duration: 1.2,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          console.log('Camera position updating:', camera.position);
+        }
+      }, 0);
+
+      // Animate camera target
+      tl.to(controls.target, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 1.2,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          controls.update();
+          console.log('Controls target updating:', controls.target);
+        }
+      }, 0);
+
+      // Animate field of view to default
+      tl.to(camera, {
+        fov: 75,
+        duration: 1.2,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          camera.updateProjectionMatrix();
+          console.log('FOV updating:', camera.fov);
+        }
+      }, 0);
+    });
   }
 
-
-  const takeScreenshot = () => {
+  const takeScreenshot = async () => {
     if (!gl || !scene || !camera) return;
 
-    // First reset the camera position to default
-    moveCameraToDefaultPosition()
-    sleep(1500)
+    // First reset the camera position to default and wait for it to complete
+    await moveCameraToDefaultPosition();
+    
+    // Wait a bit more to ensure everything is settled
+    await sleep(200);
 
     // Render once more to ensure the frame is up to date
     gl.render(scene, camera);
@@ -59,12 +103,12 @@ function OptionsButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
-          className="flex items-center justify-center gap-1 sm:gap-2 
-                     border border-white/30 
-                     bg-white/10 backdrop-blur-sm 
-                     px-3 sm:px-4 py-2 rounded-md 
-                     hover:bg-yellow-600/80 
-                     text-white transition-colors
+          className="flex items-center justify-center gap-1 sm:gap-2
+                      border border-white/30
+                      bg-white/10 backdrop-blur-sm
+                      px-3 sm:px-4 py-2 rounded-md
+                      hover:bg-yellow-600/80
+                      text-white transition-colors
                      h-9 sm:h-10 hover:cursor-pointer"
           style={{ fontFamily: 'var(--font-geist-sans)' }}
         >

@@ -5,5 +5,6 @@ export const useScreenshotStore = create((set) => ({
   gl: null,
   scene: null,
   camera: null,
-  setThree: (gl, scene, camera) => set({ gl, scene, camera }),
+  controls: null,
+  setThree: (gl, scene, camera, controls) => set({ gl, scene, camera, controls }),
 }))

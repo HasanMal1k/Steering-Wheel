@@ -4,12 +4,12 @@ import { useThree } from '@react-three/fiber'
 import { useEffect } from 'react'
 
 function useThreeStore() {
-    const { gl, scene, camera } = useThree() 
+    const { gl, scene, camera, controls } = useThree() 
     const setThree = useScreenshotStore( state => state.setThree)
 
     useEffect(() => {
-        setThree( gl, scene, camera )
-    }, [ gl, scene, camera ])
+        setThree( gl, scene, camera, controls )
+    }, [ gl, scene, camera, controls ])
 
     return (
         <></>
