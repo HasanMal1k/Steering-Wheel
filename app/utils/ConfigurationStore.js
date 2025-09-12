@@ -82,6 +82,11 @@ export const useConfigurationStore = create((set) => ({
 
     selectedHubLogo: null,
     setSelectedHubLogo: (logo) => set({ selectedHubLogo: logo }),
+
+    guideCard: false,
+    setGuideCardTrue: () => set({guideCard: true}),
+    setGuideCardFalse: () => set({guideCard: false})
+
 }))
 
 // Adding a loading variable so they can see the complete laoding:

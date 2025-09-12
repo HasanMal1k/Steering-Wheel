@@ -14,90 +14,82 @@ import { gsap } from "gsap"; // Add this import
 
 function OptionsButton() {
   const { gl, scene, camera, controls } = useScreenshotStore();
-  const { setActiveComponent } = useConfigurationStore()
+  const { setActiveComponent, setGuideCardTrue } = useConfigurationStore()
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
   const moveCameraToDefaultPosition = () => {
-    return new Promise((resolve) => {
-      console.log('moveCameraToDefaultPosition called');
-      console.log('Camera exists:', !!camera);
-      console.log('Controls exists:', !!controls);
-      
-      if (!camera || !controls) {
-        console.log('Missing camera or controls, resolving immediately');
-        resolve();
-        return;
+  return new Promise((resolve) => {
+    if (!camera || !controls) {
+      console.log('Missing camera or controls, resolving immediately');
+      resolve();
+      return;
+    }
+
+    console.log('Starting GSAP animation...');
+    const tl = gsap.timeline({
+      onComplete: () => {
+        console.log('GSAP animation completed');
+        resolve(); // <-- now works
       }
-
-      console.log('Starting GSAP animation...');
-      // Create a timeline like your CameraController
-      const tl = gsap.timeline({
-        onComplete: () => {
-          console.log('GSAP animation completed');
-          resolve();
-        }
-      });
-
-      // Animate camera position (this was missing!)
-      tl.to(camera.position, {
-        x: 0,
-        y: 0,
-        z: 5,
-        duration: 1.2,
-        ease: "power2.inOut",
-        onUpdate: () => {
-          console.log('Camera position updating:', camera.position);
-        }
-      }, 0);
-
-      // Animate camera target
-      tl.to(controls.target, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 1.2,
-        ease: "power2.inOut",
-        onUpdate: () => {
-          controls.update();
-          console.log('Controls target updating:', controls.target);
-        }
-      }, 0);
-
-      // Animate field of view to default
-      tl.to(camera, {
-        fov: 75,
-        duration: 1.2,
-        ease: "power2.inOut",
-        onUpdate: () => {
-          camera.updateProjectionMatrix();
-          console.log('FOV updating:', camera.fov);
-        }
-      }, 0);
     });
-  }
+
+    tl.to(camera.position, {
+      x: 0,
+      y: 0,
+      z: 5,
+      duration: 1.2,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        console.log('Camera position updating:', camera.position);
+      }
+    }, 0);
+
+    tl.to(controls.target, {
+      x: 0,
+      y: 0,
+      z: 0,
+      duration: 1.2,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        controls.update();
+        console.log('Controls target updating:', controls.target);
+      }
+    }, 0);
+
+    tl.to(camera, {
+      fov: 75,
+      duration: 1.2,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        camera.updateProjectionMatrix();
+        console.log('FOV updating:', camera.fov);
+      }
+    }, 0);
+  });
+};
 
   const takeScreenshot = async () => {
-    if (!gl || !scene || !camera) return;
+  if (!gl || !scene || !camera) return;
 
-    // First reset the camera position to default and wait for it to complete
-    await moveCameraToDefaultPosition();
-    
-    // Wait a bit more to ensure everything is settled
-    await sleep(200);
+  // Wait for camera reset animation to finish
+  await moveCameraToDefaultPosition();
 
-    // Render once more to ensure the frame is up to date
-    gl.render(scene, camera);
+  // Extra tiny wait if you want
+  await sleep(200);
 
-    // Convert to PNG
-    const dataURL = gl.domElement.toDataURL("image/png");
+  gl.render(scene, camera);
+  const dataURL = gl.domElement.toDataURL("image/png");
 
-    // Trigger download
-    const link = document.createElement("a");
-    link.href = dataURL;
-    link.download = `My Configuration.png`;
-    link.click();
-  };
+  const link = document.createElement("a");
+  link.href = dataURL;
+  link.download = `My Configuration.png`;
+  link.click();
+};
+
+const guideClick = () => {
+  setGuideCardTrue()
+}
 
   return (
     <DropdownMenu>
@@ -123,7 +115,7 @@ function OptionsButton() {
         <DropdownMenuItem className="hover:cursor-pointer" onClick={takeScreenshot}>
           <span className="mr-2"><Camera /></span> Download Image
         </DropdownMenuItem>
-        <DropdownMenuItem className="hover:cursor-pointer">
+        <DropdownMenuItem className="hover:cursor-pointer" onClick={guideClick}>
           <span className="mr-2"><Info /></span> How To Use
         </DropdownMenuItem>
         <DropdownMenuItem className="hover:cursor-pointer">
