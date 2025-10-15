@@ -17,7 +17,7 @@ async function handleGraphQL(req) {
   try {
     let query, variables, operationName;
 
-    console.log('📥 Request method:', req.method);
+    // console.log('📥 Request method:', req.method);
 
     if (req.method === 'GET') {
       const url = new URL(req.url);
@@ -40,13 +40,13 @@ async function handleGraphQL(req) {
       );
     }
 
-    console.log('🚀 Sending to Shopify via POST...');
+    // console.log('🚀 Sending to Shopify via POST...');
     
     // ✅ Use .toPromise() to execute the query
     const result = await shopifyClient.query(query, variables).toPromise();
 
     if (result.error) {
-      console.error('❌ Shopify GraphQL Error:', result.error);
+      // console.error('❌ Shopify GraphQL Error:', result.error);
       return Response.json(
         {
           error: 'GraphQL query failed',
@@ -56,11 +56,11 @@ async function handleGraphQL(req) {
       );
     }
 
-    console.log('✅ Success from Shopify!');
+    // console.log('✅ Success from Shopify!');
     return Response.json(result);
 
   } catch (error) {
-    console.error('❌ API Route Error:', error);
+    // console.error('❌ API Route Error:', error);
     return Response.json(
       {
         error: 'Internal server error',

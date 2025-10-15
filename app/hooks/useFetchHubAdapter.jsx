@@ -1,5 +1,6 @@
 import { useQuery } from "urql";
 import { useEffect } from "react";
+import { useInventoryStore } from "../utils/InventoryStore";
 
 const PRODUCT_QUERY = `
   query GetProduct {
@@ -28,17 +29,24 @@ export default function useFetchHubAdapter() {
     query: PRODUCT_QUERY,
   });
 
+  const { hubAdapterData, setHubAdapterData } = useInventoryStore()
+
   useEffect(() => {
     if (data?.product) {
-      console.log("✅ Hub Adapter:", data.product);
+      const hubAdapter = data.product.variants.edges.reduce((acc, { node }) => {
+        acc[node.title] = node
+        return acc
+      }, {})
+
+      setHubAdapterData(hubAdapter)
     }
   }, [data]);
 
-  useEffect(() => {
-    if (error) {
-      console.error("❌ Error fetching product:", error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     console.error("❌ Error fetching product:", error);
+  //   }
+  // }, [error]);
 
  
 }

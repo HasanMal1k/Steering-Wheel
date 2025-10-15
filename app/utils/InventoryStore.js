@@ -361,9 +361,41 @@ import { create } from "zustand";
 // console.log(wiringHarness)
 
 export const useInventoryStore = create((set) => ({
+
+
+    // Wiring Harness Data
     wiringHarnessData : null,
 
     setWiringHarnessData: (value) => set({
-        wiringHarnesData: value
+        wiringHarnessData: value
+    }),
+
+    // Hub Data
+    hubData: null,
+
+    setHubData: (value) => set ({
+        hubData: value
+    }),
+
+    // Hud Adapter Data
+    hubAdapterData: null,
+
+    setHubAdapterData: (value) => set ({
+        hubAdapterData: value
+    }),
+
+    // Protocol Board
+    protocolBoardData: null,
+
+    setProtocolBoardData: (value) => set({
+        protocolBoard: value
+    }),
+
+    // Steering Wheel
+    steeringWheelData: null,
+
+    setSteeringWheelData: (value) => set({
+        steeringWheelData: value
     })
-}))
+
+}));

@@ -28,17 +28,17 @@ export default function useFetchKnobs() {
     query: PRODUCT_QUERY,
   });
 
-  useEffect(() => {
-    if (data?.product) {
-      console.log("✅ Knobs:", data.product);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.product) {
+  //     console.log("✅ Knobs:", data.product);
+  //   }
+  // }, [data]);
 
-  useEffect(() => {
-    if (error) {
-      console.error("❌ Error fetching product:", error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     console.error("❌ Error fetching product:", error);
+  //   }
+  // }, [error]);
 
  
 }

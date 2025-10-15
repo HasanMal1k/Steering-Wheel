@@ -25,7 +25,7 @@ const PRODUCT_QUERY = `
 `;
 
 export default function useFetchProtocolBoard() {
-  const { setWiringHarnessData, wiringHarnessData } = useInventoryStore();
+  const { protocolBoardData, setProtocolBoardData } = useInventoryStore();
 
   const [{ data, fetching, error }] = useQuery({
     query: PRODUCT_QUERY,
@@ -33,19 +33,18 @@ export default function useFetchProtocolBoard() {
 
   useEffect(() => {
     if (data?.product) {
-      const wiringHarness = data.product.variants.edges.reduce((acc, { node }) => {
+      const protocolBoard = data.product.variants.edges.reduce((acc, { node }) => {
         acc[node.title] = node;
         return acc;
       }, {});
 
-      setWiringHarnessData(wiringHarness);
-      console.log("✅ Protocol Board Zustand:", wiringHarness);
+      setProtocolBoardData(protocolBoard);
+      
     }
-  }, [data, setWiringHarnessData]);
+  }, [data]);
 
-  useEffect(() => {
-    if (error) console.error("❌ Error fetching product:", error);
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) console.error("❌ Error fetching product:", error);
+  // }, [error]);
 
-  return { data, fetching, error, wiringHarnessData };
 }
