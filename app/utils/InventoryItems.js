@@ -5,133 +5,81 @@ export const make = [
 export const protocolBoards = {
   S1: {
     id: "gid://shopify/ProductVariant/43657637724299",
-    title: "S1",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657637724299"
   },
   S2: {
     id: "gid://shopify/ProductVariant/43657637757067",
-    title: "S2",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657637757067"
   },
   S3: {
     id: "gid://shopify/ProductVariant/43657637789835",
-    title: "S3",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657637789835"
   },
   S4: {
     id: "gid://shopify/ProductVariant/43657637822603",
-    title: "S4",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657637822603"
   },
   S4B: {
     id: "gid://shopify/ProductVariant/43657637855371",
-    title: "S4B",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657637855371"
   },
   S5: {
     id: "gid://shopify/ProductVariant/43657637888139",
-    title: "S5",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657637888139"
   },
   S6: {
     id: "gid://shopify/ProductVariant/43657637920907",
-    title: "S6",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657637920907"
   },
   S7: {
     id: "gid://shopify/ProductVariant/43657637953675",
-    title: "S7",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657637953675"
   },
   S8: {
     id: "gid://shopify/ProductVariant/43657637986443",
-    title: "S8",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657637986443"
   },
   S9: {
     id: "gid://shopify/ProductVariant/43657638019211",
-    title: "S9",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638019211"
   },
   S10: {
     id: "gid://shopify/ProductVariant/43657638051979",
-    title: "S10",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638051979"
   },
   S11: {
     id: "gid://shopify/ProductVariant/43657638084747",
-    title: "S11",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638084747"
   },
   S12: {
     id: "gid://shopify/ProductVariant/43657638117515",
-    title: "S12",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638117515"
   },
   S13: {
     id: "gid://shopify/ProductVariant/43657638150283",
-    title: "S13",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638150283"
   },
   S14: {
     id: "gid://shopify/ProductVariant/43657638183051",
-    title: "S14",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638183051"
   },
   S15: {
     id: "gid://shopify/ProductVariant/43657638215819",
-    title: "S15",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638215819"
   },
   S16: {
     id: "gid://shopify/ProductVariant/43657638248587",
-    title: "S16",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638248587"
   },
   S17: {
     id: "gid://shopify/ProductVariant/43657638281355",
-    title: "S17",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638281355"
   },
   S21: {
     id: "gid://shopify/ProductVariant/43657638314123",
-    title: "S21",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638314123"
   },
   S24: {
     id: "gid://shopify/ProductVariant/43657638346891",
-    title: "S24",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638346891"
   },
   S25: {
     id: "gid://shopify/ProductVariant/43657638379659",
-    title: "S25",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638379659"
   },
   S26: {
     id: "gid://shopify/ProductVariant/43657638412427",
-    title: "S26",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638412427"
   },
   S27: {
     id: "gid://shopify/ProductVariant/43657638445195",
-    title: "S27",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638445195"
   },
   S28: {
     id: "gid://shopify/ProductVariant/43657638477963",
-    title: "S28",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638477963"
   },
   S29: {
     id: "gid://shopify/ProductVariant/43657638510731",
-    title: "S29",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638510731"
   },
   S30: {
     id: "gid://shopify/ProductVariant/43657638543499",
-    title: "S30",
-    link: "https://shopify.com/admin/products/7857253843083/variants/43657638543499"
   }
 };
 
@@ -203,7 +151,7 @@ export const protocolBoards = {
 //   }
 // };
 
-const hubAdapters = {
+export const hubAdapters = {
   "B2": {
     "id": "gid://shopify/ProductVariant/43657603252363",
     "sku": "F56H/B2",
@@ -258,7 +206,7 @@ const hubAdapters = {
   }
 };
 
-const wiringHarnesses = {
+export const wiringHarnesses = {
   "X1": "gid://shopify/ProductVariant/43657627009163",
   "X2": "gid://shopify/ProductVariant/43657627041931",
   "X3A": "gid://shopify/ProductVariant/43657627074699",
