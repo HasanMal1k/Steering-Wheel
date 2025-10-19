@@ -47,4 +47,10 @@ export default function useFetchProtocolBoard() {
   //   if (error) console.error("❌ Error fetching product:", error);
   // }, [error]);
 
+  // useEffect(() => {
+  //   if(protocolBoardData){
+  //     console.log('Protocol Board:  ',protocolBoardData)
+  //   }
+  // }, [protocolBoardData])
+
 }

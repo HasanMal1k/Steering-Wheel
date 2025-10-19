@@ -48,5 +48,10 @@ export default function useFetchHubAdapter() {
   //   }
   // }, [error]);
 
- 
+  // useEffect(() => {
+  //   if(hubAdapterData){
+  //     console.log('Hub Adapter:  ',hubAdapterData)
+  //   }
+  // }, [hubAdapterData])
+
 }

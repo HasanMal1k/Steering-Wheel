@@ -50,5 +50,11 @@ export default function useFetchSteeringWheel() {
   //   }
   // }, [error]);
 
+  useEffect(() => {
+    if(steeringWheelData){
+      console.log(steeringWheelData)
+    }
+  }, [steeringWheelData])
+
  
 }

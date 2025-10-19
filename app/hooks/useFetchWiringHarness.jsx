@@ -42,7 +42,7 @@ export default function useFetchWiringHarness() {
     }
   }, [data, error, setWiringHarnessData]);
 
-  useEffect(() => {
-    console.log("✅ Updated Zustand Data:", wiringHarnessData);
-  }, [wiringHarnessData]);
+  // useEffect(() => {
+  //   console.log("Wiring Harness:", wiringHarnessData);
+  // }, [wiringHarnessData]);
 }

@@ -388,7 +388,7 @@ export const useInventoryStore = create((set) => ({
     protocolBoardData: null,
 
     setProtocolBoardData: (value) => set({
-        protocolBoard: value
+        protocolBoardData: value
     }),
 
     // Steering Wheel

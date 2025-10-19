@@ -50,11 +50,11 @@ export default function useFetchHub() {
     }
   }, [error]);
 
-  useEffect(() => {
-    if (!hubData){
-      console.log(hubData)
-    }
-  }, [hubData])
+  // useEffect(() => {
+  //   if (hubData){
+  //     console.log(hubData)
+  //   }
+  // }, [hubData])
 
  
 }
