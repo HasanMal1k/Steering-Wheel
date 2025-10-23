@@ -222,15 +222,9 @@ export const make = {
                 'protocolBoard': protocolBoards.S4B,
                 'wiringHarness': wiringHarnesses.X3C,
                 'hubAdapter': hubAdapters.B1
-            },
-
-
-           
-            
-
+            }
         }
     },
-     // Acura Models
 
     'Acura': {
       models: {
@@ -472,8 +466,115 @@ export const make = {
   },
 'Toyota': {
     'models': {
-      'GR86': {
-      
+      'GR86 ZN6': {
+        'protocolBoard': protocolBoards.S5,
+        'wiringHarness': wiringHarnesses.X5, 
+        'hubAdapter': hubAdapters.B6    
+      },
+      'SUPRA ANX MKV': {
+        'protocolBoard': protocolBoards.S5,
+        'wiringHarness': wiringHarnesses.X4,
+        'hubAdapter': hubAdapters.B2
+      },
+      'GR YARIS GXPA 16': {
+        'protocolBoard': protocolBoards.S5,
+        'wiringHarness': wiringHarnesses.X4,
+        'hubAdapter': hubAdapters.B2
+      },
+      'GR COROLLA': {  
+        'protocolBoard': protocolBoards.S7,
+        'wiringHarness': wiringHarnesses.X6,
+        'hubAdapter': hubAdapters.B7
+      },
+      'ZN6 86': {
+        'protocolBoard': protocolBoards.S5,
+        'wiringHarness': wiringHarnesses.X5, 
+        'hubAdapter': hubAdapters.B6
+      }
+    }
+  },
+  'MITSUBISHI': {
+    'models': {
+      'LANCER EVO X': {
+        'protocolBoard': protocolBoards.S21,
+        'wiringHarness': wiringHarnesses.X32,
+        'hubAdapter': hubAdapters.B11
+      }
+    }
+  },
 
-    'Toyota', 'Ford', 'Hyundai', 'Mazda', 'Subaru', 'Volkswagen', 'Volvo', 'Lexus', 'Mercedes', 'Lamborghini', 'Porsche'
-}
+  'VOLKSWAGEN': {
+    'models': {
+      'MK5': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X1,
+        'hubAdapter': hubAdapters.B3
+      },
+      'MK6': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X1,
+        'hubAdapter': hubAdapters.B3
+      },
+      'MK6R': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X1,
+        'hubAdapter': hubAdapters.B3
+      },
+      'MK7': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X1,
+        'hubAdapter': hubAdapters.B3
+      },
+      'MK7R': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X1,
+        'hubAdapter': hubAdapters.B3
+      },
+      'MK8': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X1,
+        'hubAdapter': hubAdapters.B3
+      },
+      'MK8R': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X1,
+        'hubAdapter': hubAdapters.B3
+      },
+      'MK75': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X1,
+        'hubAdapter': hubAdapters.B3
+      },
+      'MK75R': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X1,
+        'hubAdapter': hubAdapters.B3
+      }
+  
+    }
+  },
+
+  'FORD': {
+    'models': {
+      'FOCUS RS': {
+        'protocolBoard': protocolBoards.S25,
+        'wiringHarness': wiringHarnesses.X27,
+        'hubAdapter': hubAdapters.B12
+      }
+  }
+},
+  'LEXUS': {
+    'models': {
+      'LC500': {
+        'protocolBoard': protocolBoards.S27,
+        'wiringHarness': wiringHarnesses.X29,  
+        'hubAdapter': hubAdapters.B7
+      },
+      'IC500': {
+        'protocolBoard': protocolBoards.S28,
+        'wiringHarness': wiringHarnesses.X28,  
+        'hubAdapter': hubAdapters.B6
+      }
+    }
+  }
+};
