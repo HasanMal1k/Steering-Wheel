@@ -1,7 +1,3 @@
-export const make = [
-    'BMW', 'Acura', 'Audi', 'Honda', 'Mini', 'Nissan', 'Toyota', 'Ford', 'Hyundai', 'Mazda', 'Subaru', 'Volkswagen', 'Volvo', 'Lexus', 'Mercedes', 'Lamborghini', 'Porsche'
-]
-
 export const protocolBoards = {
   S1: {
     id: "gid://shopify/ProductVariant/43657637724299",
@@ -83,73 +79,6 @@ export const protocolBoards = {
   }
 };
 
-// const variantsObj = {
-//   "BMW F/G": {
-//     "id": "gid://shopify/ProductVariant/43657603252363",
-//     "title": "BMW F/G",
-//     "sku": "F56H/B2",
-//   },
-//   "BMW E9X": {
-//     "id": "gid://shopify/ProductVariant/43657603285131",
-//     "title": "BMW E9X",
-//     "sku": "E90H/B1",
-//   },
-//   "BMW E46": {
-//     "id": "gid://shopify/ProductVariant/43657603317899",
-//     "title": "BMW E46",
-//     "sku": "E46H",
-//   },
-//   "VAG": {
-//     "id": "gid://shopify/ProductVariant/43657603350667",
-//     "title": "VAG",
-//     "sku": "E183H/B3",
-//   },
-//   "Honda": {
-//     "id": "gid://shopify/ProductVariant/43657603383435",
-//     "title": "Honda",
-//     "sku": "135H/B5",
-//   },
-//   "86/WRX": {
-//     "id": "gid://shopify/ProductVariant/43657603416203",
-//     "title": "86/WRX",
-//     "sku": "125H/B6",
-//   },
-//   "GRC/Lexus": {
-//     "id": "gid://shopify/ProductVariant/43657603448971",
-//     "title": "GRC/Lexus",
-//     "sku": "B7",
-//   },
-//   "Mercedes": {
-//     "id": "gid://shopify/ProductVariant/43657603481739",
-//     "title": "Mercedes",
-//     "sku": "B8",
-//   },
-//   "Mazda ND": {
-//     "id": "gid://shopify/ProductVariant/43657603514507",
-//     "title": "Mazda ND",
-//     "sku": "167H/B9",
-//   },
-//   "Nissan": {
-//     "id": "gid://shopify/ProductVariant/43657603547275",
-//     "title": "Nissan",
-//     "sku": "141/B10",
-//   },
-//   "Mitsubishi Evo X": {
-//     "id": "gid://shopify/ProductVariant/43657603580043",
-//     "title": "Mitsubishi Evo X",
-//     "sku": "102H/B11",
-//   },
-//   "Ford": {
-//     "id": "gid://shopify/ProductVariant/43657603612811",
-//     "title": "Ford",
-//     "sku": "175H/B12",
-//   },
-//   "Hyundai N": {
-//     "id": "gid://shopify/ProductVariant/43657603645579",
-//     "title": "Hyundai N",
-//     "sku": "B13",
-//   }
-// };
 
 export const hubAdapters = {
   "B2": {
@@ -243,3 +172,308 @@ export const wiringHarnesses = {
   "X38": "gid://shopify/ProductVariant/43657628090507"
 }
 
+export const make = {
+
+  // BMW Models
+
+    'BMW': {
+        models: {
+            'EXX AT': {
+                'protocolBoard': protocolBoards.S4,
+                'wiringHarness': wiringHarnesses.X3B,
+                'hubAdapter': hubAdapters.B1
+            },  
+            'EXX DCT': {
+                'protocolBoard': protocolBoards.S4,
+                'wiringHarness': wiringHarnesses.X3A,
+                'hubAdapter': hubAdapters.B1
+            },
+            'EXX MT': {
+                'protocolBoard': protocolBoards.S4,
+                'wiringHarness': wiringHarnesses.X3A,
+                'hubAdapter': hubAdapters.B1
+            },
+            'FXX': {
+                'protocolBoard': protocolBoards.S3,
+                'wiringHarness': wiringHarnesses.X4,
+                'hubAdapter': hubAdapters.B2
+            },
+            'GXX NO ACC': {
+                'protocolBoard': protocolBoards.S3,
+                'wiringHarness': wiringHarnesses.X4,
+                'hubAdapter': hubAdapters.B2
+            },
+            'GXX ACC': {
+                'protocolBoard': protocolBoards.S3,
+                'wiringHarness': wiringHarnesses.X4,
+                'hubAdapter': hubAdapters.B2
+            },
+            'GXX NO ACC PRO': {
+                'protocolBoard': protocolBoards.S3,
+                'wiringHarness': wiringHarnesses.X4,
+                'hubAdapter': hubAdapters.B2
+            },
+            'GXX ACC PRO': {
+                'protocolBoard': protocolBoards.S3,
+                'wiringHarness': wiringHarnesses.X4,
+                'hubAdapter': hubAdapters.B2
+            },
+            'E28 335 135': {
+                'protocolBoard': protocolBoards.S4B,
+                'wiringHarness': wiringHarnesses.X3C,
+                'hubAdapter': hubAdapters.B1
+            },
+
+
+           
+            
+
+        }
+    },
+     // Acura Models
+
+    'Acura': {
+      models: {
+        'Integra Type S DE5': {
+          'protocolBoard': protocolBoards.S2,
+          'wiringHarness': wiringHarnesses.X16,
+          'hubAdapter': hubAdapters.B5
+        },
+        'NC1 NSX': {
+          'protocolBoard': protocolBoards.S2,
+          'wiringHarness': wiringHarnesses.X26,
+          'hubAdapter': hubAdapters.B5
+        }
+      }
+    },
+
+    'Audi': {
+      models: {
+        'B8' : {
+          'protocolBoard': protocolBoards.S12,
+          'wiringHarness': wiringHarnesses.X20,
+          'hubAdapter': hubAdapters.B3
+        },
+        'B8.5': {
+          'protocolBoard': protocolBoards.S1,
+          'wiringHarness': wiringHarnesses.X1,
+          'hubAdapter': hubAdapters.B3
+        },
+        'B9': {
+          'protocolBoard': protocolBoards.S1,
+          'wiringHarness': wiringHarnesses.X1,
+          'hubAdapter': hubAdapters.B3
+        },
+        'B9 - TT RS': {
+          'protocolBoard': protocolBoards.S29,
+          'wiringHarness': wiringHarnesses.X37,
+          'hubAdapter': hubAdapters.B3
+        },
+        'B9 - R8': {
+          'protocolBoard': protocolBoards.S29,
+          'wiringHarness': wiringHarnesses.X33,
+          'hubAdapter': hubAdapters.B3
+        },
+        'B9.5': {
+          'protocolBoard': protocolBoards.S12,
+          'wiringHarness': wiringHarnesses.X38,
+          'hubAdapter': hubAdapters.B3
+        }
+      }
+    },
+    'Honda': {
+      models: {
+        'FK2': {
+          'protocolBoard': protocolBoards.S24,
+          'wiringHarness': wiringHarnesses.X25,
+          'hubAdapter': hubAdapters.B5
+        },
+        'FK7': {
+          'protocolBoard': protocolBoards.S2,
+          'wiringHarness': wiringHarnesses.X17,
+          'hubAdapter': hubAdapters.B5
+        },
+        'FK8': {
+          'protocolBoard': protocolBoards.S2,
+          'wiringHarness': wiringHarnesses.X17,
+          'hubAdapter': hubAdapters.B5
+        },
+        'FL1': {
+          'protocolBoard': protocolBoards.S2,
+          'wiringHarness': wiringHarnesses.X16,
+          'hubAdapter': hubAdapters.B5
+        },
+        'FE': {
+          'protocolBoard': protocolBoards.S2,
+          'wiringHarness': wiringHarnesses.X16,
+          'hubAdapter': hubAdapters.B5
+        }, 
+        'FL5': {
+          'protocolBoard': protocolBoards.S2,
+          'wiringHarness': wiringHarnesses.X16,
+          'hubAdapter': hubAdapters.B5
+        },
+      }
+    },
+
+    'Mini': {
+      models: {
+        'FXX': {
+          'protocolBoard': protocolBoards.S3,
+          'wiringHarness': wiringHarnesses.X4,
+          'hubAdapter': hubAdapters.B2
+        }
+      }
+    },
+
+    'Nissan': {
+      models: {
+        'GTR R35': {
+          'protocolBoard': protocolBoards.S8,
+          'wiringHarness': wiringHarnesses.X7,
+          'hubAdapter': hubAdapters.B10
+        },
+        '3707 Z34': {
+          'protocolBoard': protocolBoards.S8,
+          'wiringHarness': wiringHarnesses.X7,
+          'hubAdapter': hubAdapters.B10
+        }
+      }
+    },
+
+    'Porsche': {
+      models: {
+        '718': {
+          'protocolBoard': protocolBoards.S12,
+          'wiringHarness': wiringHarnesses.X2,
+          'hubAdapter': hubAdapters.B3
+        },
+        '991.1': {
+          'protocolBoard': protocolBoards.S12,
+          'wiringHarness': wiringHarnesses.X2,
+          'hubAdapter': hubAdapters.B3
+        },
+        '911.1 (2012 - 2016)': {
+          'protocolBoard': protocolBoards.S12,
+          'wiringHarness': wiringHarnesses.X2,
+          'hubAdapter': hubAdapters.B3
+        },
+        '911 (2016 - 2019)': {
+          'protocolBoard': protocolBoards.S12,
+          'wiringHarness': wiringHarnesses.X2,
+          'hubAdapter': hubAdapters.B3
+        },
+        '911.2': {
+          'protocolBoard': protocolBoards.S12,
+          'wiringHarness': wiringHarnesses.X2,
+          'hubAdapter': hubAdapters.B3
+        },
+        '987 (2005 - 2011)': {
+          'protocolBoard': protocolBoards.S12,
+          'wiringHarness': wiringHarnesses.X2,
+          'hubAdapter': hubAdapters.B3
+        },
+        '997.2 (2009 - 2012)': {
+          'protocolBoard': protocolBoards.S12,
+          'wiringHarness': wiringHarnesses.X2,
+          'hubAdapter': hubAdapters.B3
+        }
+
+      }
+    },
+
+    'Mazda': {
+      models: {
+        'ND MX-5': {
+          'protocolBoard': protocolBoards.S10,
+          'wiringHarness': wiringHarnesses.X9,
+          'hubAdapter': hubAdapters.B9
+        },
+        'NC MX-5': {
+          'protocolBoard': protocolBoards.S9,
+          'wiringHarness': wiringHarnesses.X8A,
+          'hubAdapter': hubAdapters.B9  
+      },
+      'Mazda 3': {
+        'protocolBoard': protocolBoards.S10,
+        'wiringHarness': wiringHarnesses.X9,
+        'hubAdapter': hubAdapters.B9
+      },
+      'Mazda 6': {
+        'protocolBoard': protocolBoards.S10,
+        'wiringHarness': wiringHarnesses.X9,
+        'hubAdapter': hubAdapters.B9
+      },
+      'Mazda RX-8': {
+        'protocolBoard': protocolBoards.S10,
+        'wiringHarness': wiringHarnesses.X9,
+        'hubAdapter': hubAdapters.B9
+      },
+      'Mazda 3 (Alexa)': {
+        'protocolBoard': protocolBoards.S9,
+        'wiringHarness': wiringHarnesses.X8A,
+        'hubAdapter': hubAdapters.B9
+      }
+    }
+  },
+
+  'Mercedes': {
+    models: {
+      'W204': {
+        'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X19,
+        'hubAdapter': hubAdapters.B8
+      },
+      'W205': {
+       'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X19,
+        'hubAdapter': hubAdapters.B8
+      },
+      'C190': {
+       'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X19,
+        'hubAdapter': hubAdapters.B8
+      },
+      'W176': {
+       'protocolBoard': protocolBoards.S1,
+        'wiringHarness': wiringHarnesses.X19,
+        'hubAdapter': hubAdapters.B8
+      },
+    }
+  },
+  
+  'Hyundai': {
+    models: {
+      'Elantra N': {  
+        'protocolBoard': protocolBoards.S16,
+        'wiringHarness': wiringHarnesses.X14,
+        'hubAdapter': hubAdapters.B13
+      }
+    }
+  },
+  'Subaru': {
+    'models': {
+      'VAA': {
+        'protocolBoard': protocolBoards.S13,
+        'wiringHarness': wiringHarnesses.X11, 
+        'hubAdapter': hubAdapters.B6
+      },
+      'VBB': {
+        'protocolBoard': protocolBoards.S14,
+        'wiringHarness': wiringHarnesses.X11, 
+        'hubAdapter': hubAdapters.B6
+      },
+      'BRZ ZD8': {
+        'protocolBoard': protocolBoards.S6,
+        'wiringHarness': wiringHarnesses.X5, 
+        'hubAdapter': hubAdapters.B6
+      },
+    }
+  },
+'Toyota': {
+    'models': {
+      'GR86': {
+      
+
+    'Toyota', 'Ford', 'Hyundai', 'Mazda', 'Subaru', 'Volkswagen', 'Volvo', 'Lexus', 'Mercedes', 'Lamborghini', 'Porsche'
+}
