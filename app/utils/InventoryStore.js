@@ -1,365 +1,5 @@
 import { create } from "zustand";
 
-// const obj = {
-//     "id": "gid://shopify/Product/7857252597899",
-//     "title": "Steering Wheel Wiring Harness",
-//     "status": "DRAFT",
-//     "totalInventory": 170,
-//     "productType": "",
-//     "variants": {
-//         "edges": [
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627009163",
-//                     "title": "X1",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627041931",
-//                     "title": "X2",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627074699",
-//                     "title": "X3A",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627107467",
-//                     "title": "X3B",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627140235",
-//                     "title": "X3C",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627173003",
-//                     "title": "X4",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627205771",
-//                     "title": "X5",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627238539",
-//                     "title": "X6",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627271307",
-//                     "title": "X7",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627304075",
-//                     "title": "X8A",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627336843",
-//                     "title": "X9",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627369611",
-//                     "title": "X10",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627402379",
-//                     "title": "X11",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627435147",
-//                     "title": "X13",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627467915",
-//                     "title": "X14",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627500683",
-//                     "title": "X15",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627533451",
-//                     "title": "X16",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627566219",
-//                     "title": "X17",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627598987",
-//                     "title": "X19",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627631755",
-//                     "title": "X20",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627664523",
-//                     "title": "X22",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627697291",
-//                     "title": "X25",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627730059",
-//                     "title": "X26",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627762827",
-//                     "title": "X27",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627795595",
-//                     "title": "X28",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627828363",
-//                     "title": "X29",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627861131",
-//                     "title": "X30",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627893899",
-//                     "title": "X32",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627926667",
-//                     "title": "X33",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627959435",
-//                     "title": "X34",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657627992203",
-//                     "title": "X35",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657628024971",
-//                     "title": "X36",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657628057739",
-//                     "title": "X37",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             },
-//             {
-//                 "node": {
-//                     "id": "gid://shopify/ProductVariant/43657628090507",
-//                     "title": "X38",
-//                     "inventoryQuantity": 5,
-//                     "sku": null,
-//                     "__typename": "ProductVariant"
-//                 },
-//                 "__typename": "ProductVariantEdge"
-//             }
-//         ],
-//         "__typename": "ProductVariantConnection"
-//     },
-//     "__typename": "Product"
-// }
-
-// const wiringHarness = {}
-
-// obj.variants.edges.map(vari => wiringHarness[vari.node.title] = {... vari.node})
-
-// console.log(wiringHarness)
-
 export const useInventoryStore = create((set) => ({
 
 
@@ -399,3 +39,46 @@ export const useInventoryStore = create((set) => ({
     })
 
 }));
+
+
+export const useProtocolBoardStore = create(set => ({
+  protocolBoardsData : {
+  S1: { id: 'gid://shopify/ProductVariant/43657637724299', inventory: 0 },
+  S2: { id: 'gid://shopify/ProductVariant/43657637757067', inventory: 0 },
+  S3: { id: 'gid://shopify/ProductVariant/43657637789835', inventory: 0 },
+  S4: { id: 'gid://shopify/ProductVariant/43657637822603', inventory: 0 },
+  S4B: { id: 'gid://shopify/ProductVariant/43657637855371', inventory: 0 },
+  S5: { id: 'gid://shopify/ProductVariant/43657637888139', inventory: 0 },
+  S6: { id: 'gid://shopify/ProductVariant/43657637920907', inventory: 0 },
+  S7: { id: 'gid://shopify/ProductVariant/43657637953675', inventory: 0 },
+  S8: { id: 'gid://shopify/ProductVariant/43657637986443', inventory: 0 },
+  S9: { id: 'gid://shopify/ProductVariant/43657638019211', inventory: 0 },
+  S10: { id: 'gid://shopify/ProductVariant/43657638051979', inventory: 0 },
+  S11: { id: 'gid://shopify/ProductVariant/43657638084747', inventory: 0 },
+  S12: { id: 'gid://shopify/ProductVariant/43657638117515', inventory: 0 },
+  S13: { id: 'gid://shopify/ProductVariant/43657638150283', inventory: 0 },
+  S14: { id: 'gid://shopify/ProductVariant/43657638183051', inventory: 0 },
+  S15: { id: 'gid://shopify/ProductVariant/43657638215819', inventory: 0 },
+  S16: { id: 'gid://shopify/ProductVariant/43657638248587', inventory: 0 },
+  S17: { id: 'gid://shopify/ProductVariant/43657638281355', inventory: 0 },
+  S21: { id: 'gid://shopify/ProductVariant/43657638314123', inventory: 0 },
+  S24: { id: 'gid://shopify/ProductVariant/43657638346891', inventory: 0 },
+  S25: { id: 'gid://shopify/ProductVariant/43657638379659', inventory: 0 },
+  S26: { id: 'gid://shopify/ProductVariant/43657638412427', inventory: 0 },
+  S27: { id: 'gid://shopify/ProductVariant/43657638445195', inventory: 0 },
+  S28: { id: 'gid://shopify/ProductVariant/43657638477963', inventory: 0 },
+  S29: { id: 'gid://shopify/ProductVariant/43657638510731', inventory: 0 },
+  S30: { id: 'gid://shopify/ProductVariant/43657638543499', inventory: 0 }
+},
+
+setProtocolBoardsData: (key, value) => set((state) => ({
+    protocolBoardsData: {
+        ...state.protocolBoardsData,
+        [key] : {
+            ...state.protocolBoardsData[key],
+            ...value
+        }
+    }
+}))
+
+}))

@@ -31,6 +31,31 @@ export default function useFetchKnobs() {
   // useEffect(() => {
   //   if (data?.product) {
   //     console.log("✅ Knobs:", data.product);
+
+  //     const sideJoysStickData = {}
+  //     const frontJoyStickData = {}
+
+  //     // const joyStickData = data.product.variants.edges.reduce((acc, {node}) => {
+
+  //     //   {node.title.includes('Front') ? frontJoyStickData[node.title] = node : sideJoysStickData[node.title] = node}
+
+
+  //     //   return acc
+  //     // }, {})
+  //     data.product.variants.edges.forEach(({ node }) => {
+
+  //       if (node.title.includes('Front')) {
+  //       frontJoyStickData[node.title.slice(23)] = node;
+  //       } else {
+  //       sideJoysStickData[node.title.slice(20)] = node;
+  //       }
+  //     });
+
+      
+
+  //     console.log('Front: ', frontJoyStickData)
+  //     console.log('Side: ', sideJoysStickData)
+
   //   }
   // }, [data]);
 

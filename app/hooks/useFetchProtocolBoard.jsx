@@ -1,6 +1,8 @@
 import { useQuery } from "urql";
 import { useEffect } from "react";
-import { useInventoryStore } from "../utils/InventoryStore";
+// import { useInventoryStore } from "../utils/InventoryStore";
+// import { protocolBoardsInventoryItem } from "../utils/InventoryItems";
+import { useProtocolBoardStore } from "../utils/InventoryStore";
 
 const PRODUCT_QUERY = `
   query GetProduct {
@@ -25,32 +27,45 @@ const PRODUCT_QUERY = `
 `;
 
 export default function useFetchProtocolBoard() {
-  const { protocolBoardData, setProtocolBoardData } = useInventoryStore();
+  // const { protocolBoardData, setProtocolBoardData } = useInventoryStore();
+  const protocolBoardsData = useProtocolBoardStore(state => state.protocolBoardsData);
+  const setProtocolBoardsData = useProtocolBoardStore(state => state.setProtocolBoardsData);
 
   const [{ data, fetching, error }] = useQuery({
     query: PRODUCT_QUERY,
   });
 
-  useEffect(() => {
-    if (data?.product) {
-      const protocolBoard = data.product.variants.edges.reduce((acc, { node }) => {
-        acc[node.title] = node;
-        return acc;
-      }, {});
+ useEffect(() => {
+  if (data?.product) {
+    // Create a mapping from variant title → node
+    const protocolBoard = data.product.variants.edges.reduce((acc, { node }) => {
+      acc[node.title] = node;
+      return acc;
+    }, {});
 
-      setProtocolBoardData(protocolBoard);
-      
-    }
-  }, [data]);
+    console.log('Before state', protocolBoard)
+    // Loop through each variant and update if it exists in the store
+    Object.entries(protocolBoard).forEach(([key, values]) => {
+      if (protocolBoardsData[key]) {
+        setProtocolBoardsData(key, { inventory: values.inventoryQuantity });
+      } else {
+        console.log('false', key);
+      }
+    });
+
+    console.log('Protocol Board:  ', protocolBoardsData)
+
+  }
+}, [data]);
 
   // useEffect(() => {
   //   if (error) console.error("❌ Error fetching product:", error);
   // }, [error]);
 
-  // useEffect(() => {
-  //   if(protocolBoardData){
-  //     console.log('Protocol Board:  ',protocolBoardData)
-  //   }
-  // }, [protocolBoardData])
+  useEffect(() => {
+    if(protocolBoardsData){
+      console.log('Protocol Board:  ',protocolBoardsData)
+    }
+  }, [protocolBoardsData])
 
 }
