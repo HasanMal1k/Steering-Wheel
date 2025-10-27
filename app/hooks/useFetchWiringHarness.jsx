@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 import { useEffect } from "react";
-import { useInventoryStore } from "../utils/InventoryStore";
+import { useWiringHarnessStore } from "../utils/InventoryStore";
 
 const PRODUCT_QUERY = `
   query GetProduct {
@@ -25,7 +25,8 @@ const PRODUCT_QUERY = `
 `;
 
 export default function useFetchWiringHarness() {
-  const { setWiringHarnessData, wiringHarnessData } = useInventoryStore();
+  const wiringHarnessData = useWiringHarnessStore(state => state.wiringHarnessData);
+  const setWiringHarnessData = useWiringHarnessStore(state => state.setWiringHarnessData);
   const [{ data, fetching, error }] = useQuery({ query: PRODUCT_QUERY });
 
   useEffect(() => {
@@ -34,7 +35,16 @@ export default function useFetchWiringHarness() {
         acc[node.title] = node;
         return acc;
       }, {});
-      setWiringHarnessData(wiringHarness);
+      // setWiringHarnessData(wiringHarness);
+
+
+      wiringHarness && Object.entries(wiringHarness).forEach(([key, values]) => {
+        if (wiringHarnessData[key]) {
+          setWiringHarnessData(key, { inventory: values.inventoryQuantity });
+        } else {
+          console.log('false', key);
+        }
+      });
     }
 
     if (error) {
@@ -42,7 +52,7 @@ export default function useFetchWiringHarness() {
     }
   }, [data, error, setWiringHarnessData]);
 
-  useEffect(() => {
-    console.log("Wiring Harness:", wiringHarnessData);
-  }, [wiringHarnessData]);
+  // useEffect(() => {
+  //   console.log("Wiring Harness:", wiringHarnessData);
+  // }, [wiringHarnessData]);
 }

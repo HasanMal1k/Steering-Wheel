@@ -29,20 +29,20 @@ export default function useFetchSteeringWheel() {
     query: PRODUCT_QUERY,
   });
 
-  const { steeringWheelData, setSteeringWheelData } = useInventoryStore()
+  // const { steeringWheelData, setSteeringWheelData } = useInventoryStore()
 
-  useEffect(() => {
-    if (data?.product) {
-      const steeringWheel = data.product.variants.edges.reduce((acc, { node }) => {
-        acc[node.title] = node
+  // useEffect(() => {
+  //   if (data?.product) {
+  //     const steeringWheel = data.product.variants.edges.reduce((acc, { node }) => {
+  //       acc[node.title] = node
 
-        return acc
+  //       return acc
 
-      }, {})
+  //     }, {})
 
-      setSteeringWheelData(steeringWheel)
-    }
-  }, [data]);
+  //     setSteeringWheelData(steeringWheel)
+  //   }
+  // }, [data]);
 
   // useEffect(() => {
   //   if (error) {
@@ -50,11 +50,11 @@ export default function useFetchSteeringWheel() {
   //   }
   // }, [error]);
 
-  useEffect(() => {
-    if(steeringWheelData){
-      console.log(steeringWheelData)
-    }
-  }, [steeringWheelData])
+  // useEffect(() => {
+  //   if(steeringWheelData){
+  //     console.log(steeringWheelData)
+  //   }
+  // }, [steeringWheelData])
 
  
 }

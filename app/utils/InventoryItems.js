@@ -234,6 +234,114 @@ export const wiringHarnesses = {
   }
 }
 
+export const frontKnobs = {
+    "Red": {
+        "id": "gid://shopify/ProductVariant/42648280268939",
+        "inventory": 0,
+        "color": "#ef4444"
+    },
+    "Amber": {
+        "id": "gid://shopify/ProductVariant/42648280301707",
+        "inventory": 0,
+        "color": "#f59e0b"
+    },
+    "Forest Green": {
+        "id": "gid://shopify/ProductVariant/42648280334475",
+        "inventory": 0,
+        "color": "#16a34a"        
+    },
+    "Blue": {
+        "id": "gid://shopify/ProductVariant/42648280367243",
+        "inventory": 0,
+        "color": "#3b82f6"
+    },
+    "Gray": {
+        "id": "gid://shopify/ProductVariant/42648280432779",
+        "inventory": 0,
+        "color": "#6b7280"
+    },
+    "White": {
+        "id": "gid://shopify/ProductVariant/43026694471819",
+        "inventory": 0,
+        "color": "#f9fafb"
+    },
+    "Orange": {
+        "id": "gid://shopify/ProductVariant/43026694504587",
+        "inventory": 0,
+        "color": "#f97316"
+    },
+    "Purple": {
+        "id": "gid://shopify/ProductVariant/43026694537355",
+        "inventory": 0,
+        "color": "#8b5cf6"
+    },
+    "Silver": {
+        "id": "gid://shopify/ProductVariant/43026694570123",
+        "inventory": 0,
+        "color": "#e5e7eb"
+    },
+    "Slate": {
+        "id": "gid://shopify/ProductVariant/43026696208523",
+        "inventory": 0,
+        "color": "#64748b"
+    }
+}
+
+
+export const sideRotary = {
+    "Red": {
+        "id": "gid://shopify/ProductVariant/42649851429003",
+        "inventory": 0,
+        "color": "#ef4444"
+    },
+    "Amber": {
+        "id": "gid://shopify/ProductVariant/42649851461771",
+        "inventory": 0,
+        "color": "#f59e0b"
+    },
+    "Forest Green": {
+        "id": "gid://shopify/ProductVariant/42649851494539",
+        "inventory": 0,
+        "color": "#16a34a"
+    },
+    "Blue": {
+        "id": "gid://shopify/ProductVariant/42649851527307",
+        "inventory": 0,
+        "color": "#3b82f6"
+    },
+    "Gray": {
+        "id": "gid://shopify/ProductVariant/42649851592843",
+        "inventory": 0,
+        "color": "#6b7280"
+    },
+    "White": {
+        "id": "gid://shopify/ProductVariant/43026694602891",
+        "inventory": 0,
+        "color": "#f9fafb"
+    },
+    "Orange": {
+        "id": "gid://shopify/ProductVariant/43026694635659",
+        "inventory": 0,
+        "color": "#f97316"
+    },
+    "Purple": {
+        "id": "gid://shopify/ProductVariant/43026694668427",
+        "inventory": 0,
+        "color": "#8b5cf6"
+    },
+    "Silver": {
+        "id": "gid://shopify/ProductVariant/43026694701195",
+        "inventory": 0,
+        "color": "#e5e7eb"
+    },
+    "Slate": {
+        "id": "gid://shopify/ProductVariant/43026696241291",
+        "inventory": 0,
+        "color": "#64748b"
+    }
+}
+
+
 export const make = {
 
   // BMW Models

@@ -1,6 +1,5 @@
 import { useQuery } from "urql";
 import { useEffect } from "react";
-import { useInventoryStore } from "../utils/InventoryStore";
 
 
 const PRODUCT_QUERY = `
@@ -30,19 +29,19 @@ export default function useFetchHub() {
     query: PRODUCT_QUERY,
   });
 
-  const { setHubData, hubData } = useInventoryStore();
+  // const { setHubData, hubData } = useInventoryStore();
   
 
 
-  useEffect(() => {
-    if (data?.product) {
-      const hub = data.product.variants.edges.reduce((acc, { node }) => {
-        acc[node.title] = node
-        return acc
-      }, {})
-      setHubData(hub)
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.product) {
+  //     const hub = data.product.variants.edges.reduce((acc, { node }) => {
+  //       acc[node.title] = node
+  //       return acc
+  //     }, {})
+  //     setHubData(hub)
+  //   }
+  // }, [data]);
 
   useEffect(() => {
     if (error) {
@@ -52,7 +51,7 @@ export default function useFetchHub() {
 
   // useEffect(() => {
   //   if (hubData){
-  //     console.log(hubData)
+  //     console.log('hub ', hubData)
   //   }
   // }, [hubData])
 

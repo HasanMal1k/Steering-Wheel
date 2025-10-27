@@ -1,5 +1,6 @@
 import { useQuery } from "urql";
 import { useEffect } from "react";
+import { useKnobs } from "../utils/InventoryStore";
 
 const PRODUCT_QUERY = `
   query GetProduct {
@@ -28,42 +29,70 @@ export default function useFetchKnobs() {
     query: PRODUCT_QUERY,
   });
 
-  // useEffect(() => {
-  //   if (data?.product) {
-  //     console.log("✅ Knobs:", data.product);
+  const frontKnobs = useKnobs(state => state.frontKnobs);
+  const sideRotary = useKnobs(state => state.sideRotary);
+  const setFrontKnobs = useKnobs(state => state.setFrontKnobs);
+  const setSideRotary = useKnobs(state => state.setSideRotary); 
+  
 
-  //     const sideJoysStickData = {}
-  //     const frontJoyStickData = {}
+  useEffect(() => {
+    if (data?.product) {
+      console.log("✅ Knobs:", data.product);
 
-  //     // const joyStickData = data.product.variants.edges.reduce((acc, {node}) => {
+      const sideJoysStickData = {}
+      const frontJoyStickData = {}
 
-  //     //   {node.title.includes('Front') ? frontJoyStickData[node.title] = node : sideJoysStickData[node.title] = node}
+      // const joyStickData = data.product.variants.edges.reduce((acc, {node}) => {
+
+      //   {node.title.includes('Front') ? frontJoyStickData[node.title] = node : sideJoysStickData[node.title] = node}
 
 
-  //     //   return acc
-  //     // }, {})
-  //     data.product.variants.edges.forEach(({ node }) => {
+      //   return acc
+      // }, {})
+      data.product.variants.edges.forEach(({ node }) => {
 
-  //       if (node.title.includes('Front')) {
-  //       frontJoyStickData[node.title.slice(23)] = node;
-  //       } else {
-  //       sideJoysStickData[node.title.slice(20)] = node;
-  //       }
-  //     });
+        if (node.title.includes('Front')) {
+        frontJoyStickData[node.title.slice(23)] = node;
+        } else {
+        sideJoysStickData[node.title.slice(20)] = node;
+        }
+      });
+
+      sideJoysStickData && Object.entries(sideJoysStickData).forEach(([key, values]) => {
+        if (sideRotary[key]) {
+          setSideRotary(key, { inventory: values.inventoryQuantity });  
+        } else {
+          console.log('false', key);
+        }
+      });
+
+      frontJoyStickData && Object.entries(frontJoyStickData).forEach(([key, values]) => {
+        if (frontKnobs[key]) {
+          setFrontKnobs(key, { inventory: values.inventoryQuantity });  
+        } else {
+          console.log('false', key);
+        }
+      });
 
       
 
-  //     console.log('Front: ', frontJoyStickData)
-  //     console.log('Side: ', sideJoysStickData)
+      console.log('Front: ', frontKnobs)
+      console.log('Side: ', sideRotary)
 
-  //   }
-  // }, [data]);
+    }
+  }, [data]);
 
   // useEffect(() => {
   //   if (error) {
   //     console.error("❌ Error fetching product:", error);
   //   }
   // }, [error]);
+
+  useEffect(() => {
+    if (frontKnobs && sideRotary) {
+      console.log("Knobs Zustand Store:", {frontKnobs, sideRotary} );
+    }
+  }, [frontKnobs, sideRotary]);
 
  
 }
