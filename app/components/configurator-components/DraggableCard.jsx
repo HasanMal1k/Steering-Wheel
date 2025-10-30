@@ -1,11 +1,17 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { Card } from '../ui/card'
 import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
 import gsap from 'gsap'
-import { useConfigurationStore, hubLogos } from '../../utils/ConfigurationStore'
-import { X } from 'lucide-react'
-import { useKnobs } from '../../utils/InventoryStore'
+import { useConfigurationStore } from '../../utils/ConfigurationStore'
+import { X, Check, ChevronDown } from 'lucide-react'
+import { useKnobs, useProtocolBoardStore, useWiringHarnessStore, useHubAdapterStore, make } from '../../utils/InventoryStore'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
 
 gsap.registerPlugin(Draggable, InertiaPlugin)
 
@@ -19,12 +25,19 @@ function DraggableCard() {
   const setSelectedJoystickColor = useConfigurationStore(state => state.setSelectedJoystickColor)
   const selectedRotaryColor = useConfigurationStore(state => state.selectedRotaryColor)
   const setSelectedRotaryColor = useConfigurationStore(state => state.setSelectedRotaryColor)
-  const selectedHubLogo = useConfigurationStore(state => state.selectedHubLogo)
-  const setSelectedHubLogo = useConfigurationStore(state => state.setSelectedHubLogo)
 
   // Get inventory data with colors included
   const frontKnobs = useKnobs(state => state.frontKnobs)
   const sideRotary = useKnobs(state => state.sideRotary)
+  
+  // Get inventory for make/model parts
+  const protocolBoardsData = useProtocolBoardStore(state => state.protocolBoardsData)
+  const wiringHarnessData = useWiringHarnessStore(state => state.wiringHarnessData)
+  const hubAdaptersData = useHubAdapterStore(state => state.hubAdaptersData)
+
+  // Local state for make and model selection
+  const [selectedMake, setSelectedMake] = useState('')
+  const [selectedModel, setSelectedModel] = useState('')
 
   useEffect(() => {
     if (cardRef.current) {
@@ -50,8 +63,8 @@ function DraggableCard() {
               e.target.closest('button') || 
               e.target.classList.contains('color-circle') ||
               e.target.closest('.color-circle') ||
-              e.target.classList.contains('logo-button') ||
-              e.target.closest('.logo-button')) {
+              e.target.closest('[role="menuitem"]') ||
+              e.target.closest('[data-radix-dropdown-menu-content]')) {
             return false; // Cancel the drag
           }
         }
@@ -123,82 +136,162 @@ function DraggableCard() {
     </button>
   )
 
-  const LogoButton = ({ brand, imagePath, isSelected, onClick, inStock = true }) => (
-  <button
-    onClick={(e) => {
-      e.stopPropagation()
-      if (inStock) onClick()
-    }}
-    onTouchEnd={(e) => {
-      e.stopPropagation()
-      e.preventDefault()
-      if (inStock) onClick()
-    }}
-    disabled={!inStock}
-    className={`
-      logo-button relative p-2 transition-all duration-200
-      ${inStock ? 'hover:scale-105 hover:shadow-lg' : 'opacity-40 cursor-not-allowed'}
-      touch-manipulation w-12 h-12 flex items-center justify-center
-      ring-2 ${isSelected ? 'ring-white' : 'ring-transparent'}
-    `}
-    style={{
-      touchAction: 'manipulation',
-      WebkitTouchCallout: 'none',
-      WebkitUserSelect: 'none',
-      userSelect: 'none'
-    }}
-  >
-    <img
-      src={imagePath}
-      alt={brand}
-      className={`
-        w-8 h-8 object-contain transition-all duration-200
-        ${!inStock ? 'grayscale' : isSelected ? 'filter-none' : 'filter grayscale hover:filter-none'}
-      `}
-      onError={(e) => {
-        e.target.style.display = 'none'
-        e.target.nextSibling.style.display = 'block'
-      }}
-    />
-    <div className="hidden text-white text-xs capitalize mt-1 font-medium">
-      {brand}
-    </div>
-    {!inStock && (
-      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded">
-        <X size={16} className="text-white drop-shadow-lg" strokeWidth={3} />
+  // Helper function to check if all parts are in stock for a make/model
+  const checkPartsAvailability = (modelData) => {
+    if (!modelData) return { available: false, missing: ['All parts'] }
+    
+    const missing = []
+    
+    // Check protocol board
+    if (modelData.protocolBoard && modelData.protocolBoard.inventory <= 0) {
+      missing.push('Protocol Board')
+    }
+    
+    // Check wiring harness
+    if (modelData.wiringHarness && modelData.wiringHarness.inventory <= 0) {
+      missing.push('Wiring Harness')
+    }
+    
+    // Check hub adapter
+    if (modelData.hubAdapter && modelData.hubAdapter.inventory <= 0) {
+      missing.push('Hub Adapter')
+    }
+    
+    return {
+      available: missing.length === 0,
+      missing
+    }
+  }
+
+  // Check if a make has any available models
+  const isMakeAvailable = (makeName) => {
+    const makeData = make[makeName]
+    if (!makeData?.models) return false
+    
+    return Object.values(makeData.models).some(modelData => {
+      const { available } = checkPartsAvailability(modelData)
+      return available
+    })
+  }
+
+  const renderMakeModelSelection = () => {
+    const makes = Object.keys(make)
+    const models = selectedMake && make[selectedMake]?.models ? Object.keys(make[selectedMake].models) : []
+    const currentAvailability = selectedMake && selectedModel 
+      ? checkPartsAvailability(make[selectedMake].models[selectedModel])
+      : null
+    
+    return (
+      <div className='space-y-4'>
+        {/* Make Dropdown */}
+        <div className='space-y-2'>
+          <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Vehicle Make</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className='w-full bg-gray-800/50 border border-gray-700 text-white rounded-lg px-4 py-3 flex items-center justify-between hover:border-gray-600 focus:border-white focus:outline-none transition-colors'>
+                <span className={selectedMake ? 'text-white' : 'text-gray-400'}>
+                  {selectedMake || 'Choose a make...'}
+                </span>
+                <ChevronDown size={16} className='text-gray-400' />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent 
+              className='w-[var(--radix-dropdown-menu-trigger-width)] max-h-[300px] overflow-y-auto bg-gray-800 border-gray-700'
+              align="start"
+            >
+              {makes.map(makeName => {
+                const available = isMakeAvailable(makeName)
+                return (
+                  <DropdownMenuItem
+                    key={makeName}
+                    onClick={() => {
+                      setSelectedMake(makeName)
+                      setSelectedModel('')
+                    }}
+                    className='text-white hover:bg-gray-700 cursor-pointer flex items-center justify-between'
+                    disabled={!available}
+                  >
+                    <span className={!available ? 'opacity-50' : ''}>{makeName}</span>
+                    {!available && <X size={14} className='text-red-400' />}
+                    {selectedMake === makeName && <Check size={14} className='text-green-400' />}
+                  </DropdownMenuItem>
+                )
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        {/* Model Dropdown */}
+        {selectedMake && (
+          <div className='space-y-2'>
+            <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Vehicle Model</label>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className='w-full bg-gray-800/50 border border-gray-700 text-white rounded-lg px-4 py-3 flex items-center justify-between hover:border-gray-600 focus:border-white focus:outline-none transition-colors'>
+                  <span className={selectedModel ? 'text-white' : 'text-gray-400'}>
+                    {selectedModel || 'Choose a model...'}
+                  </span>
+                  <ChevronDown size={16} className='text-gray-400' />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent 
+                className='w-[var(--radix-dropdown-menu-trigger-width)] max-h-[300px] overflow-y-auto bg-gray-800 border-gray-700'
+                align="start"
+              >
+                {models.map(modelName => {
+                  const availability = checkPartsAvailability(make[selectedMake].models[modelName])
+                  return (
+                    <DropdownMenuItem
+                      key={modelName}
+                      onClick={() => setSelectedModel(modelName)}
+                      className='text-white hover:bg-gray-700 cursor-pointer flex items-center justify-between'
+                      disabled={!availability.available}
+                    >
+                      <span className={!availability.available ? 'opacity-50' : ''}>{modelName}</span>
+                      {!availability.available && <X size={14} className='text-red-400' />}
+                      {availability.available && selectedModel === modelName && <Check size={14} className='text-green-400' />}
+                    </DropdownMenuItem>
+                  )
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
+
+        {/* Availability Status */}
+        {currentAvailability && (
+          <div className='mt-4 p-4 rounded-lg border border-gray-700 bg-gray-800/30'>
+            {currentAvailability.available ? (
+              <div className='flex items-center gap-3 text-green-400'>
+                <div className='flex items-center justify-center w-6 h-6 bg-green-400/20 rounded-full'>
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className='text-sm font-medium'>All parts in stock</span>
+              </div>
+            ) : (
+              <div className='space-y-3'>
+                <div className='flex items-center gap-3 text-red-400'>
+                  <div className='flex items-center justify-center w-6 h-6 bg-red-400/20 rounded-full'>
+                    <X size={14} strokeWidth={3} />
+                  </div>
+                  <span className='text-sm font-medium'>Out of stock</span>
+                </div>
+                <div className='ml-9 space-y-1'>
+                  <p className='text-xs text-gray-500 mb-2'>Missing components:</p>
+                  {currentAvailability.missing.map(part => (
+                    <div key={part} className='flex items-center gap-2 text-xs text-gray-400'>
+                      <div className='w-1 h-1 bg-gray-600 rounded-full'></div>
+                      <span>{part}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
-    )}
-  </button>
-)
-
-const NoLogoButton = ({ isSelected, onClick }) => (
-  <button
-    onClick={(e) => {
-      e.stopPropagation()
-      onClick()
-    }}
-    onTouchEnd={(e) => {
-      e.stopPropagation()
-      e.preventDefault()
-      onClick()
-    }}
-    className={`
-      logo-button relative p-2 transition-all duration-200
-      hover:scale-105 hover:shadow-lg
-      touch-manipulation w-12 h-12 flex items-center justify-center
-      ring-2 ${isSelected ? 'ring-white' : 'ring-transparent'}
-    `}
-    style={{
-      touchAction: 'manipulation',
-      WebkitTouchCallout: 'none',
-      WebkitUserSelect: 'none',
-      userSelect: 'none'
-    }}
-  >
-    <X size={16} className="text-gray-400" />
-  </button>
-)
-
+    )
+  }
 
   const renderJoystickColors = () => {
     const availableCount = Object.values(frontKnobs).filter(item => item.inventory > 0).length
@@ -254,34 +347,6 @@ const NoLogoButton = ({ isSelected, onClick }) => (
     )
   }
 
-  const renderHubLogos = () => (
-  <div className="space-y-3">
-    <div className="flex flex-wrap justify-center gap-3 max-h-48 overflow-y-hidden py-2">
-      <NoLogoButton
-        isSelected={selectedHubLogo === null}
-        onClick={() => setSelectedHubLogo(null)}
-      />
-      {Object.entries(hubLogos).map(([brand, imagePath]) => {
-        // Add inventory check here when you have hub logo inventory
-        const inStock = true // Replace with actual inventory check when available
-        
-        return (
-          <LogoButton
-            key={brand}
-            brand={brand}
-            imagePath={imagePath}
-            isSelected={selectedHubLogo === brand}
-            onClick={() => setSelectedHubLogo(brand)}
-            inStock={inStock}
-          />
-        )
-      })}
-    </div>
-
-  </div>
-)
-
-
   const renderComponentOptions = () => {
     switch (activeComponent) {
       case 'joysticks':
@@ -289,7 +354,7 @@ const NoLogoButton = ({ isSelected, onClick }) => (
       case 'rotary':
         return renderRotaryColors()
       case 'hub':
-        return renderHubLogos()
+        return renderMakeModelSelection()
       case 'paddles':
         return (
           <div className='space-y-3'>

@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 import { useEffect } from "react";
-// import { useInventoryStore } from "../utils/InventoryStore";
+import { useHubAdapterStore } from "../utils/InventoryStore";
 
 const PRODUCT_QUERY = `
   query GetProduct {
@@ -29,29 +29,47 @@ export default function useFetchHubAdapter() {
     query: PRODUCT_QUERY,
   });
 
-  // const { hubAdapterData, setHubAdapterData } = useInventoryStore()
+  const hubAdaptersData = useHubAdapterStore(state => state.hubAdaptersData);
+  const setHubAdapterData = useHubAdapterStore(state => state.setHubAdapterData);
+  
 
-  // useEffect(() => {
-  //   if (data?.product) {
-  //     const hubAdapter = data.product.variants.edges.reduce((acc, { node }) => {
-  //       acc[node.title] = node
-  //       return acc
-  //     }, {})
+  useEffect(() => {
+    if (data?.product && hubAdaptersData) {
+      const hubAdapter = data.product.variants.edges.reduce((acc, { node }) => {
+        acc[node.title] = node
+        return acc
+      }, {})
 
-  //     setHubAdapterData(hubAdapter)
-  //   }
-  // }, [data]);
+      console.log('Hub Adapter Data Fetched:', hubAdapter);
 
-  // useEffect(() => {
-  //   if (error) {
-  //     console.error("❌ Error fetching product:", error);
-  //   }
-  // }, [error]);
+      // Match by SKU instead of title
+      Object.entries(hubAdapter).forEach(([title, values]) => {
+        // Find matching key in hubAdaptersData by comparing SKUs or IDs
+        const matchingKey = Object.keys(hubAdaptersData).find(key => {
+          return hubAdaptersData[key].sku === values.sku || hubAdaptersData[key].id === values.id
+        });
 
-  // useEffect(() => {
-  //   if(hubAdapterData){
-  //     console.log('Hub Adapter:  ',hubAdapterData)
-  //   }
-  // }, [hubAdapterData])
+        if (matchingKey) {
+          setHubAdapterData(matchingKey, { inventory: values.inventoryQuantity });
+          console.log(`✓ Matched ${title} (${values.sku}) → ${matchingKey}`);
+        } else {
+          console.log(`✗ No match found for ${title} (SKU: ${values.sku})`);
+        }
+      });
+
+    }
+  }, [data, setHubAdapterData]);
+
+  useEffect(() => {
+    if (error) {
+      console.error("❌ Error fetching product:", error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if(hubAdaptersData){
+      console.log('Hub Adapter:  ', hubAdaptersData)
+    }
+  }, [hubAdaptersData])
 
 }
