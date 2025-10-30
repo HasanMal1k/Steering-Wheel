@@ -3,8 +3,9 @@ import { Card } from '../ui/card'
 import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
 import gsap from 'gsap'
-import { useConfigurationStore, joystickColor, rotaryColor, hubLogos } from '../../utils/ConfigurationStore'
+import { useConfigurationStore, hubLogos } from '../../utils/ConfigurationStore'
 import { X } from 'lucide-react'
+import { useKnobs } from '../../utils/InventoryStore'
 
 gsap.registerPlugin(Draggable, InertiaPlugin)
 
@@ -20,6 +21,10 @@ function DraggableCard() {
   const setSelectedRotaryColor = useConfigurationStore(state => state.setSelectedRotaryColor)
   const selectedHubLogo = useConfigurationStore(state => state.selectedHubLogo)
   const setSelectedHubLogo = useConfigurationStore(state => state.setSelectedHubLogo)
+
+  // Get inventory data with colors included
+  const frontKnobs = useKnobs(state => state.frontKnobs)
+  const sideRotary = useKnobs(state => state.sideRotary)
 
   useEffect(() => {
     if (cardRef.current) {
@@ -81,47 +86,58 @@ function DraggableCard() {
     }
   }, [activeComponent])
 
-  const ColorCircle = ({ color, isSelected, onClick }) => (
+  const ColorCircle = ({ color, isSelected, onClick, inStock = true }) => (
     <button
       onClick={(e) => {
-        e.stopPropagation() // Prevent event bubbling
-        onClick()
+        e.stopPropagation()
+        if (inStock) onClick()
       }}
       onTouchEnd={(e) => {
-        e.stopPropagation() // KEY FIX: Handle touch events specifically
+        e.stopPropagation()
         e.preventDefault()
-        onClick()
+        if (inStock) onClick()
       }}
+      disabled={!inStock}
       className={`
         color-circle w-8 h-8 rounded-full border-2 transition-all duration-200 
-        hover:scale-110 hover:shadow-lg touch-manipulation
+        relative
+        ${inStock ? 'hover:scale-110 hover:shadow-lg' : 'opacity-40 cursor-not-allowed'}
         ${isSelected ? 'border-white shadow-white/50 scale-110' : 'border-gray-600 hover:border-white/60'}
       `}
       style={{ 
         backgroundColor: color,
-        // KEY FIX: Ensure proper touch behavior
         touchAction: 'manipulation',
         WebkitTouchCallout: 'none',
         WebkitUserSelect: 'none',
         userSelect: 'none'
       }}
-    />
+    >
+      {!inStock && (
+        <>
+          <div className="absolute inset-0 bg-black/50 rounded-full" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <X size={16} className="text-white drop-shadow-lg" strokeWidth={3} />
+          </div>
+        </>
+      )}
+    </button>
   )
 
-  const LogoButton = ({ brand, imagePath, isSelected, onClick }) => (
+  const LogoButton = ({ brand, imagePath, isSelected, onClick, inStock = true }) => (
   <button
     onClick={(e) => {
       e.stopPropagation()
-      onClick()
+      if (inStock) onClick()
     }}
     onTouchEnd={(e) => {
       e.stopPropagation()
       e.preventDefault()
-      onClick()
+      if (inStock) onClick()
     }}
+    disabled={!inStock}
     className={`
       logo-button relative p-2 transition-all duration-200
-      hover:scale-105 hover:shadow-lg
+      ${inStock ? 'hover:scale-105 hover:shadow-lg' : 'opacity-40 cursor-not-allowed'}
       touch-manipulation w-12 h-12 flex items-center justify-center
       ring-2 ${isSelected ? 'ring-white' : 'ring-transparent'}
     `}
@@ -137,9 +153,7 @@ function DraggableCard() {
       alt={brand}
       className={`
         w-8 h-8 object-contain transition-all duration-200
-        ${isSelected
-          ? 'filter-none'
-          : 'filter grayscale hover:filter-none'}
+        ${!inStock ? 'grayscale' : isSelected ? 'filter-none' : 'filter grayscale hover:filter-none'}
       `}
       onError={(e) => {
         e.target.style.display = 'none'
@@ -149,6 +163,11 @@ function DraggableCard() {
     <div className="hidden text-white text-xs capitalize mt-1 font-medium">
       {brand}
     </div>
+    {!inStock && (
+      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded">
+        <X size={16} className="text-white drop-shadow-lg" strokeWidth={3} />
+      </div>
+    )}
   </button>
 )
 
@@ -181,52 +200,82 @@ const NoLogoButton = ({ isSelected, onClick }) => (
 )
 
 
-  const renderJoystickColors = () => (
-    <div className='space-y-3'>
-      <div className='flex flex-wrap gap-2 align-middle'>
-        {Object.entries(joystickColor).map(([name, colorValue]) => (
-          <ColorCircle
-            key={name}
-            color={colorValue}
-            isSelected={selectedJoystickColor === colorValue}
-            onClick={() => setSelectedJoystickColor(colorValue)}
-          />
-        ))}
-      </div>
-    </div>
-  )
+  const renderJoystickColors = () => {
+    const availableCount = Object.values(frontKnobs).filter(item => item.inventory > 0).length
 
-  const renderRotaryColors = () => (
-    <div className='space-y-3'>
-      <div className='flex flex-wrap gap-2 align-middle'>
-        {Object.entries(rotaryColor).map(([name, colorValue]) => (
-          <ColorCircle
-            key={name}
-            color={colorValue}
-            isSelected={selectedRotaryColor === colorValue}
-            onClick={() => setSelectedRotaryColor(colorValue)}
-          />
-        ))}
+    return (
+      <div className='space-y-3'>
+        <div className='flex flex-wrap gap-2 align-middle'>
+          {Object.entries(frontKnobs).map(([name, item]) => {
+            const inStock = item.inventory > 0
+            
+            return (
+              <ColorCircle
+                key={name}
+                color={item.color}
+                isSelected={selectedJoystickColor === item.color}
+                onClick={() => setSelectedJoystickColor(item.color)}
+                inStock={inStock}
+              />
+            )
+          })}
+        </div>
+        <p className="text-xs text-gray-400 text-center">
+          {availableCount} / {Object.keys(frontKnobs).length} colors available
+        </p>
       </div>
-    </div>
-  )
+    )
+  }
+
+  const renderRotaryColors = () => {
+    const availableCount = Object.values(sideRotary).filter(item => item.inventory > 0).length
+
+    return (
+      <div className='space-y-3'>
+        <div className='flex flex-wrap gap-2 align-middle'>
+          {Object.entries(sideRotary).map(([name, item]) => {
+            const inStock = item.inventory > 0
+            
+            return (
+              <ColorCircle
+                key={name}
+                color={item.color}
+                isSelected={selectedRotaryColor === item.color}
+                onClick={() => setSelectedRotaryColor(item.color)}
+                inStock={inStock}
+              />
+            )
+          })}
+        </div>
+        <p className="text-xs text-gray-400 text-center">
+          {availableCount} / {Object.keys(sideRotary).length} colors available
+        </p>
+      </div>
+    )
+  }
 
   const renderHubLogos = () => (
   <div className="space-y-3">
-    <div className="flex flex-wrap justify-center gap-3 max-h-48 overflow-y-hidde py-2">
+    <div className="flex flex-wrap justify-center gap-3 max-h-48 overflow-y-hidden py-2">
       <NoLogoButton
         isSelected={selectedHubLogo === null}
         onClick={() => setSelectedHubLogo(null)}
       />
-      {Object.entries(hubLogos).map(([brand, imagePath]) => (
-        <LogoButton
-          key={brand}
-          brand={brand}
-          imagePath={imagePath}
-          isSelected={selectedHubLogo === brand}
-          onClick={() => setSelectedHubLogo(brand)}
-        />
-      ))}
+      {Object.entries(hubLogos).map(([brand, imagePath]) => {
+        // Add inventory check here when you have hub logo inventory
+        const inStock = true // Replace with actual inventory check when available
+        
+        return (
+          <LogoButton
+            key={brand}
+            brand={brand}
+            imagePath={imagePath}
+            isSelected={selectedHubLogo === brand}
+            onClick={() => setSelectedHubLogo(brand)}
+            inStock={inStock}
+          />
+        )
+      })}
     </div>
 
   </div>

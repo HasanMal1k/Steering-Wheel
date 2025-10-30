@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { useTextStore } from '../utils/TextStore'
 import { useConfigurationStore } from '../utils/ConfigurationStore'
-import { joystickColor } from '../utils/ConfigurationStore'
 import gsap from 'gsap'
 
 function Joysticks({ geometry, material, position }) {
