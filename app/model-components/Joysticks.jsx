@@ -124,7 +124,7 @@ function Joysticks({ geometry, material, position }) {
   useEffect(() => {  
     // On mount, set the initial joystick color if available
     if (availableFront) {
-      setSelectedJoystickColor(availableFront[1].color)
+      setSelectedJoystickColor(availableFront[1].color, availableFront[1].id)
       console.log("Setting initial joystick color to:", availableFront[1].color)
     }
   }, [availableFront, setSelectedJoystickColor])

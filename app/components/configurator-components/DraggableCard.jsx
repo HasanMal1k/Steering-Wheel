@@ -25,6 +25,12 @@ function DraggableCard() {
   const setSelectedJoystickColor = useConfigurationStore(state => state.setSelectedJoystickColor)
   const selectedRotaryColor = useConfigurationStore(state => state.selectedRotaryColor)
   const setSelectedRotaryColor = useConfigurationStore(state => state.setSelectedRotaryColor)
+  
+  // Get make/model selection from ConfigurationStore
+  const selectedMake = useConfigurationStore(state => state.selectedMake)
+  const setSelectedMake = useConfigurationStore(state => state.setSelectedMake)
+  const selectedModel = useConfigurationStore(state => state.selectedModel)
+  const setSelectedModel = useConfigurationStore(state => state.setSelectedModel)
 
   // Get inventory data with colors included
   const frontKnobs = useKnobs(state => state.frontKnobs)
@@ -34,10 +40,6 @@ function DraggableCard() {
   const protocolBoardsData = useProtocolBoardStore(state => state.protocolBoardsData)
   const wiringHarnessData = useWiringHarnessStore(state => state.wiringHarnessData)
   const hubAdaptersData = useHubAdapterStore(state => state.hubAdaptersData)
-
-  // Local state for make and model selection
-  const [selectedMake, setSelectedMake] = useState('')
-  const [selectedModel, setSelectedModel] = useState('')
 
   useEffect(() => {
     if (cardRef.current) {
@@ -188,16 +190,17 @@ function DraggableCard() {
           <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Vehicle Make</label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className='w-full bg-gray-800/50 border border-gray-700 text-white rounded-lg px-4 py-3 flex items-center justify-between hover:border-gray-600 focus:border-white focus:outline-none transition-colors'>
-                <span className={selectedMake ? 'text-white' : 'text-gray-400'}>
+              <button className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all'>
+                <span className={selectedMake ? 'text-white' : 'text-gray-300'}>
                   {selectedMake || 'Choose a make...'}
                 </span>
-                <ChevronDown size={16} className='text-gray-400' />
+                <ChevronDown size={16} className='text-gray-300' />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent 
-              className='w-[var(--radix-dropdown-menu-trigger-width)] max-h-[300px] overflow-y-auto bg-gray-800 border-gray-700'
+              className='w-[var(--radix-dropdown-menu-trigger-width)] max-h-[300px] overflow-y-auto bg-black/90 backdrop-blur-md border-white/20 z-[9999]'
               align="start"
+              sideOffset={5}
             >
               {makes.map(makeName => {
                 const available = isMakeAvailable(makeName)
@@ -208,7 +211,7 @@ function DraggableCard() {
                       setSelectedMake(makeName)
                       setSelectedModel('')
                     }}
-                    className='text-white hover:bg-gray-700 cursor-pointer flex items-center justify-between'
+                    className='text-white hover:bg-white/10 cursor-pointer flex items-center justify-between px-3 py-2'
                     disabled={!available}
                   >
                     <span className={!available ? 'opacity-50' : ''}>{makeName}</span>
@@ -227,24 +230,33 @@ function DraggableCard() {
             <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Vehicle Model</label>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className='w-full bg-gray-800/50 border border-gray-700 text-white rounded-lg px-4 py-3 flex items-center justify-between hover:border-gray-600 focus:border-white focus:outline-none transition-colors'>
-                  <span className={selectedModel ? 'text-white' : 'text-gray-400'}>
+                <button className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all'>
+                  <span className={selectedModel ? 'text-white' : 'text-gray-300'}>
                     {selectedModel || 'Choose a model...'}
                   </span>
-                  <ChevronDown size={16} className='text-gray-400' />
+                  <ChevronDown size={16} className='text-gray-300' />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent 
-                className='w-[var(--radix-dropdown-menu-trigger-width)] max-h-[300px] overflow-y-auto bg-gray-800 border-gray-700'
+                className='w-[var(--radix-dropdown-menu-trigger-width)] max-h-[300px] overflow-y-auto bg-black/90 backdrop-blur-md border-white/20 z-[9999]'
                 align="start"
+                sideOffset={5}
               >
                 {models.map(modelName => {
-                  const availability = checkPartsAvailability(make[selectedMake].models[modelName])
+                  const modelData = make[selectedMake].models[modelName]
+                  const availability = checkPartsAvailability(modelData)
                   return (
                     <DropdownMenuItem
                       key={modelName}
-                      onClick={() => setSelectedModel(modelName)}
-                      className='text-white hover:bg-gray-700 cursor-pointer flex items-center justify-between'
+                      onClick={() => {
+                        setSelectedModel(
+                          modelName,
+                          modelData.protocolBoard?.id,
+                          modelData.wiringHarness?.value,
+                          modelData.hubAdapter?.id
+                        )
+                      }}
+                      className='text-white hover:bg-white/10 cursor-pointer flex items-center justify-between px-3 py-2'
                       disabled={!availability.available}
                     >
                       <span className={!availability.available ? 'opacity-50' : ''}>{modelName}</span>
@@ -307,7 +319,7 @@ function DraggableCard() {
                 key={name}
                 color={item.color}
                 isSelected={selectedJoystickColor === item.color}
-                onClick={() => setSelectedJoystickColor(item.color)}
+                onClick={() => setSelectedJoystickColor(item.color, item.id)}
                 inStock={inStock}
               />
             )
@@ -334,7 +346,7 @@ function DraggableCard() {
                 key={name}
                 color={item.color}
                 isSelected={selectedRotaryColor === item.color}
-                onClick={() => setSelectedRotaryColor(item.color)}
+                onClick={() => setSelectedRotaryColor(item.color, item.id)}
                 inStock={inStock}
               />
             )

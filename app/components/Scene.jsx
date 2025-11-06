@@ -18,7 +18,7 @@ function Scene() {
   useThreeStore() 
 
   // Initial Animation
-  // Increasing z position to 0.5
+  // Snappy rotation with bounce-back effect
   useEffect(() => {
     if(wheelRef.current){
       const tl = gsap.timeline({delay: 0.2})
@@ -30,7 +30,8 @@ function Scene() {
         },
         { 
           z: Math.PI * 1,
-          duration: 1.3
+          duration: 1.5,
+          ease: "back.out(1.7)" // Snappy overshoot and bounce back
         }
       )
 
@@ -41,7 +42,8 @@ function Scene() {
         },
         {
           z: 0.5,
-          duration: 1.3
+          duration: 1.3,
+          ease: "power2.out"
         },
         "<" // "<" means run at the same time as previous
       )

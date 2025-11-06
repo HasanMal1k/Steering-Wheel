@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useKnobs } from "../utils/InventoryStore";
 import { useConfigurationStore } from "../utils/ConfigurationStore";
+import { useCartStore } from "../utils/CartStore";
 
 function useInitialInventory() {
   const frontKnobs = useKnobs((state) => state.frontKnobs);
   const sideRotary = useKnobs((state) => state.sideRotary);
+  const setCartItems = useCartStore((state) => state.setCartItems);
 
   const setInitialColors = useConfigurationStore(
     (state) => state.setInitialColors
@@ -21,6 +23,14 @@ function useInitialInventory() {
       );
       // Store the hex color directly
       setAvailableFrontHex(available ? available[1].color : null);
+      
+      // Add to cart immediately
+      if (available) {
+        setCartItems('frontKnobs', {
+          merchandiseId: available[1].id,
+          quantity: 1
+        });
+      }
     }
 
     if (sideRotary) {
@@ -29,8 +39,16 @@ function useInitialInventory() {
       );
       // Store the hex color directly
       setAvailableSideHex(available ? available[1].color : null);
+      
+      // Add to cart immediately
+      if (available) {
+        setCartItems('sideRotary', {
+          merchandiseId: available[1].id,
+          quantity: 1
+        });
+      }
     }
-  }, [frontKnobs, sideRotary]);
+  }, [frontKnobs, sideRotary, setCartItems]);
 
   useEffect(() => {
     // Update configuration store with hex colors

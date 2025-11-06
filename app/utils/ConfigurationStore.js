@@ -49,8 +49,28 @@ export const useConfigurationStore = create((set, get) => ({
   selectedRotaryColor: '#6b7280',
 
   // Updating colors - now accepts hex values directly
-  setSelectedJoystickColor: (hexColor) => set({ selectedJoystickColor: hexColor }),
-  setSelectedRotaryColor: (hexColor) => set({ selectedRotaryColor: hexColor }),
+  setSelectedJoystickColor: (hexColor, itemId) => {
+    set({ selectedJoystickColor: hexColor });
+    // Update cart if itemId provided
+    if (itemId && typeof window !== 'undefined') {
+      const { useCartStore } = require('./CartStore');
+      useCartStore.getState().setCartItems('frontKnobs', { 
+        merchandiseId: itemId, 
+        quantity: 1 
+      });
+    }
+  },
+  setSelectedRotaryColor: (hexColor, itemId) => {
+    set({ selectedRotaryColor: hexColor });
+    // Update cart if itemId provided
+    if (itemId && typeof window !== 'undefined') {
+      const { useCartStore } = require('./CartStore');
+      useCartStore.getState().setCartItems('sideRotary', { 
+        merchandiseId: itemId, 
+        quantity: 1 
+      });
+    }
+  },
 
   // Reset configuration to initial colors from inventory
   resetConfiguration: () => {
@@ -67,6 +87,38 @@ export const useConfigurationStore = create((set, get) => ({
   // Hub logo selection
   selectedHubLogo: null,
   setSelectedHubLogo: (logo) => set({ selectedHubLogo: logo }),
+
+  // Make and Model selection
+  selectedMake: '',
+  selectedModel: '',
+  setSelectedMake: (make) => set({ selectedMake: make, selectedModel: '' }),
+  setSelectedModel: (model, protocolBoardId, wiringHarnessId, hubAdapterId) => {
+    set({ selectedModel: model });
+    // Update cart with all three IDs
+    if (typeof window !== 'undefined') {
+      const { useCartStore } = require('./CartStore');
+      const cartStore = useCartStore.getState();
+      
+      if (protocolBoardId) {
+        cartStore.setCartItems('protocolBoard', { 
+          merchandiseId: protocolBoardId, 
+          quantity: 1 
+        });
+      }
+      if (wiringHarnessId) {
+        cartStore.setCartItems('wiringHarnesses', { 
+          merchandiseId: wiringHarnessId, 
+          quantity: 1 
+        });
+      }
+      if (hubAdapterId) {
+        cartStore.setCartItems('hubAdapter', { 
+          merchandiseId: hubAdapterId, 
+          quantity: 1 
+        });
+      }
+    }
+  },
 
   // Guide card state
   guideCard: false,

@@ -4,7 +4,7 @@ import { joystickColor } from '@/app/utils/ConfigurationStore'
 
 function JoystickToggle() {
     const colors = Object.values(joystickColor)
-    const elementPerRow = 6
+    const elementPerRow = 5
     const totalElements = colors.length
     const numberOfRows = Math.ceil(totalElements / elementPerRow)
 
