@@ -18,6 +18,7 @@ import useFetchShopifyProducts from "./hooks/useFetchShopifyProducts";
 import { MeshGradient } from '@paper-design/shaders-react';
 import useTest from "./hooks/useTest";
 import { useControls } from 'leva';
+import useInitialInventory from "./hooks/useInitialInventory";
 
 function Main() {
   const text = useTextStore(state => state.text);
@@ -27,6 +28,7 @@ function Main() {
   // useTest()
 
   useFetchShopifyProducts()
+  useInitialInventory()
 
   const meshGradientControls = useControls('Mesh Gradient', {
     color1: { value: '#0f1010', label: 'Color 1' },

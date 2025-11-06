@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { useTextStore } from '../utils/TextStore'
 import { useConfigurationStore } from '../utils/ConfigurationStore'
 import gsap from 'gsap'
+import useInitialInventory from '../hooks/useInitialInventory'
 
 function Joysticks({ geometry, material, position }) {
   const joysticksRef = useRef()
@@ -10,7 +11,12 @@ function Joysticks({ geometry, material, position }) {
   const disableText = useTextStore(state => state.disableText)
   const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
   const selectedJoystickColor = useConfigurationStore(state => state.selectedJoystickColor)
+  const setSelectedJoystickColor = useConfigurationStore(state => state.setSelectedJoystickColor)
   const activeComponent = useConfigurationStore(state => state.activeComponent)
+
+
+  const { availableFront, availableSide } = useInitialInventory()
+
 
   // Create materials - clone the original to avoid affecting other components
   const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
@@ -113,6 +119,16 @@ function Joysticks({ geometry, material, position }) {
     setActiveComponent('joysticks')
     // console.log('Joysticks Selected')
   }
+
+
+  useEffect(() => {  
+    // On mount, set the initial joystick color if available
+    if (availableFront) {
+      setSelectedJoystickColor(availableFront[1].color)
+      console.log("Setting initial joystick color to:", availableFront[1].color)
+    }
+  }, [availableFront, setSelectedJoystickColor])
+
 
   return (
     <mesh
