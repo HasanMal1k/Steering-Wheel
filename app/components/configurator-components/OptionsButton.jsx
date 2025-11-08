@@ -102,7 +102,7 @@ const guideClick = () => {
                       hover:bg-yellow-600/80
                       text-white transition-colors
                      h-9 sm:h-10 hover:cursor-pointer"
-          style={{ fontFamily: 'var(--font-geist-sans)' }}
+          style={{ fontFamily: 'var(--font-michroma)' }}
         >
           <Settings strokeWidth={1.5} className="w-[18px] h-[18px] sm:w-5 sm:h-5" />
           <span className="text-xs sm:text-sm uppercase hidden xs:inline sm:inline">
@@ -111,7 +111,7 @@ const guideClick = () => {
         </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-48 sm:w-56">
+      <DropdownMenuContent className="w-48 sm:w-56" style={{ fontFamily: 'var(--font-michroma)' }}>
         <DropdownMenuItem className="hover:cursor-pointer" onClick={takeScreenshot}>
           <span className="mr-2"><Camera /></span> Download Image
         </DropdownMenuItem>

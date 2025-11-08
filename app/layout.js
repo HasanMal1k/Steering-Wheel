@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Michroma } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import GQLProvider from "./utils/gqlClient";
@@ -13,6 +13,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const michroma = Michroma({
+  variable: "--font-michroma",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
 export const metadata = {
   title: "Triple Seven - Custom Wheel Configurator",
   description: "Build Your Own Custom Wheels in 3D – Interactive Wheel Configurator Tool",
@@ -22,7 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
+        className={`${geistSans.variable} ${geistMono.variable} ${michroma.variable} antialiased dark`}
       >
         <ThemeProvider
             attribute="class"

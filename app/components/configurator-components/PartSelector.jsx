@@ -39,17 +39,18 @@ function PartSelector() {
   }
 
   return (
-    <div className='fixed bottom-6 right-10 md:bottom-10 md:right-10 z-10 flex items-center gap-2 md:gap-4'>
+    <div className='fixed bottom-6 right-10 md:bottom-10 md:right-10 z-10 flex items-center gap-2 md:gap-4' style={{fontFamily: 'var(--font-michroma)'}}>
       <Select value={selectValue} onValueChange={handleValueChange}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Select Part" className='text-white'/>
         </SelectTrigger>
         <SelectContent>
-          <SelectGroup>
+          <SelectGroup style={{fontFamily: 'var(--font-michroma)'}}>
             <SelectItem value="default">Default View</SelectItem>
             <SelectItem value="joysticks">Joysticks</SelectItem>
             <SelectItem value="rotary">Rotary Controls</SelectItem>
             <SelectItem value="paddles">Paddle Shifters</SelectItem>
+            <SelectItem value="hub">Hub</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

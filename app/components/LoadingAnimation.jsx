@@ -34,7 +34,7 @@ function LoadingAnimation({ progressValue }) {
                     <div className="w-px h-8 sm:h-12 md:h-16 bg-[#f6f6f6]"></div>
                 
                     <h1 className='text-[#f6f6f6] text-sm sm:text-lg md:text-2xl font-light font-sans tracking-wide'
-                        style={{fontFamily: 'var(--font-geist-sans)'}}>
+                        style={{fontFamily: 'var(--font-michroma)'}}>
                         <span className="hidden sm:inline">Wheel Configurator</span>
                         <span className="sm:hidden">Configurator</span>
                     </h1>

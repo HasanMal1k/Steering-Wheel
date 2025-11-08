@@ -388,7 +388,8 @@ function DraggableCard() {
       ref={cardRef}
       style={{
         // KEY FIX: Ensure proper touch behavior on the card
-        touchAction: 'none' // Allow dragging on the card itself
+        touchAction: 'none', // Allow dragging on the card itself
+        fontFamily: 'var(--font-michroma)'
       }}
     >
       <div className='p-4 pt-0 space-y-4'>
