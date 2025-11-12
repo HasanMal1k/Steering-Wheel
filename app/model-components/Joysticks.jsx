@@ -19,7 +19,7 @@ function Joysticks({ geometry, material, position }) {
 
 
   // Create materials - clone the original to avoid affecting other components
-  const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
+  const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffff' })
   const [originalMaterial] = useState(material.clone())
   const [currentMaterial, setCurrentMaterial] = useState(originalMaterial.clone())
 

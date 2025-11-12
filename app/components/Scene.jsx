@@ -18,34 +18,54 @@ function Scene() {
   useThreeStore() 
 
   // Initial Animation
-  // Snappy rotation with bounce-back effect
+  // Balanced, natural entrance with subtle spring
   useEffect(() => {
     if(wheelRef.current){
-      const tl = gsap.timeline({delay: 0.2})
+      const tl = gsap.timeline({delay: 0.3})
 
+      // Rotation with subtle bounce
       tl.fromTo(
         wheelRef.current.rotation,
         { 
-          z: Math.PI * 0.76
+          z: Math.PI * 0.7
         },
         { 
           z: Math.PI * 1,
-          duration: 1.5,
-          ease: "back.out(1.7)" // Snappy overshoot and bounce back
+          duration: 2,
+          ease: "back.out(1.2)" // Subtle overshoot
         }
       )
 
+      // Position synchronized with rotation, matching speed
       tl.fromTo(
         wheelRef.current.position,
         {
-          z: -2
+          z: -2.2
         },
         {
           z: 0.5,
-          duration: 1.3,
-          ease: "power2.out"
+          duration: 2,
+          ease: "back.out(1.2)" // Same easing for synchronized feel
         },
         "<" // "<" means run at the same time as previous
+      )
+
+      // Scale with gentle spring
+      tl.fromTo(
+        wheelRef.current.scale,
+        {
+          x: 0.0155 * scale,
+          y: 0.0155 * scale,
+          z: 0.0155 * scale
+        },
+        {
+          x: 0.018 * scale,
+          y: 0.018 * scale,
+          z: 0.018 * scale,
+          duration: 1.8,
+          ease: "elastic.out(0.8, 0.6)" // Gentle spring effect
+        },
+        "<0.15" // Start slightly after the others
       )
 
     }
