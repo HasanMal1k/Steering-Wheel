@@ -47,6 +47,7 @@ function PartSelector() {
         <SelectContent>
           <SelectGroup style={{fontFamily: 'var(--font-michroma)'}}>
             <SelectItem value="default">Default View</SelectItem>
+            <SelectItem value="wheelType">Wheel Type</SelectItem>
             <SelectItem value="joysticks">Joysticks</SelectItem>
             <SelectItem value="rotary">Rotary Controls</SelectItem>
             <SelectItem value="paddles">Paddle Shifters</SelectItem>

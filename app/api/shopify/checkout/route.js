@@ -13,8 +13,8 @@ const shopifyClient = new Client({
 
 export async function POST(request) {
   try {
-    // Get cart items from request body
-    const { cartItems } = await request.json();
+    // Get cart items and configuration from request body
+    const { cartItems, configuration } = await request.json();
 
     if (!cartItems || Object.keys(cartItems).length === 0) {
       return new Response(
@@ -47,6 +47,7 @@ export async function POST(request) {
     }
 
     console.log('Creating cart with items:', lines);
+    console.log('Configuration:', configuration);
 
     // Cart create mutation
     const cartMutation = `
@@ -64,9 +65,22 @@ export async function POST(request) {
       }
     `;
     
+    // Build custom attributes for order tracking
+    const attributes = [];
+    if (configuration) {
+      attributes.push({ key: "source", value: "steering_wheel_configurator" });
+      if (configuration.wheelType) attributes.push({ key: "wheel_type", value: configuration.wheelType });
+      if (configuration.make) attributes.push({ key: "vehicle_make", value: configuration.make });
+      if (configuration.model) attributes.push({ key: "vehicle_model", value: configuration.model });
+      if (configuration.joystickColor) attributes.push({ key: "joystick_color", value: configuration.joystickColor });
+      if (configuration.rotaryColor) attributes.push({ key: "rotary_color", value: configuration.rotaryColor });
+    }
+
     const variables = {
       input: {
-        lines
+        lines,
+        attributes,
+        note: configuration ? `Steering Wheel Configurator Order - ${configuration.make || ''} ${configuration.model || ''}`.trim() : undefined
       }
     };
 

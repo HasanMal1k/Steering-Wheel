@@ -15,7 +15,7 @@ import { useRef, useEffect, useState } from "react"
 import gsap from "gsap"
 
 export function CartCard() {
-  const { cartCard, disableCardComponent, enableComponent } = useConfigurationStore()
+  const { cartCard, disableCardComponent, enableComponent, selectedWheelType, selectedMake, selectedModel, selectedJoystickColor, selectedRotaryColor } = useConfigurationStore()
   const cartItems = useCartStore(state => state.cartItems)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -27,6 +27,17 @@ export function CartCard() {
     setError(null)
 
     console.log('🛒 Initiating checkout with cart items:', cartItems)
+    
+    // Build configuration object to pass to checkout
+    const configuration = {
+      wheelType: selectedWheelType,
+      make: selectedMake,
+      model: selectedModel,
+      joystickColor: selectedJoystickColor,
+      rotaryColor: selectedRotaryColor
+    }
+
+    console.log('🎨 Configuration:', configuration)
     
     // Log which items have merchandiseId
     Object.entries(cartItems).forEach(([key, item]) => {
@@ -43,7 +54,7 @@ export function CartCard() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ cartItems }),
+        body: JSON.stringify({ cartItems, configuration }),
       })
 
       const data = await response.json()

@@ -1,7 +1,8 @@
 
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import gsap from 'gsap'
 import { useTextStore } from '../utils/TextStore'
 import { useConfigurationStore } from '../utils/ConfigurationStore'
 
@@ -44,6 +45,20 @@ export function RoundWheel(props) {
     setActiveComponent('hub')
   }
 
+  // Restore center plate material when hub becomes active
+  useEffect(() => {
+    if (activeComponent === 'hub' && centerPlateRef.current) {
+      centerPlateRef.current.material = originalMaterial
+    }
+  }, [activeComponent, originalMaterial])
+
+  // Restore wheel material when wheelType is active
+  useEffect(() => {
+    if (wheelBodyRef.current && activeComponent === 'wheelType') {
+      wheelBodyRef.current.material = originalWheelMaterial
+    }
+  }, [activeComponent, originalWheelMaterial])
+
   // Wheel body hover handlers
   const handleWheelPointerOver = (e) => {
     e.stopPropagation()
@@ -63,6 +78,7 @@ export function RoundWheel(props) {
 
   const handleWheelClick = (e) => {
     e.stopPropagation()
+    console.log('Round Wheel clicked - setting wheelType to round')
     setSelectedWheelType('round')
     setActiveComponent('wheelType')
   }
@@ -77,9 +93,9 @@ export function RoundWheel(props) {
         geometry={nodes.steering_wheel.geometry}
         material={materials['Material.001']}
         position={[11.857, 0.007, 45.242]}
-        onPointerOver={handleWheelPointerOver}
-        onPointerOut={handleWheelPointerOut}
-        onClick={handleWheelClick}
+        onPointerOver={activeComponent !== 'hub' && activeComponent !== 'wheelType' ? handleWheelPointerOver : undefined}
+        onPointerOut={activeComponent !== 'hub' && activeComponent !== 'wheelType' ? handleWheelPointerOut : undefined}
+        onClick={activeComponent !== 'hub' && activeComponent !== 'wheelType' ? handleWheelClick : undefined}
       />
       <mesh
         ref={centerPlateRef}
@@ -87,9 +103,10 @@ export function RoundWheel(props) {
         castShadow
         receiveShadow
         geometry={nodes.Wheel_Center_plate.geometry}
-        material={materials['Material.001']}
+        material={originalMaterial}
         position={[0.618, 6.065, -4.153]}
         rotation={[0, -1.55, 0]}
+        renderOrder={1}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
         onClick={handleClick}

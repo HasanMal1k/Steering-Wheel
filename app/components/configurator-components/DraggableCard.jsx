@@ -21,6 +21,12 @@ function DraggableCard() {
 
   const activeComponent = useConfigurationStore(state => state.activeComponent)
   const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
+  
+  // Debug: Log when activeComponent changes
+  useEffect(() => {
+    console.log('DraggableCard - activeComponent changed to:', activeComponent)
+  }, [activeComponent])
+
   const selectedJoystickColor = useConfigurationStore(state => state.selectedJoystickColor)
   const setSelectedJoystickColor = useConfigurationStore(state => state.setSelectedJoystickColor)
   const selectedRotaryColor = useConfigurationStore(state => state.selectedRotaryColor)
@@ -70,7 +76,10 @@ function DraggableCard() {
               e.target.classList.contains('color-circle') ||
               e.target.closest('.color-circle') ||
               e.target.closest('[role="menuitem"]') ||
-              e.target.closest('[data-radix-dropdown-menu-content]')) {
+              e.target.closest('[data-radix-collection-item]') ||
+              e.target.closest('[data-radix-dropdown-menu-trigger]') ||
+              e.target.closest('[data-radix-dropdown-menu-content]') ||
+              e.target.closest('[data-radix-dropdown-menu-item]')) {
             return false; // Cancel the drag
           }
         }
@@ -194,12 +203,17 @@ function DraggableCard() {
           <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Vehicle Make</label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all'>
+              <div 
+                className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all cursor-pointer'
+                onClick={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
+              >
                 <span className={selectedMake ? 'text-white' : 'text-gray-300'}>
                   {selectedMake || 'Choose a make...'}
                 </span>
                 <ChevronDown size={16} className='text-gray-300' />
-              </button>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent 
               className='w-[var(--radix-dropdown-menu-trigger-width)] max-h-[300px] overflow-y-auto bg-black/90 backdrop-blur-md border-white/20 z-[9999]'
@@ -213,7 +227,6 @@ function DraggableCard() {
                     key={makeName}
                     onClick={() => {
                       setSelectedMake(makeName)
-                      setSelectedModel('')
                     }}
                     className='text-white hover:bg-white/10 cursor-pointer flex items-center justify-between px-3 py-2'
                     disabled={!available}
@@ -234,12 +247,17 @@ function DraggableCard() {
             <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Vehicle Model</label>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all'>
+                <div 
+                  className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all cursor-pointer'
+                  onClick={(e) => e.stopPropagation()}
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onMouseDown={(e) => e.stopPropagation()}
+                >
                   <span className={selectedModel ? 'text-white' : 'text-gray-300'}>
                     {selectedModel || 'Choose a model...'}
                   </span>
                   <ChevronDown size={16} className='text-gray-300' />
-                </button>
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent 
                 className='w-[var(--radix-dropdown-menu-trigger-width)] max-h-[300px] overflow-y-auto bg-black/90 backdrop-blur-md border-white/20 z-[9999]'
@@ -376,12 +394,17 @@ function DraggableCard() {
           <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Wheel Type</label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all'>
+              <div 
+                className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all cursor-pointer'
+                onClick={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
+              >
                 <span className='text-white'>
                   {wheelTypes.find(w => w.value === selectedWheelType)?.label || 'Choose wheel type...'}
                 </span>
                 <ChevronDown size={16} className='text-gray-300' />
-              </button>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent 
               className='w-[var(--radix-dropdown-menu-trigger-width)] bg-black/90 backdrop-blur-md border-white/20 z-[9999]'
@@ -437,6 +460,8 @@ function DraggableCard() {
     <Card 
       className={`fixed right-6 top-1/2 -translate-y-1/2 min-w-80 max-w-md z-1000 bg-black/50 border-gray-700 backdrop-blur-sm cursor-move hidden`} 
       ref={cardRef}
+      onClick={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
       style={{
         // KEY FIX: Ensure proper touch behavior on the card
         touchAction: 'none', // Allow dragging on the card itself
@@ -475,6 +500,8 @@ function DraggableCard() {
         {/* Component Options - these should NOT be draggable */}
         <div 
           className="component-options"
+          onClick={(e) => e.stopPropagation()}
+          onPointerDown={(e) => e.stopPropagation()}
           style={{ touchAction: 'manipulation' }} // Allow normal touch interactions
         >
           {renderComponentOptions()}

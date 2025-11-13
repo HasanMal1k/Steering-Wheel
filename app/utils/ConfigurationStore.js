@@ -97,7 +97,16 @@ export const useConfigurationStore = create((set, get) => ({
   selectedModel: '',
   setSelectedMake: (make) => set({ selectedMake: make, selectedModel: '' }),
   setSelectedModel: (model, protocolBoardId, wiringHarnessId, hubAdapterId) => {
+    const state = get();
     set({ selectedModel: model });
+    
+    // Set the hub logo based on the selected make
+    if (state.selectedMake) {
+      const logoName = state.selectedMake.toLowerCase();
+      console.log('Setting hub logo to:', logoName);
+      set({ selectedHubLogo: logoName });
+    }
+    
     // Update cart with all three IDs
     if (typeof window !== 'undefined') {
       const { useCartStore } = require('./CartStore');

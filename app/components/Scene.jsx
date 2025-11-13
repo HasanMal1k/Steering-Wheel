@@ -96,7 +96,7 @@ function Scene() {
       /> */}
       {/* <pointLight position={[-10, -10, -10]} intensity={0.3} /> */}
       
-      <Hub scale={[0.018 * scale, 0.018 * scale, 0.018 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]} ref={wheelRef}/>
+      <Hub position={[ 0, 0, -1]} scale={[0.018 * scale, 0.018 * scale, 0.018 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]} ref={wheelRef}/>
 
     </>
   )

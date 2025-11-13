@@ -32,6 +32,11 @@ function CameraController() {
       target: [0, 0, 0],
       fov: 45
     },
+    wheelType: {
+      position: [0, 0, 5],
+      target: [0, 0, 0],
+      fov: 60
+    },
     default: {
       position: [0, 0, 5],
       target: [0, 0, 0],
@@ -46,7 +51,7 @@ function CameraController() {
     let componentType = 'default'
 
     // Check if activeComponent is one of the valid component types
-    if (activeComponent && ['paddles', 'joysticks', 'rotary', 'hub'].includes(activeComponent)) {
+    if (activeComponent && ['paddles', 'joysticks', 'rotary', 'hub', 'wheelType'].includes(activeComponent)) {
       componentType = activeComponent
       targetConfig = cameraConfigs[componentType]
     }

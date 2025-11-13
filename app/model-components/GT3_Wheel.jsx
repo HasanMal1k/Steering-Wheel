@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import gsap from 'gsap'
 import { useTextStore } from '../utils/TextStore'
 import { useConfigurationStore } from '../utils/ConfigurationStore'
 
@@ -47,6 +48,32 @@ export function GT3Wheel(props) {
     setActiveComponent('hub')
   }
 
+  // Restore center plate material when hub becomes active
+  useEffect(() => {
+    if (activeComponent === 'hub' && centerPlateRef.current) {
+      centerPlateRef.current.material = originalMaterial
+    }
+  }, [activeComponent, originalMaterial])
+
+  // Restore wheel materials when wheelType is active
+  useEffect(() => {
+    if (wheelGroupRef.current && activeComponent === 'wheelType') {
+      wheelGroupRef.current.traverse((child) => {
+        if (child.isMesh) {
+          if (child.name === 'Circle002') {
+            child.material = originalWheelMaterials.material001
+          } else if (child.name === 'Body2') {
+            child.material = originalWheelMaterials.material007
+          } else if (child.name === 'Body1_1') {
+            child.material = originalWheelMaterials.material005
+          } else if (child.name === 'Body1_2') {
+            child.material = originalWheelMaterials.material006
+          }
+        }
+      })
+    }
+  }, [activeComponent, originalWheelMaterials])
+
   // Wheel body hover handlers - only affect GT3 Wheel group
   const handleWheelPointerOver = (e) => {
     e.stopPropagation()
@@ -84,6 +111,7 @@ export function GT3Wheel(props) {
 
   const handleWheelClick = (e) => {
     e.stopPropagation()
+    console.log('GT3 Wheel clicked - setting wheelType to gt3')
     setSelectedWheelType('gt3')
     setActiveComponent('wheelType')
   }
@@ -96,8 +124,9 @@ export function GT3Wheel(props) {
         castShadow
         receiveShadow
         geometry={nodes.Plane001.geometry}
-        material={materials['Material.005']}
+        material={originalMaterial}
         position={[11.857, 0.007, 45.242]}
+        renderOrder={1}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
         onClick={handleClick}
@@ -105,9 +134,9 @@ export function GT3Wheel(props) {
       <group 
         ref={wheelGroupRef}
         name='GT3 Wheel'
-        onPointerOver={handleWheelPointerOver}
-        onPointerOut={handleWheelPointerOut}
-        onClick={handleWheelClick}
+        onPointerOver={activeComponent !== 'hub' && activeComponent !== 'wheelType' ? handleWheelPointerOver : undefined}
+        onPointerOut={activeComponent !== 'hub' && activeComponent !== 'wheelType' ? handleWheelPointerOut : undefined}
+        onClick={activeComponent !== 'hub' && activeComponent !== 'wheelType' ? handleWheelClick : undefined}
       >
         <mesh
             name="Circle002"
