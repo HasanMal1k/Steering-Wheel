@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react'
 import { OrbitControls } from '@react-three/drei'
-import { Wheel } from '../model-components/WheelModel' 
+import { Hub } from '../model-components/Hub' 
 import CameraController from './CameraController'
 import useResponsiveScale from '../hooks/useResponsiveScale'
 import useThreeStore from '../hooks/useThreeStore'
@@ -96,7 +96,7 @@ function Scene() {
       /> */}
       {/* <pointLight position={[-10, -10, -10]} intensity={0.3} /> */}
       
-      <Wheel scale={[0.018 * scale, 0.018 * scale, 0.018 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]} ref={wheelRef}/>
+      <Hub scale={[0.018 * scale, 0.018 * scale, 0.018 * scale]} rotation={[-Math.PI * 0.5, Math.PI, Math.PI]} ref={wheelRef}/>
 
     </>
   )

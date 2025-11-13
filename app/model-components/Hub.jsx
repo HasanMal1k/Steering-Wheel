@@ -8,39 +8,25 @@ import PaddleShifters from './PaddleShifters'
 import Rotary from './Rotary'
 import Joysticks from './Joysticks'
 import Main_Controller from './Main_Controller'
-import CenterPlate from './CenterPlate'
 import { useConfigurationStore } from '../utils/ConfigurationStore'
 import useResponsiveScale from '../hooks/useResponsiveScale'
 import gsap from 'gsap'
 import Blue_Buttons from './Blue_Buttons'
-import Steering_Wheel from './Steering_Wheel'
 import Back_Wheel_Shifter from './Back_Wheel_Shifter'
 import Purple_Button from './Purple_Button'
 import White_Button from './White_Button'
 import Red_Buttons from './Red_Buttons'
 import Green_Buttons from './Green_Buttons'
 import Car_Logos from './Car_Logos'
+import Steering_Wheel_Options from './Steering_Wheel_Options'
 
-export function Wheel(props) {
-  const { nodes, materials } = useGLTF('/Models/Hub.glb')
+export function Hub(props) {
+  const { nodes, materials } = useGLTF('/models/hub_only.glb')
   const [wheelHover, setWheelHover] = useState(null)
   const [wheelClicked, setWheelClicked] = useState(false)
   const activeComponent = useConfigurationStore(state => state.activeComponent)
   const wheelGroupRef = useRef()
-  const  scale  = useResponsiveScale()
-  
-  // console.log(activeComponent)
-
-
-  // Tried initial animation here, but will put code in scene
-  // useEffect(() => {
-  //   if(wheelGroupRef.current){
-  //     gsap.fromTo(wheelGroupRef.current.rotation, 
-  //       { z: 0.3 },
-  //       { z: 1, duration: 1 }
-  //     )
-  //   }
-  // }, [wheelGroupRef])
+  const scale = useResponsiveScale()
 
   // Handle wheel rotation when paddles are selected
   useEffect(() => {
@@ -70,12 +56,12 @@ export function Wheel(props) {
   }, [activeComponent])
 
   const clonedMaterial = useMemo(() => {
-    return materials['Material.001'].clone()
-  }, [])
+    return materials['Material.002'].clone()
+  }, [materials])
 
   const clonedMaterialButtons = useMemo(() => {
-    return materials['Material.001'].clone()
-  }, [])
+    return materials['Material.002'].clone()
+  }, [materials])
 
   // Animate opacity changes for main components
   useEffect(() => {
@@ -151,240 +137,101 @@ export function Wheel(props) {
       <Main_Controller
         geometry={nodes.main_controler.geometry}
         material={clonedMaterial}
-        position={[11.857, 0.007, 45.242]}
+        position={[10.607, -11.39, 4.38]}
       />
-      <Steering_Wheel
-        geometry={nodes.steering_wheel.geometry}
-        material={clonedMaterial}
-        position={[11.857, 0.007, 45.242]}
-      />
+      
       <PaddleShifters
         geometry={nodes.PADDLE_SHIFTERS.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
+        material={materials['Material.002']}
+        position={[-0.311, -33.299, -5.847]}
       />
+
       <Rotary
         geometry={nodes.side_knobs.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
+        material={materials['Material.002']}
+        position={[-0.534, -11.321, 34.052]}
       />
+
       <Joysticks
         geometry={nodes.joysticks.geometry}
-        material={materials['Material.001']}
-        position={[11.857, 0.007, 45.242]}
+        material={materials['Material.002']}
+        position={[0.559, 9.115, 51.946]}
       />
+
       <Back_Wheel_Shifter
         geometry={nodes.back_wheel_shifter.geometry}
         material={clonedMaterial}
-        position={[11.857, 0.007, 45.242]}
+        position={[0.049, -31.661, 0.651]}
       />
+
       <Purple_Button
         geometry={nodes.purple_button.geometry}
         material={clonedMaterial}
-        position={[11.857, 0.007, 45.242]}
+        position={[76.939, 5.438, -52.245]}
       />
+
       <Blue_Buttons
         geometry_1={nodes.blue_buttons.geometry}
         material_1={clonedMaterialButtons}
-        position_1={[11.857, 0.007, 45.242]}
+        position_1={[40.35, 1.324, 23.029]}
 
         geometry_2={nodes.blue_buttons001.geometry}
         material_2={clonedMaterialButtons}
-        position_2={[11.857, 0.007, 45.242]}
+        position_2={[-57.253, 5.453, -67.962]}
 
-        
         geometry_3={nodes.blue_buttons002.geometry}
         material_3={clonedMaterialButtons}
-        position_3={[11.857, 0.007, 45.242]}
+        position_3={[57.585, 5.452, -68.008]}
       
         geometry_4={nodes.blue_buttons003.geometry}
         material_4={clonedMaterialButtons}
-        position_4={[11.857, 0.007, 45.242]}
-      
+        position_4={[64.551, 5.455, 29.659]}
       
         geometry_5={nodes.blue_buttons004.geometry}
-        material_5={clonedMaterial}
-        position_5={[11.857, 0.007, 45.242]}
-
+        material_5={clonedMaterialButtons}
+        position_5={[-64.278, 5.453, 29.483]}
       />
+
       <White_Button
         geometry={nodes.white_button.geometry}
         material={clonedMaterialButtons}
-        position={[11.857, 0.007, 45.242]}
+        position={[-76.66, 5.449, -52.255]}
       />
 
       <Red_Buttons
         geometry_1={nodes.red_buttons.geometry}
         material_1={clonedMaterialButtons}
-        position_1={[11.857, 0.007, 45.242]}
+        position_1={[-48.902, 1.306, 34.954]}
 
         geometry_2={nodes.red_buttons001.geometry}
         material_2={clonedMaterialButtons}
-        position_2={[11.857, 0.007, 45.242]}
+        position_2={[42.031, 5.458, -54.999]}
 
         geometry_3={nodes.red_buttons002.geometry}
         material_3={clonedMaterialButtons}
-        position_3={[11.857, 0.007, 45.242]}
+        position_3={[74.361, 5.451, 55.843]}
 
         geometry_4={nodes.red_buttons003.geometry}
         material_4={clonedMaterialButtons}
-        position_4={[11.857, 0.007, 45.242]}
+        position_4={[-73.993, 5.45, 55.838]}
 
         geometry_5={nodes.red_buttons004.geometry}
         material_5={clonedMaterialButtons}
-        position_5={[11.857, 0.007, 45.242]}
-        
+        position_5={[-41.885, 5.448, -54.998]}
       />
 
       <Green_Buttons
         geometry={nodes.green_buttons.geometry}
         material={clonedMaterialButtons}
-        position={[11.857, 0.007, 45.242]}
+        position={[1.586, 1.532, 39.796]}
       />
 
-      
-      <CenterPlate
-        name="Wheel_Center_plate"
-        castShadow
-        receiveShadow
-        geometry={nodes.Wheel_Center_plate.geometry}
-        material={clonedMaterial}
-        position={[0.618, 6.065, -4.153]}
-        rotation={[0, -1.55, 0]}  
-      />
+      <Car_Logos />
 
-      {/* <Acura 
-        castShadow
-        receiveShadow
-        position={[0, 8.3, 0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={50} /> */}
-
-        {/* <Audi 
-        castShadow
-        receiveShadow
-        position={[0, 8, 0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={100} /> */}
-
-        {/* <BMW 
-        castShadow
-        receiveShadow
-        position={[0, 8, 0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Corvette 
-        castShadow
-        receiveShadow
-        position={[0, 8, -4]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Ford 
-        castShadow
-        receiveShadow
-        position={[0, 8, 0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={90} /> */}
-
-        {/* <Honda 
-        castShadow
-        receiveShadow
-        position={[0, 7.6, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* Not the actual hyundai logo, it's subaru's */}
-
-        {/* <Hyundai 
-        castShadow
-        receiveShadow
-        position={[0, 8, 0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Lamborghini 
-        castShadow
-        receiveShadow
-        position={[0, 7.6, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Lexus 
-        castShadow
-        receiveShadow
-        position={[0, 7.6, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Mazda 
-        castShadow
-        receiveShadow
-        position={[0, 7.6, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Mercedes 
-        castShadow
-        receiveShadow
-        position={[0, 7.6, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Mini 
-        castShadow
-        receiveShadow
-        position={[0, 7.6, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={90} /> */}
-
-        {/* <Mustang 
-        castShadow
-        receiveShadow
-        position={[0, 7.4, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Nissan 
-        castShadow
-        receiveShadow
-        position={[0, 7.6, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Porsche 
-        castShadow
-        receiveShadow
-        position={[0, 7.6, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        {/* <Subaru 
-        castShadow
-        receiveShadow
-        position={[0, 7.6, -0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={70} /> */}
-
-        {/* <Toyota 
-        castShadow
-        receiveShadow
-        position={[0, 8.3, 0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={50} /> */}
-
-        {/* <Volkswagen 
-        castShadow
-        receiveShadow
-        position={[0, 8.3, 0]} 
-        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-        scale={60} /> */}
-
-        <Car_Logos />
+      <Steering_Wheel_Options />
 
     </group>
   )
 }
 
-useGLTF.preload('/Models/Hub.glb')
+useGLTF.preload('/models/hub_only.glb')

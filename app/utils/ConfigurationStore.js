@@ -88,6 +88,10 @@ export const useConfigurationStore = create((set, get) => ({
   selectedHubLogo: null,
   setSelectedHubLogo: (logo) => set({ selectedHubLogo: logo }),
 
+  // Wheel type selection
+  selectedWheelType: 'gt3', // 'gt3' or 'round'
+  setSelectedWheelType: (type) => set({ selectedWheelType: type }),
+
   // Make and Model selection
   selectedMake: '',
   selectedModel: '',

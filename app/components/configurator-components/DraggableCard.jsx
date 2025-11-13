@@ -32,6 +32,10 @@ function DraggableCard() {
   const selectedModel = useConfigurationStore(state => state.selectedModel)
   const setSelectedModel = useConfigurationStore(state => state.setSelectedModel)
 
+  // Get wheel type selection
+  const selectedWheelType = useConfigurationStore(state => state.selectedWheelType)
+  const setSelectedWheelType = useConfigurationStore(state => state.setSelectedWheelType)
+
   // Get inventory data with colors included
   const frontKnobs = useKnobs(state => state.frontKnobs)
   const sideRotary = useKnobs(state => state.sideRotary)
@@ -359,6 +363,51 @@ function DraggableCard() {
     )
   }
 
+  const renderWheelTypeSelection = () => {
+    const wheelTypes = [
+      { value: 'round', label: 'Round Wheel' },
+      { value: 'gt3', label: 'GT3 Wheel' },
+      { value: 'hub', label: 'Hub Only (No Steering Wheel)' }
+    ]
+
+    return (
+      <div className='space-y-4'>
+        <div className='space-y-2'>
+          <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Wheel Type</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all'>
+                <span className='text-white'>
+                  {wheelTypes.find(w => w.value === selectedWheelType)?.label || 'Choose wheel type...'}
+                </span>
+                <ChevronDown size={16} className='text-gray-300' />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent 
+              className='w-[var(--radix-dropdown-menu-trigger-width)] bg-black/90 backdrop-blur-md border-white/20 z-[9999]'
+              align="start"
+              sideOffset={5}
+            >
+              {wheelTypes.map(wheelType => (
+                <DropdownMenuItem
+                  key={wheelType.value}
+                  onClick={() => setSelectedWheelType(wheelType.value)}
+                  className='text-white hover:bg-white/10 cursor-pointer flex items-center justify-between px-3 py-2'
+                >
+                  <span>{wheelType.label}</span>
+                  {selectedWheelType === wheelType.value && <Check size={14} className='text-green-400' />}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <p className="text-xs text-gray-400">
+          Select the type of steering wheel or hub configuration
+        </p>
+      </div>
+    )
+  }
+
   const renderComponentOptions = () => {
     switch (activeComponent) {
       case 'joysticks':
@@ -367,6 +416,8 @@ function DraggableCard() {
         return renderRotaryColors()
       case 'hub':
         return renderMakeModelSelection()
+      case 'wheelType':
+        return renderWheelTypeSelection()
       case 'paddles':
         return (
           <div className='space-y-3'>
