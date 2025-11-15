@@ -48,7 +48,7 @@ export async function POST(request) {
       return new Response('OK', { status: 200 });
     }
 
-    console.log('🎯 Configurator order detected!');
+    console.log('Configurator order detected!');
 
     // Extract configuration data from note attributes
     const getAttributeValue = (name) => {

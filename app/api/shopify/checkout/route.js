@@ -1,8 +1,7 @@
 import { Client, fetchExchange } from "urql";
 
 const shopifyClient = new Client({
-  url: process.env.SHOPIFY_STOREFRONT_API_URL, // e.g. https://777performance.myshopify.com/api/2025-07/graphql.json
-  exchanges: [fetchExchange],
+  url: process.env.SHOPIFY_STOREFRONT_API_URL, 
   fetchOptions: () => ({
     headers: {
       "Content-Type": "application/json",
@@ -80,7 +79,13 @@ export async function POST(request) {
       input: {
         lines,
         attributes,
-        note: configuration ? `Steering Wheel Configurator Order - ${configuration.make || ''} ${configuration.model || ''}`.trim() : undefined
+        note: configuration ? `Steering Wheel Configurator Order - ${configuration.make || ''} ${configuration.model || ''}`.trim() : undefined,
+        // Store screenshot for webhook processing
+        ...(configuration?.screenshot && {
+          buyerIdentity: {
+            email: configuration.screenshot // Temporary storage hack - will extract in webhook
+          }
+        })
       }
     };
 

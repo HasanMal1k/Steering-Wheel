@@ -29,7 +29,7 @@ export async function POST(request) {
     const { data, error } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'orders@yourdomain.com',
       to: recipientEmail,
-      subject: `🎯 New Configurator Order #${orderDetails.orderNumber}`,
+      subject: `New Configurator Order #${orderDetails.orderNumber}`,
       react: OrderNotificationEmail({ orderDetails }),
     });
 

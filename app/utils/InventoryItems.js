@@ -663,7 +663,7 @@ export const make = {
       }
     }
   },
-  'MITSUBISHI': {
+  'Mitsubishi': {
     'models': {
       'LANCER EVO X': {
         'protocolBoard': protocolBoards.S21,
@@ -673,7 +673,7 @@ export const make = {
     }
   },
 
-  'VOLKSWAGEN': {
+  'Volkswagen': {
     'models': {
       'MK5': {
         'protocolBoard': protocolBoards.S1,
@@ -724,7 +724,7 @@ export const make = {
     }
   },
 
-  'FORD': {
+  'Ford': {
     'models': {
       'FOCUS RS': {
         'protocolBoard': protocolBoards.S25,
@@ -733,7 +733,7 @@ export const make = {
       }
   }
 },
-  'LEXUS': {
+  'Lexus': {
     'models': {
       'LC500': {
         'protocolBoard': protocolBoards.S27,

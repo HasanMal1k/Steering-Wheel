@@ -132,23 +132,19 @@ function RotatingText() {
             '--radius': calculatedRadius * 10, // Multiply by scaling factor for better visibility
             '--character-width': characterWidth,
             opacity: 0, // Start invisible, GSAP will handle visibility
-            transform: 'translate(-50%, -50%)'
+            transform: 'translate(-50%, -50%)',
+            mixBlendMode: 'difference' // Makes text opposite color of background
           }}
         >
           {chars.map((char, index) => {
-            // Visually distinguish each "EDIT THIS" phrase
-            const phraseIndex = Math.floor(index / phrase.length)
-            const colors = ['#ffffff', '#ffffff', '#ffffff']
-            const color = colors[phraseIndex % colors.length]
-            
             return (
               <span 
                 key={index} 
                 className="character transition-all duration-300" 
                 style={{ 
                   '--index': index,
-                  color: color,
-                  textShadow: '0 0 10px rgba(255, 255, 255, 0.5)'
+                  color: '#ffffff',
+                  textShadow: 'none'
                 }}
               >
                 {char}

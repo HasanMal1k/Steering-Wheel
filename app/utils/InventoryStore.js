@@ -736,7 +736,7 @@ export const getMakeData = () => {
       }
     },
 
-    'MITSUBISHI': {
+    'Mitsubishi': {
       models: {
         'LANCER EVO X': {
           'protocolBoard': protocolBoardsData.S21,
@@ -746,7 +746,7 @@ export const getMakeData = () => {
       }
     },
 
-    'VOLKSWAGEN': {
+    'Volkswagen': {
       models: {
         'MK5': {
           'protocolBoard': protocolBoardsData.S1,
@@ -796,7 +796,7 @@ export const getMakeData = () => {
       }
     },
 
-    'FORD': {
+    'Ford': {
       models: {
         'FOCUS RS': {
           'protocolBoard': protocolBoardsData.S25,
@@ -806,7 +806,7 @@ export const getMakeData = () => {
       }
     },
 
-    'LEXUS': {
+    'Lexus': {
       models: {
         'LC500': {
           'protocolBoard': protocolBoardsData.S27,

@@ -76,6 +76,7 @@ function Main() {
             background={false} 
             // files="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/hdris/studio-small-3/studio_small_03_1k.hdr"
             files={'/hdr/studio_small_03_1k.exr'}
+            rotation={[0, Math.PI * 0.5, 0]}
           />
           <Suspense fallback={null}>
             <Scene />
