@@ -8,7 +8,7 @@ import Logo from "./components/Logo";
 import useMobile from "./hooks/useMobile";
 import PartSelector from "./components/configurator-components/PartSelector.jsx";
 import DraggableCard from "./components/configurator-components/DraggableCard";
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useState, useEffect, useRef } from "react";
 import LoadingAnimation from "./components/LoadingAnimation";
 import TopOptions from "./components/configurator-components/TopOptions";
 import { CartCard } from "./components/configurator-components/CartCard";
@@ -19,12 +19,16 @@ import { MeshGradient } from '@paper-design/shaders-react';
 import useTest from "./hooks/useTest";
 import { useControls } from 'leva';
 import useInitialInventory from "./hooks/useInitialInventory";
+import { useConfigurationStore } from "./utils/ConfigurationStore";
+import gsap from "gsap";
 
 function Main() {
   const text = useTextStore(state => state.text);
   const isMobile = useMobile();
   const [isLoaded, setIsLoaded] = useState(false);
   const { progress } = useProgress();
+  const activeComponent = useConfigurationStore(state => state.activeComponent);
+  const [envIntensity, setEnvIntensity] = useState(1);
   // useTest()
 
   useFetchShopifyProducts()
@@ -42,9 +46,39 @@ function Main() {
     speed: { value: 1, min: 0, max: 5, step: 0.1 },
   });
 
+  const hdriControls = useControls('HDRI Lighting', {
+    rotationX: { value: 0, min: 0, max: Math.PI * 2, step: 0.01, label: 'Rotation X' },
+    rotationY: { value: Math.PI * 0.5, min: 0, max: Math.PI * 2, step: 0.01, label: 'Rotation Y' },
+    rotationZ: { value: 0, min: 0, max: Math.PI * 2, step: 0.01, label: 'Rotation Z' },
+    intensity: { value: 1, min: 0, max: 2, step: 0.1, label: 'Intensity' },
+  });
+
   useEffect(() => {
     if (progress >= 100) setIsLoaded(true);
   }, [progress]);
+
+  // Animate HDRI intensity based on make/model selection
+  useEffect(() => {
+    const obj = { intensity: envIntensity };
+    
+    if (activeComponent === 'hub') {
+      // When selecting make/model, lower intensity to 0.4
+      gsap.to(obj, {
+        intensity: 0.4,
+        duration: 0.8,
+        ease: 'power2.inOut',
+        onUpdate: () => setEnvIntensity(obj.intensity)
+      });
+    } else {
+      // When not in config mode, restore to 1
+      gsap.to(obj, {
+        intensity: 1,
+        duration: 0.8,
+        ease: 'power2.inOut',
+        onUpdate: () => setEnvIntensity(obj.intensity)
+      });
+    }
+  }, [activeComponent]);
 
   return (
     <div className="h-screen w-full overflow-hidden relative">
@@ -76,7 +110,8 @@ function Main() {
             background={false} 
             // files="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/hdris/studio-small-3/studio_small_03_1k.hdr"
             files={'/hdr/studio_small_03_1k.exr'}
-            rotation={[0, Math.PI * 0.5, 0]}
+            rotation={[hdriControls.rotationX, hdriControls.rotationY, hdriControls.rotationZ]}
+            environmentIntensity={envIntensity}
           />
           <Suspense fallback={null}>
             <Scene />
