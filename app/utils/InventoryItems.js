@@ -497,7 +497,7 @@ export const make = {
           'wiringHarness': wiringHarnesses.X7,
           'hubAdapter': hubAdapters.B10
         },
-        '3707 Z34': {
+        '370Z Z34': {
           'protocolBoard': protocolBoards.S8,
           'wiringHarness': wiringHarnesses.X7,
           'hubAdapter': hubAdapters.B10

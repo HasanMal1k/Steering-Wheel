@@ -568,7 +568,7 @@ export const getMakeData = () => {
           'wiringHarness': wiringHarnessData.X7,
           'hubAdapter': hubAdaptersData.B10
         },
-        '3707 Z34': {
+        '370Z Z34': {
           'protocolBoard': protocolBoardsData.S8,
           'wiringHarness': wiringHarnessData.X7,
           'hubAdapter': hubAdaptersData.B10

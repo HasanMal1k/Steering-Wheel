@@ -2,6 +2,7 @@ import { Client, fetchExchange } from "urql";
 
 const shopifyClient = new Client({
   url: process.env.SHOPIFY_STOREFRONT_API_URL, 
+  exchanges: [fetchExchange],
   fetchOptions: () => ({
     headers: {
       "Content-Type": "application/json",
