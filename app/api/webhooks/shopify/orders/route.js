@@ -24,8 +24,17 @@ export async function POST(request) {
       .update(rawBody, 'utf8')
       .digest('base64');
 
+    // Debug logging
+    console.log('🔍 Debug Info:');
+    console.log('Webhook Secret:', webhookSecret?.substring(0, 10) + '...');
+    console.log('Received HMAC:', hmac);
+    console.log('Calculated Hash:', hash);
+    console.log('Match:', hash === hmac);
+
     if (hash !== hmac) {
       console.error('❌ HMAC verification failed');
+      console.error('Expected:', hmac);
+      console.error('Got:', hash);
       return new Response('Invalid webhook signature', { status: 401 });
     }
 
