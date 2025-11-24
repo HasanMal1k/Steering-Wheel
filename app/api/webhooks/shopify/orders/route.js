@@ -1,51 +1,81 @@
 import crypto from 'crypto';
+import { Buffer } from 'buffer'; // Node.js Buffer is needed for timingSafeEqual
 
+// --------------------------------------------------------
+// CRITICAL NEXT.JS CONFIGURATION
+// --------------------------------------------------------
+// Tells Next.js to disable the default body parser for this route.
+// This ensures that the 'request.text()' call gets the pure, raw request body,
+// which is essential for accurate HMAC verification.
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+/**
+ * Shopify Webhook Handler for Order Creation (orders/create, orders/paid)
+ * * This function verifies the webhook signature using a timing-safe comparison, 
+ * checks if the order is from a specific configurator source, and then 
+ * sends a notification email.
+ */
 export async function POST(request) {
+  // Default status for internal errors is 200 (OK) to prevent Shopify from retrying
+  let responseStatus = 200; 
+
   try {
-    // Verify webhook authenticity
+    // 1. Get headers and raw body
     const hmac = request.headers.get('X-Shopify-Hmac-Sha256');
     const topic = request.headers.get('X-Shopify-Topic');
     const shop = request.headers.get('X-Shopify-Shop-Domain');
     
     console.log('📦 Webhook received:', { topic, shop });
 
-    // Get raw body for HMAC verification
+    // CRITICAL STEP: Get the raw body for HMAC verification
     const rawBody = await request.text();
     
-    // Verify HMAC signature
+    // 2. HMAC Verification Setup
     const webhookSecret = process.env.SHOPIFY_WEBHOOK_SECRET;
     if (!webhookSecret) {
       console.error('❌ SHOPIFY_WEBHOOK_SECRET not configured');
-      return new Response('Webhook secret not configured', { status: 500 });
+      return new Response('Webhook secret not configured', { status: responseStatus }); 
     }
 
-    const hash = crypto
+    // 3. Timing-Safe HMAC Verification
+    
+    // Calculate the expected hash as a Buffer
+    const calculatedHashBuffer = crypto
       .createHmac('sha256', webhookSecret)
       .update(rawBody, 'utf8')
-      .digest('base64');
+      .digest(); // Output is a Buffer by default
+
+    // Convert the received HMAC (base64 string) to a Buffer
+    const receivedHmacBuffer = Buffer.from(hmac || '', 'base64');
+    
+    // Use timingSafeEqual for secure comparison
+    const hmacMatch = calculatedHashBuffer.length === receivedHmacBuffer.length &&
+                      crypto.timingSafeEqual(calculatedHashBuffer, receivedHmacBuffer);
 
     // Debug logging
     console.log('🔍 Debug Info:');
     console.log('Webhook Secret:', webhookSecret?.substring(0, 10) + '...');
-    console.log('Received HMAC:', hmac);
-    console.log('Calculated Hash:', hash);
-    console.log('Match:', hash === hmac);
-
-    if (hash !== hmac) {
-      console.error('❌ HMAC verification failed');
-      console.error('Expected:', hmac);
-      console.error('Got:', hash);
-      return new Response('Invalid webhook signature', { status: 401 });
+    console.log('Received HMAC (Base64):', hmac);
+    console.log('Calculated Hash (Base64):', calculatedHashBuffer.toString('base64')); 
+    console.log('Match:', hmacMatch);
+    
+    if (!hmacMatch) {
+      console.error('❌ HMAC verification failed (Timing-safe check)');
+      // Return 401 Unauthorized for invalid signature
+      return new Response('Invalid webhook signature', { status: 401 }); 
     }
 
     console.log('✅ HMAC verified');
 
-    // Parse the order data
+    // 4. Parse and Process Webhook Data
     const order = JSON.parse(rawBody);
     
     console.log('📋 Order ID:', order.id);
     console.log('📋 Order Number:', order.order_number);
-    console.log('📋 Note Attributes:', order.note_attributes);
 
     // Check if this is a configurator order
     const isConfiguratorOrder = order.note_attributes?.some(
@@ -91,9 +121,9 @@ export async function POST(request) {
       note: order.note
     };
 
+    // 5. Send Notification Email
     console.log('📧 Sending notification email...');
 
-    // Send notification email
     const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/send-email`, {
       method: 'POST',
       headers: {
@@ -105,7 +135,6 @@ export async function POST(request) {
     if (!emailResponse.ok) {
       const errorData = await emailResponse.json();
       console.error('❌ Failed to send email:', errorData);
-      // Don't fail the webhook, just log the error
     } else {
       console.log('✅ Email sent successfully');
     }
@@ -114,7 +143,7 @@ export async function POST(request) {
 
   } catch (error) {
     console.error('❌ Webhook processing error:', error);
-    // Always return 200 to prevent Shopify from retrying
-    return new Response('Error processed', { status: 200 });
+    // Return 200 to prevent Shopify from retrying internal/unknown errors
+    return new Response('Error processed', { status: responseStatus });
   }
 }
