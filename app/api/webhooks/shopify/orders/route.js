@@ -1,79 +1,67 @@
 import crypto from 'crypto';
-import { Buffer } from 'buffer'; // Node.js Buffer is needed for timingSafeEqual
+import { Buffer } from 'buffer';
 
-// --------------------------------------------------------
-// CRITICAL NEXT.JS CONFIGURATION
-// --------------------------------------------------------
-// Tells Next.js to disable the default body parser for this route.
-// This ensures that the 'request.text()' call gets the pure, raw request body,
-// which is essential for accurate HMAC verification.
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// Note: No 'config' export is needed in the App Router for this method, 
+// as request.arrayBuffer() directly accesses the body stream.
 
 /**
- * Shopify Webhook Handler for Order Creation (orders/create, orders/paid)
- * * This function verifies the webhook signature using a timing-safe comparison, 
- * checks if the order is from a specific configurator source, and then 
- * sends a notification email.
+ * Shopify Webhook Handler (App Router)
  */
 export async function POST(request) {
-  // Default status for internal errors is 200 (OK) to prevent Shopify from retrying
-  let responseStatus = 200; 
+  let responseStatus = 200;
 
   try {
-    // 1. Get headers and raw body
+    // 1. Get headers
     const hmac = request.headers.get('X-Shopify-Hmac-Sha256');
     const topic = request.headers.get('X-Shopify-Topic');
     const shop = request.headers.get('X-Shopify-Shop-Domain');
-    
+
     console.log('📦 Webhook received:', { topic, shop });
 
-    // CRITICAL STEP: Get the raw body for HMAC verification
-    const rawBody = await request.text();
+    // CRITICAL: Use arrayBuffer() to get the raw bytes directly
+    const rawBodyBuffer = await request.arrayBuffer();
     
     // 2. HMAC Verification Setup
     const webhookSecret = process.env.SHOPIFY_WEBHOOK_SECRET;
     if (!webhookSecret) {
       console.error('❌ SHOPIFY_WEBHOOK_SECRET not configured');
-      return new Response('Webhook secret not configured', { status: responseStatus }); 
+      return new Response('Webhook secret not configured', { status: responseStatus });
     }
 
     // 3. Timing-Safe HMAC Verification
     
-    // Calculate the expected hash as a Buffer
+    // Calculate HMAC using the raw bytes Buffer for byte-perfect accuracy
     const calculatedHashBuffer = crypto
       .createHmac('sha256', webhookSecret)
-      .update(rawBody, 'utf8')
-      .digest(); // Output is a Buffer by default
+      .update(Buffer.from(rawBodyBuffer))
+      .digest();
 
     // Convert the received HMAC (base64 string) to a Buffer
     const receivedHmacBuffer = Buffer.from(hmac || '', 'base64');
     
-    // Use timingSafeEqual for secure comparison
     const hmacMatch = calculatedHashBuffer.length === receivedHmacBuffer.length &&
                       crypto.timingSafeEqual(calculatedHashBuffer, receivedHmacBuffer);
 
     // Debug logging
     console.log('🔍 Debug Info:');
-    console.log('Webhook Secret:', webhookSecret?.substring(0, 10) + '...');
     console.log('Received HMAC (Base64):', hmac);
-    console.log('Calculated Hash (Base64):', calculatedHashBuffer.toString('base64')); 
+    console.log('Calculated Hash (Base64):', calculatedHashBuffer.toString('base64'));
     console.log('Match:', hmacMatch);
     
     if (!hmacMatch) {
-      console.error('❌ HMAC verification failed (Timing-safe check)');
-      // Return 401 Unauthorized for invalid signature
-      return new Response('Invalid webhook signature', { status: 401 }); 
+      console.error('❌ HMAC verification failed (App Router check)');
+      return new Response('Invalid webhook signature', { status: 401 });
     }
 
     console.log('✅ HMAC verified');
 
     // 4. Parse and Process Webhook Data
+    // Decode the buffer to a UTF-8 string ONLY after verification succeeds
+    const rawBody = Buffer.from(rawBodyBuffer).toString('utf-8');
     const order = JSON.parse(rawBody);
-    
+
+    // ... (Order processing logic from the original request)
+    // ----------------------------------------------------------------------------------
     console.log('📋 Order ID:', order.id);
     console.log('📋 Order Number:', order.order_number);
 
@@ -140,10 +128,10 @@ export async function POST(request) {
     }
 
     return new Response('OK', { status: 200 });
+    // ----------------------------------------------------------------------------------
 
   } catch (error) {
     console.error('❌ Webhook processing error:', error);
-    // Return 200 to prevent Shopify from retrying internal/unknown errors
     return new Response('Error processed', { status: responseStatus });
   }
 }
