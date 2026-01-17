@@ -17,10 +17,10 @@ import useFetchHub from "./hooks/useFetchHub";
 import useFetchShopifyProducts from "./hooks/useFetchShopifyProducts";
 import { MeshGradient } from '@paper-design/shaders-react';
 import useTest from "./hooks/useTest";
-import { useControls } from 'leva';
 import useInitialInventory from "./hooks/useInitialInventory";
 import { useConfigurationStore } from "./utils/ConfigurationStore";
 import gsap from "gsap";
+import ConfiguratorTabs from "./components/configurator-components/ConfiguratorTabs";
 
 function Main() {
   const text = useTextStore(state => state.text);
@@ -34,24 +34,25 @@ function Main() {
   useFetchShopifyProducts()
   useInitialInventory()
 
-  const meshGradientControls = useControls('Mesh Gradient', {
-    color1: { value: '#0f1010', label: 'Color 1' },
-    color2: { value: '#42414e', label: 'Color 2' },
-    color3: { value: '#000000', label: 'Color 3' },
-    color4: { value: '#796388', label: 'Color 4' },
-    distortion: { value: 0.6, min: 0, max: 2, step: 0.01 },
-    swirl: { value: 0.1, min: 0, max: 1, step: 0.01 },
-    grainMixer: { value: 0.61, min: 0, max: 1, step: 0.01 },
-    grainOverlay: { value: 0.43, min: 0, max: 1, step: 0.01 },
-    speed: { value: 1, min: 0, max: 5, step: 0.1 },
-  });
+  // Temporarily disable Leva — use static values defined here
+  const meshGradientControls = {
+    color1: '#0f1010',
+    color2: '#42414e',
+    color3: '#000000',
+    color4: '#796388',
+    distortion: 0.6,
+    swirl: 0.1,
+    grainMixer: 0.61,
+    grainOverlay: 0.43,
+    speed: 1,
+  };
 
-  const hdriControls = useControls('HDRI Lighting', {
-    rotationX: { value: 0, min: 0, max: Math.PI * 2, step: 0.01, label: 'Rotation X' },
-    rotationY: { value: Math.PI * 0.5, min: 0, max: Math.PI * 2, step: 0.01, label: 'Rotation Y' },
-    rotationZ: { value: 0, min: 0, max: Math.PI * 2, step: 0.01, label: 'Rotation Z' },
-    intensity: { value: 1, min: 0, max: 2, step: 0.1, label: 'Intensity' },
-  });
+  const hdriControls = {
+    rotationX: 0,
+    rotationY: Math.PI * 0.5,
+    rotationZ: 0,
+    intensity: 1,
+  };
 
   useEffect(() => {
     if (progress >= 100) setIsLoaded(true);
@@ -124,6 +125,7 @@ function Main() {
         <DraggableCard />
         <CartCard />
         <HowToUseCard />
+        <ConfiguratorTabs/>
       </div>
     </div>
   );
