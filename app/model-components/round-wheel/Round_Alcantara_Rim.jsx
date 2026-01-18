@@ -23,4 +23,4 @@ export function Round_Alcantara_Rim(props) {
   )
 }
 
-useGLTF.preload('/models/roundWheel/alcantaraRim.glb')
+useGLTF.preload('/models/round-wheel/alcantaraRim.glb')

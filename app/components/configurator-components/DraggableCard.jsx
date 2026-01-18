@@ -41,6 +41,8 @@ function DraggableCard() {
   // Get wheel type selection
   const selectedWheelType = useConfigurationStore(state => state.selectedWheelType)
   const setSelectedWheelType = useConfigurationStore(state => state.setSelectedWheelType)
+  const selectedRimMaterial = useConfigurationStore(state => state.selectedRimMaterial)
+  const setSelectedRimMaterial = useConfigurationStore(state => state.setSelectedRimMaterial)
 
   // Get inventory data with colors included
   const frontKnobs = useKnobs(state => state.frontKnobs)
@@ -327,6 +329,54 @@ function DraggableCard() {
     )
   }
 
+  const renderWheelTypeSelection = () => {
+    return (
+      <div className='flex flex-col gap-4'>
+        <div className='space-y-3'>
+          <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Wheel Shape</label>
+          <div className='flex gap-2 w-full'>
+            <button 
+              className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedWheelType === 'gt3' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
+              onClick={() => setSelectedWheelType('gt3')}
+            >
+              GT3
+            </button>
+            <button 
+              className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedWheelType === 'round' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
+              onClick={() => setSelectedWheelType('round')}
+            >
+              Round
+            </button>
+            <button 
+              className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedWheelType === 'flat' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
+              onClick={() => setSelectedWheelType('flat')}
+            >
+              Flat
+            </button>
+          </div>
+        </div>
+
+        <div className='space-y-3'>
+          <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Grip Material</label>
+          <div className='flex gap-2 w-full'>
+            <button 
+              className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedRimMaterial === 'alcantara' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
+              onClick={() => setSelectedRimMaterial('alcantara')}
+            >
+              Alcantara
+            </button>
+            <button 
+              className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedRimMaterial === 'leather' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
+              onClick={() => setSelectedRimMaterial('leather')}
+            >
+              Leather
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   const renderJoystickColors = () => {
     const availableCount = Object.values(frontKnobs).filter(item => item.inventory > 0).length
 
@@ -376,56 +426,6 @@ function DraggableCard() {
         </div>
         <p className="text-xs text-gray-400 text-center">
           {availableCount} / {Object.keys(sideRotary).length} colors available
-        </p>
-      </div>
-    )
-  }
-
-  const renderWheelTypeSelection = () => {
-    const wheelTypes = [
-      { value: 'round', label: 'Round Wheel' },
-      { value: 'gt3', label: 'GT3 Wheel' },
-      { value: 'hub', label: 'Hub Only (No Steering Wheel)' }
-    ]
-
-    return (
-      <div className='space-y-4'>
-        <div className='space-y-2'>
-          <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Wheel Type</label>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div 
-                className='w-full bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-md px-4 py-2.5 flex items-center justify-between hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all cursor-pointer'
-                onClick={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-                onMouseDown={(e) => e.stopPropagation()}
-              >
-                <span className='text-white'>
-                  {wheelTypes.find(w => w.value === selectedWheelType)?.label || 'Choose wheel type...'}
-                </span>
-                <ChevronDown size={16} className='text-gray-300' />
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent 
-              className='w-[var(--radix-dropdown-menu-trigger-width)] bg-black/90 backdrop-blur-md border-white/20 z-[9999]'
-              align="start"
-              sideOffset={5}
-            >
-              {wheelTypes.map(wheelType => (
-                <DropdownMenuItem
-                  key={wheelType.value}
-                  onClick={() => setSelectedWheelType(wheelType.value)}
-                  className='text-white hover:bg-white/10 cursor-pointer flex items-center justify-between px-3 py-2'
-                >
-                  <span>{wheelType.label}</span>
-                  {selectedWheelType === wheelType.value && <Check size={14} className='text-green-400' />}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <p className="text-xs text-gray-400">
-          Select the type of steering wheel or hub configuration
         </p>
       </div>
     )

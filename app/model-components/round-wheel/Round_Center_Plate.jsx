@@ -31,4 +31,4 @@ export function Round_Center_Plate(props) {
   )
 }
 
-useGLTF.preload('/models/roundWheel/centerPlate.glb')
+useGLTF.preload('/models/round-wheel/centerPlate.glb')

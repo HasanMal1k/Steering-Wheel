@@ -24,4 +24,4 @@ export function Round_Leather_Rim(props) {
   )
 }
 
-useGLTF.preload('/models/roundWheel/leatherRim.glb')
+useGLTF.preload('/models/round-wheel/leatherRim.glb')

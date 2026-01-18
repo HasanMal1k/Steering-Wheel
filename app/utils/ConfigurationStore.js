@@ -92,6 +92,10 @@ export const useConfigurationStore = create((set, get) => ({
   selectedWheelType: 'gt3', // 'gt3' or 'round'
   setSelectedWheelType: (type) => set({ selectedWheelType: type }),
 
+  // Rim material selection
+  selectedRimMaterial: 'alcantara', // 'alcantara' or 'leather'
+  setSelectedRimMaterial: (material) => set({ selectedRimMaterial: material }),
+
   // Make and Model selection
   selectedMake: '',
   selectedModel: '',
