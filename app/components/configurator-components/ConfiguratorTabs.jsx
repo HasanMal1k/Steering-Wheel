@@ -61,8 +61,8 @@ function ConfiguratorTabs() {
           >
             <TabsTrigger value="wheelType" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Steering Wheel</TabsTrigger>
             <TabsTrigger value="hub" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Make</TabsTrigger>
-            <TabsTrigger value="rotary" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Rotary</TabsTrigger>
-            <TabsTrigger value="joysticks" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Joystick</TabsTrigger>
+            {/* <TabsTrigger value="rotary" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Rotary</TabsTrigger>
+            <TabsTrigger value="joysticks" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Joystick</TabsTrigger> */}
           </TabsList>
       </Tabs>
     </div>

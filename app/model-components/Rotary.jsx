@@ -138,9 +138,6 @@ function Rotary({ geometry, material, position }) {
       geometry={geometry}
       material={currentMaterial}
       position={position}
-      onPointerOver={handlePointerOver}
-      onPointerOut={handlePointerOut}
-      onClick={handleClick}
     />
   )
 }

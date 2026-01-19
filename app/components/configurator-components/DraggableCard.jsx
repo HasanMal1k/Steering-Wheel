@@ -460,10 +460,10 @@ function DraggableCard() {
     }
 
     switch (activeComponent) {
-      case 'joysticks':
-        return renderJoystickColors()
-      case 'rotary':
-        return renderRotaryColors()
+      // case 'joysticks':
+      //   return renderJoystickColors()
+      // case 'rotary':
+      //   return renderRotaryColors()
       case 'hub':
         return renderMakeModelSelection()
       case 'wheelType':

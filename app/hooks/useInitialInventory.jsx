@@ -18,7 +18,9 @@ function useInitialInventory() {
 
   useEffect(() => {
     if (frontKnobs) {
-      const available = Object.entries(frontKnobs).find(
+      // Prioritize Gray, otherwise find first available
+      const gray = Object.entries(frontKnobs).find(([key, value]) => key === 'Gray' && value.inventory > 0);
+      const available = gray || Object.entries(frontKnobs).find(
         ([, value]) => value.inventory > 0
       );
       // Store the hex color directly
@@ -26,6 +28,7 @@ function useInitialInventory() {
       
       // Add to cart immediately
       if (available) {
+        setInitialColors(available[1].color, null); // Set front color
         setCartItems('frontKnobs', {
           merchandiseId: available[1].id,
           quantity: 1
@@ -34,7 +37,9 @@ function useInitialInventory() {
     }
 
     if (sideRotary) {
-      const available = Object.entries(sideRotary).find(
+      // Prioritize Gray, otherwise find first available
+      const gray = Object.entries(sideRotary).find(([key, value]) => key === 'Gray' && value.inventory > 0);
+      const available = gray || Object.entries(sideRotary).find(
         ([, value]) => value.inventory > 0
       );
       // Store the hex color directly
@@ -42,13 +47,14 @@ function useInitialInventory() {
       
       // Add to cart immediately
       if (available) {
+        setInitialColors(null, available[1].color); // Set side color
         setCartItems('sideRotary', {
           merchandiseId: available[1].id,
           quantity: 1
         });
       }
     }
-  }, [frontKnobs, sideRotary, setCartItems]);
+  }, [frontKnobs, sideRotary, setCartItems, setInitialColors]);
 
   useEffect(() => {
     // Update configuration store with hex colors
