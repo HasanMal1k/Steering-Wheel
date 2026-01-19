@@ -29,26 +29,35 @@ function Main() {
   const { progress } = useProgress();
   const activeComponent = useConfigurationStore(state => state.activeComponent);
   const [envIntensity, setEnvIntensity] = useState(1);
+  const containerRef = useRef(null);
   const [windowDimensions, setWindowDimensions] = useState({ 
     width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
     height: typeof window !== 'undefined' ? window.innerHeight : 1080 
   });
 
-  // Handle window resize for MeshGradient
+  // Handle resize for MeshGradient using ResizeObserver for accuracy
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!containerRef.current) return;
 
-    const handleResize = () => {
-      setWindowDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        setWindowDimensions({
+          width: containerRef.current.offsetWidth,
+          height: containerRef.current.offsetHeight
+        });
+      }
     };
 
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initialize with current size
+    // Initial sizing
+    updateDimensions();
 
-    return () => window.removeEventListener('resize', handleResize);
+    const observer = new ResizeObserver(() => {
+      updateDimensions();
+    });
+
+    observer.observe(containerRef.current);
+
+    return () => observer.disconnect();
   }, []);
 
   // useTest()
@@ -106,7 +115,7 @@ function Main() {
   return (
     <div className="h-screen w-full overflow-hidden relative">
       {/* MeshGradient Background - Fixed positioning */}
-      <div className="fixed inset-0 w-full h-full -z-10">
+      <div ref={containerRef} className="fixed inset-0 w-full h-full -z-10">
         <MeshGradient
           width={windowDimensions.width}
           height={windowDimensions.height}

@@ -175,7 +175,7 @@ export function CartCard() {
                 onClick={handleCheckout}
                 disabled={isLoading || Object.values(cartItems).filter(item => item.merchandiseId).length === 0}
               >
-                {isLoading ? 'Creating Checkout...' : 'Proceed to Checkout'}
+                {isLoading ? 'Creating Checkout...' : 'Add to Cart'}
               </Button>
             </CardFooter>
           </Card>
