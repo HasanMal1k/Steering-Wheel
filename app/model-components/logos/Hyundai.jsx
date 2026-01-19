@@ -10,8 +10,6 @@ export function Hyundai(props) {
         receiveShadow
         geometry={nodes.Logo_Steering_Hyundai_3D.geometry}
         material={materials['Material #332.002']}
-        rotation={[-Math.PI / 2, -0.555, Math.PI]}
-        scale={[0.019, 0.025, 0.021]}
       />
     </group>
   )

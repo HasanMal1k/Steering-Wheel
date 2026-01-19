@@ -25,6 +25,7 @@ export function Hub(props) {
   const [wheelHover, setWheelHover] = useState(null)
   const [wheelClicked, setWheelClicked] = useState(false)
   const activeComponent = useConfigurationStore(state => state.activeComponent)
+  const selectedWheelType = useConfigurationStore(state => state.selectedWheelType)
   const wheelGroupRef = useRef()
   const scale = useResponsiveScale()
 
@@ -71,7 +72,12 @@ export function Hub(props) {
     const materialsToAnimate = [clonedMaterial1, clonedMaterial2, clonedMaterialButtons].filter(Boolean)
     if (materialsToAnimate.length === 0) return
 
-    if (activeComponent) {
+    // If activeComponent is set, but we are in Hub Only mode, do NOT fade.
+    // Logic: Fade only if there is an active component AND we are NOT in Hub Only mode.
+    // Or maybe user meant specifically for Hub selection?
+    // "when it's hub only, don't fade the hub like we're doing for other parts"
+    
+    if (activeComponent && selectedWheelType !== 'hub') {
       // Fade non-interactive components when something is selected
       materialsToAnimate.forEach(mat => {
         mat.transparent = true
@@ -88,7 +94,7 @@ export function Hub(props) {
       })
         
     } else {
-      // Restore full opacity when nothing is selected
+      // Restore full opacity when nothing is selected OR when in Hub Only mode
       materialsToAnimate.forEach(mat => {
         mat.transparent = true
       })
@@ -108,7 +114,7 @@ export function Hub(props) {
         }
       })
     }
-  }, [activeComponent, clonedMaterial1, clonedMaterial2, clonedMaterialButtons])
+  }, [activeComponent, selectedWheelType, clonedMaterial1, clonedMaterial2, clonedMaterialButtons])
  
   return (
     <group

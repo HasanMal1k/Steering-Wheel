@@ -353,26 +353,34 @@ function DraggableCard() {
             >
               Flat
             </button>
+             <button 
+              className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedWheelType === 'hub' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
+              onClick={() => setSelectedWheelType('hub')}
+            >
+              Hub Only
+            </button>
           </div>
         </div>
 
-        <div className='space-y-3'>
-          <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Grip Material</label>
-          <div className='flex gap-2 w-full'>
-            <button 
-              className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedRimMaterial === 'alcantara' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
-              onClick={() => setSelectedRimMaterial('alcantara')}
-            >
-              Alcantara
-            </button>
-            <button 
-              className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedRimMaterial === 'leather' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
-              onClick={() => setSelectedRimMaterial('leather')}
-            >
-              Leather
-            </button>
+        {(selectedWheelType === 'round' || selectedWheelType === 'flat') && (
+          <div className='space-y-3'>
+            <label className='text-xs text-gray-400 uppercase tracking-wide font-medium'>Grip Material</label>
+            <div className='flex gap-2 w-full'>
+              <button 
+                className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedRimMaterial === 'alcantara' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
+                onClick={() => setSelectedRimMaterial('alcantara')}
+              >
+                Alcantara
+              </button>
+              <button 
+                className={`flex-1 py-3 px-2 rounded-md transition-all text-sm font-medium ${selectedRimMaterial === 'leather' ? 'bg-white/20 text-white ring-2 ring-white/50' : 'bg-black/40 text-gray-400 hover:bg-white/10'}`}
+                onClick={() => setSelectedRimMaterial('leather')}
+              >
+                Leather
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     )
   }

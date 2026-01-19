@@ -6,13 +6,13 @@ import gsap from 'gsap'
 
 function PaddleShifters({ geometry, material, position }) {
   const paddlesRef = useRef()
-  const enableText = useTextStore(state => state.enableText)
-  const disableText = useTextStore(state => state.disableText)
-  const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
+  // const enableText = useTextStore(state => state.enableText)
+  // const disableText = useTextStore(state => state.disableText)
+  // const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
   const activeComponent = useConfigurationStore(state => state.activeComponent)
 
   // Create materials - clone the original to avoid affecting other components
-  const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
+  // const hoverMaterial = new THREE.MeshStandardMaterial({ color: '#ffffff' })
   const [originalMaterial] = useState(material.clone())
   const [currentMaterial, setCurrentMaterial] = useState(originalMaterial)
 
@@ -60,49 +60,6 @@ function PaddleShifters({ geometry, material, position }) {
     currentMaterial.needsUpdate = true
   }, [activeComponent, currentMaterial])
 
-  const handlePointerOver = (e) => {
-    e.stopPropagation()
-    if (paddlesRef.current && activeComponent !== 'paddles') {
-      paddlesRef.current.material = hoverMaterial
-    }
-    enableText()
-  }
-
-  const handlePointerOut = (e) => {
-    e.stopPropagation()
-    if (paddlesRef.current) {
-      // Always restore to the current material
-      paddlesRef.current.material = currentMaterial
-      
-      // Then apply the appropriate state
-      if (activeComponent === 'paddles') {
-        // This component is selected - restore full opacity
-        currentMaterial.transparent = false
-        currentMaterial.opacity = 1
-      } else if (activeComponent && activeComponent !== 'paddles') {
-        // Another component is selected - restore faded state
-        currentMaterial.transparent = true
-        currentMaterial.opacity = 0.4
-      } else {
-        // No component selected - restore normal state
-        currentMaterial.transparent = false
-        currentMaterial.opacity = 1
-      }
-      currentMaterial.needsUpdate = true
-    }
-    disableText()
-  }
-
-  const handleClick = (e) => {
-    e.stopPropagation()
-    // Add a custom identifier to help with camera positioning
-    if (paddlesRef.current) {
-      paddlesRef.current.userData = { type: 'paddles' }
-    }
-    setActiveComponent('paddles')
-    // console.log('Paddle Shifters Selected')
-  }
-
   return (
     <mesh
       ref={paddlesRef}
@@ -111,9 +68,6 @@ function PaddleShifters({ geometry, material, position }) {
       geometry={geometry}
       material={currentMaterial}
       position={position}
-      onPointerOver={handlePointerOver}
-      onPointerOut={handlePointerOut}
-      onClick={handleClick}
     />
   )
 }
