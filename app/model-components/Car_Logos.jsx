@@ -1,5 +1,7 @@
 import React from 'react'
+import { useGLTF } from '@react-three/drei'
 import { useConfigurationStore } from '../utils/ConfigurationStore'
+import { useTextStore } from '../utils/TextStore'
 import { Toyota } from './logos/Toyota'
 import { Volkswagen } from './logos/Volkswagen'
 import { Nissan } from './logos/Nissan'
@@ -22,8 +24,59 @@ import { Mitsubishi } from './logos/Mitsubishi'
 
 function Car_Logos() {
 
+    // Preload all logos to ensure they are available before the scene is fully loaded
+    useGLTF([
+        '/car-logos/Toyota.glb',
+        '/car-logos/Volkswagen.glb',
+        '/car-logos/Nissan.glb',
+        '/car-logos/Acura.glb',
+        '/car-logos/Audi.glb',
+        '/car-logos/BMW.glb',
+        '/car-logos/Corvette.glb',
+        '/car-logos/Ford.glb',
+        '/car-logos/Honda.glb',
+        '/car-logos/Hyundai.glb',
+        '/car-logos/Lamborghini.glb',
+        '/car-logos/Lexus.glb',
+        '/car-logos/Mazda.glb',
+        '/car-logos/Mercedes.glb',
+        '/car-logos/Mini.glb',
+        '/car-logos/Mustang.glb',
+        '/car-logos/Porsche.glb',
+        '/car-logos/Subaru.glb',
+        '/car-logos/Mitsubishi.glb'
+    ])
+
     const selectedHubLogo = useConfigurationStore(state => state.selectedHubLogo)
     const selectedWheelType = useConfigurationStore(state => state.selectedWheelType)
+    const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
+    const enableText = useTextStore(state => state.enableText)
+    const disableText = useTextStore(state => state.disableText)
+
+    const handleLogoClick = (e) => {
+        e.stopPropagation()
+        setActiveComponent('hub')
+    }
+
+    const handlePointerOver = (e) => {
+        e.stopPropagation()
+        document.body.style.cursor = 'pointer'
+        // Store original color if not already stored
+        if (!e.object.userData.originalColor) {
+             e.object.userData.originalColor = e.object.material.color.clone()
+        }
+        e.object.material.color.set('#ffffff') 
+        enableText()
+    }
+
+    const handlePointerOut = (e) => {
+        e.stopPropagation()
+        document.body.style.cursor = 'auto'
+        if (e.object.userData.originalColor) {
+             e.object.material.color.copy(e.object.userData.originalColor)
+        }
+        disableText()
+    }
 
     if (selectedWheelType === 'hub') {
         switch (selectedHubLogo) {
@@ -39,6 +92,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={50} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />  
                 )
             
@@ -51,6 +107,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={100} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )
 
@@ -63,6 +122,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )
 
@@ -75,6 +137,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'ford':
@@ -86,6 +151,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={90} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />                           
                 )    
             case 'honda':
@@ -97,6 +165,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'hyundai':
@@ -108,6 +179,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI, Math.PI, Math.PI ]} 
                         scale={1} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'lamborghini':
@@ -119,6 +193,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'lexus':
@@ -130,6 +207,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'mazda':
@@ -141,6 +221,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'mercedes':
@@ -152,6 +235,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'mini':
@@ -163,6 +249,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={90} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             
@@ -175,6 +264,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'mustang':
@@ -186,6 +278,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )
                   
@@ -198,6 +293,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI, Math.PI * 2.169, Math.PI ]} 
                             scale={4} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )
             case 'porsche':
@@ -209,6 +307,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'subaru':
@@ -220,6 +321,9 @@ function Car_Logos() {
                         position={[0, -7.8, 0]} 
                         rotation={[ Math.PI , Math.PI, Math.PI ]} 
                         scale={1} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'toyota':
@@ -231,6 +335,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI, Math.PI, Math.PI ]} 
                         scale={1} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             case 'volkswagen':
@@ -242,6 +349,9 @@ function Car_Logos() {
                         position={[0, 1.2, 0]} 
                         rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
                         scale={60} 
+                        onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
                     />
                 )    
             default:
@@ -261,7 +371,11 @@ function Car_Logos() {
                     receiveShadow
                     position={[0, 8.3, 0]} 
                     rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                    scale={50} />  
+                    scale={50} 
+                    onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                    />  
                 </>
             )
         
@@ -273,11 +387,15 @@ function Car_Logos() {
                 receiveShadow
                 position={[0, 8, 0]} 
                 rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                scale={100} />
+                scale={100} 
+                onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                />
                 </>
             )
 
-        case 'bmw': Porsche
+        case 'bmw': 
             return (
                 <>
                     <BMW 
@@ -285,7 +403,11 @@ function Car_Logos() {
                     receiveShadow
                     position={[0, 8, 0]} 
                     rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                    scale={60} />
+                    scale={60} 
+                    onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                    />
                 </>
             )
 
@@ -297,7 +419,11 @@ function Car_Logos() {
                     receiveShadow
                     position={[0, 8, -4]} 
                     rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                    scale={60} />
+                    scale={60} 
+                    onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                    />
                 </>
             )    
         case 'ford':
@@ -308,7 +434,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 8, 0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={90} />                           
+                            scale={90} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />                           
                     
                 </>
             )    
@@ -320,7 +450,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 7.6, -0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={60} />
+                            scale={60} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         case 'hyundai':
@@ -331,7 +465,11 @@ function Car_Logos() {
                            receiveShadow
                            position={[0, 8, 0]} 
                            rotation={[ Math.PI, Math.PI, Math.PI ]} 
-                           scale={1} />
+                           scale={1} 
+                           onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                           />
                 </>
             )    
         case 'lamborghini':
@@ -342,7 +480,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 7.6, -0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={60} />
+                            scale={60} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         case 'lexus':
@@ -353,7 +495,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 7.6, -0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={60} />
+                            scale={60} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         case 'mazda':
@@ -364,7 +510,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 7.6, -0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={60} />
+                            scale={60} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         case 'mercedes':
@@ -375,7 +525,11 @@ function Car_Logos() {
                            receiveShadow
                            position={[0, 7.6, -0]} 
                            rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                           scale={60} />
+                           scale={60} 
+                           onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                           />
                 </>
             )    
         case 'mini':
@@ -386,7 +540,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 7.6, -0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={90} />
+                            scale={90} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         
@@ -396,9 +554,13 @@ function Car_Logos() {
                     <Mitsubishi 
                             castShadow
                             receiveShadow
-                            position={[0, 7.6, -0]} 
+                            position={[0, 9, -0]} 
                             rotation={[ Math.PI, Math.PI * 2.169, Math.PI ]} 
-                            scale={4} />
+                            scale={4} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )
 
@@ -410,7 +572,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 7.6, -0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={60} />
+                            scale={60} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         case 'mustang':
@@ -421,7 +587,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 7.4, -0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={60} />
+                            scale={60} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         case 'porsche':
@@ -432,7 +602,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 7.6, -0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={60} />
+                            scale={60} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         case 'subaru':
@@ -443,7 +617,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, -1, 0]} 
                             rotation={[ Math.PI , Math.PI, Math.PI ]} 
-                            scale={1} />
+                            scale={1} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         case 'toyota':
@@ -454,7 +632,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 8.3, 0]} 
                             rotation={[ Math.PI, Math.PI, Math.PI ]} 
-                            scale={1} />
+                            scale={1} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         case 'volkswagen':
@@ -465,7 +647,11 @@ function Car_Logos() {
                             receiveShadow
                             position={[0, 8.3, 0]} 
                             rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={60} />
+                            scale={60} 
+                            onClick={handleLogoClick}
+                        onPointerOver={handlePointerOver}
+                        onPointerOut={handlePointerOut}
+                            />
                 </>
             )    
         default:

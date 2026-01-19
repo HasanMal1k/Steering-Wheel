@@ -121,7 +121,7 @@ function Main() {
 
         {!isMobile && <RotatingText visible={text} />}
         <TopOptions />
-        <PartSelector />
+        {/* <PartSelector /> */}
         <DraggableCard />
         <CartCard />
         <HowToUseCard />

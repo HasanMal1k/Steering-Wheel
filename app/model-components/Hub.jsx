@@ -158,8 +158,20 @@ export function Hub(props) {
           geometry={nodes['hub2_v2_-_2025-2-24改_v2002_1'].geometry}
           material={clonedMaterial2 || materials['Material.002']}
         />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes['hub2_v2_-_2025-2-24改_v2002_2'].geometry}
+          material={materials['Material.007']}
+        />
       </group>
-      
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.blue_buttons.geometry}
+        material={materials['Material.003']}
+        position={[40.306, 1.324, 23.029]}
+      />
       <PaddleShifters
         geometry={nodes.PADDLE_SHIFTERS.geometry}
         material={materials['Material.003']}
@@ -178,11 +190,20 @@ export function Hub(props) {
         position={[0.516, 9.115, 51.946]}
       />
 
-      <Back_Wheel_Shifter
-        geometry={nodes.back_wheel_shifter.geometry}
-        material={clonedMaterialButtons}
-        position={[0.006, -31.661, 0.651]}
-      />
+      <group position={[0.006, -31.661, 0.651]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes['hub2_v2_-_2025-2-24改_v2007'].geometry}
+          material={clonedMaterialButtons}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes['hub2_v2_-_2025-2-24改_v2007_1'].geometry}
+          material={materials['Material.006']}
+        />
+      </group>
 
       <Purple_Button
         geometry={nodes.purple_button.geometry}

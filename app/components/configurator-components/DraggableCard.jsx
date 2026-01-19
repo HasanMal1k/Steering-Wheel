@@ -98,7 +98,12 @@ function DraggableCard() {
 
   // Using same logic as before for visibility
   useEffect(() => {
-    if (!activeComponent) {
+    // Show card if there is an active component OR if we strictly selected 'hub' as wheel type
+    // But we might want to ensure we don't show it if activeComponent is explicitly null 
+    // unless we want to prompt for wheel type change.
+    // The requirement is: "When the wheel option is hub only, add the same draggable box that say click to change wheel type options"
+    
+    if (!activeComponent && selectedWheelType !== 'hub') {
       gsap.to(cardRef.current, {
         opacity: 0,
         filter: 'blur(10px)',
@@ -114,7 +119,7 @@ function DraggableCard() {
         ease: 'power2.out',
       })
     }
-  }, [activeComponent])
+  }, [activeComponent, selectedWheelType])
 
   const ColorCircle = ({ color, isSelected, onClick, inStock = true }) => (
     <button
@@ -440,6 +445,20 @@ function DraggableCard() {
   }
 
   const renderComponentOptions = () => {
+    // Handling Hub Only mode default view
+    if (!activeComponent && selectedWheelType === 'hub') {
+      return (
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => setActiveComponent('wheelType')}
+            className="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-md py-2 text-xs transition-all font-medium"
+          >
+            Change Wheel Type
+          </button>
+        </div>
+      )
+    }
+
     switch (activeComponent) {
       case 'joysticks':
         return renderJoystickColors()
@@ -464,9 +483,11 @@ function DraggableCard() {
     }
   }
 
+  const isHubPrompt = !activeComponent && selectedWheelType === 'hub';
+
   return (
     <Card 
-      className={`fixed right-6 top-1/2 -translate-y-1/2 min-w-80 max-w-md z-1000 bg-black/50 border-gray-700 backdrop-blur-sm cursor-move hidden`} 
+      className={`fixed right-6 top-1/2 -translate-y-1/2 ${isHubPrompt ? 'min-w-[240px] max-w-[240px]' : 'min-w-80 max-w-md'} z-1000 bg-black/50 border-gray-700 backdrop-blur-sm cursor-move hidden`} 
       ref={cardRef}
       onClick={(e) => e.stopPropagation()}
       onPointerDown={(e) => e.stopPropagation()}
@@ -483,8 +504,8 @@ function DraggableCard() {
           style={{ touchAction: 'none' }} // This area should be draggable
         >
           <div className='flex-1 pb-3'>
-            <h2 className='text-white text-lg capitalize font-semibold'>
-              {activeComponent} Options
+            <h2 className={`${isHubPrompt ? 'text-sm' : 'text-lg'} text-white capitalize font-semibold`}>
+              {activeComponent ? `${activeComponent} Options` : 'Hub Options'}
             </h2>
             <p className='text-gray-500 text-xs'>Drag to move this card</p>
           </div>
