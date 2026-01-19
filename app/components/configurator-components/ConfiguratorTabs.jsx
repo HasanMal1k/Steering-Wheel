@@ -59,7 +59,6 @@ function ConfiguratorTabs() {
             className='h-12 md:h-14 bg-black/60 backdrop-blur-xl border border-white/10 p-1.5 rounded-xl overflow-x-auto w-full md:w-auto flex flex-nowrap scrollbar-hide justify-start md:justify-center'
             style={{ fontFamily: 'var(--font-michroma)' }}
           >
-            <TabsTrigger value="default" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Default</TabsTrigger>
             <TabsTrigger value="wheelType" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Steering Wheel</TabsTrigger>
             <TabsTrigger value="hub" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Make</TabsTrigger>
             <TabsTrigger value="rotary" className='h-full text-sm md:text-base px-3 md:px-6 flex-shrink-0 data-[state=active]:bg-white/20 data-[state=active]:text-white'>Rotary</TabsTrigger>
