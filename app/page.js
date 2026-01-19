@@ -29,6 +29,28 @@ function Main() {
   const { progress } = useProgress();
   const activeComponent = useConfigurationStore(state => state.activeComponent);
   const [envIntensity, setEnvIntensity] = useState(1);
+  const [windowDimensions, setWindowDimensions] = useState({ 
+    width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
+    height: typeof window !== 'undefined' ? window.innerHeight : 1080 
+  });
+
+  // Handle window resize for MeshGradient
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initialize with current size
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // useTest()
 
   useFetchShopifyProducts()
@@ -86,8 +108,8 @@ function Main() {
       {/* MeshGradient Background - Fixed positioning */}
       <div className="fixed inset-0 w-full h-full -z-10">
         <MeshGradient
-          width={typeof window !== 'undefined' ? window.innerWidth : 1920}
-          height={typeof window !== 'undefined' ? window.innerHeight : 1080}
+          width={windowDimensions.width}
+          height={windowDimensions.height}
           colors={[
             meshGradientControls.color1,
             meshGradientControls.color2,
