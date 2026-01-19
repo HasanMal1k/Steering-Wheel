@@ -1,10 +1,11 @@
 import { useQuery } from "urql";
 import { useEffect } from "react";
+import { useCartStore } from "../utils/CartStore";
 
 
 const PRODUCT_QUERY = `
   query GetProduct {
-    product(id: "gid://shopify/Product/7319439409291") {
+    product(id: "gid://shopify/Product/8050101223563") {
       id
       title
       status
@@ -29,19 +30,17 @@ export default function useFetchHub() {
     query: PRODUCT_QUERY,
   });
 
-  // const { setHubData, hubData } = useInventoryStore();
-  
+  const setCartItems = useCartStore((state) => state.setCartItems);
 
-
-  // useEffect(() => {
-  //   if (data?.product) {
-  //     const hub = data.product.variants.edges.reduce((acc, { node }) => {
-  //       acc[node.title] = node
-  //       return acc
-  //     }, {})
-  //     setHubData(hub)
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data?.product?.variants?.edges?.length > 0) {
+      const variantId = data.product.variants.edges[0].node.id;
+      setCartItems('hub', {
+         merchandiseId: variantId,
+         quantity: 1
+      });
+    }
+  }, [data, setCartItems]);
 
   useEffect(() => {
     if (error) {

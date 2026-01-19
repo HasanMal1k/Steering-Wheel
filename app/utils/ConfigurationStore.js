@@ -89,12 +89,70 @@ export const useConfigurationStore = create((set, get) => ({
   setSelectedHubLogo: (logo) => set({ selectedHubLogo: logo }),
 
   // Wheel type selection
-  selectedWheelType: 'gt3', // 'gt3' or 'round'
-  setSelectedWheelType: (type) => set({ selectedWheelType: type }),
+  selectedWheelType: 'gt3', // 'gt3' or 'round' or 'flat'
+  setSelectedWheelType: (type) => {
+    set({ selectedWheelType: type });
+    
+    // Update cart based on selection
+    if (typeof window !== 'undefined') {
+      const state = get();
+      const { useCartStore } = require('./CartStore');
+      let variantId = 'gid://shopify/ProductVariant/45112783700107'; // Default GT3
+
+      if (type === 'flat') {
+        if (state.selectedRimMaterial === 'alcantara') {
+          variantId = 'gid://shopify/ProductVariant/42959943860363';
+        } else if (state.selectedRimMaterial === 'leather') {
+          variantId = 'gid://shopify/ProductVariant/42959943893131';
+        }
+      } else if (type === 'round') {
+        if (state.selectedRimMaterial === 'alcantara') {
+          variantId = 'gid://shopify/ProductVariant/42959943925899';
+        } else if (state.selectedRimMaterial === 'leather') {
+          variantId = 'gid://shopify/ProductVariant/42959943958667';
+        }
+      }
+      
+      console.log(`Updating wheel variant to: ${variantId} (Type: ${type}, Material: ${state.selectedRimMaterial})`);
+      useCartStore.getState().setCartItems('steeringWheel', { 
+        merchandiseId: variantId,
+        quantity: 1
+      });
+    }
+  },
 
   // Rim material selection
   selectedRimMaterial: 'alcantara', // 'alcantara' or 'leather'
-  setSelectedRimMaterial: (material) => set({ selectedRimMaterial: material }),
+  setSelectedRimMaterial: (material) => {
+    set({ selectedRimMaterial: material });
+
+    // Update cart based on selection
+    if (typeof window !== 'undefined') {
+      const state = get();
+      const { useCartStore } = require('./CartStore');
+      let variantId = 'gid://shopify/ProductVariant/45112783700107'; // Default GT3
+
+      if (state.selectedWheelType === 'flat') {
+        if (material === 'alcantara') {
+          variantId = 'gid://shopify/ProductVariant/42959943860363';
+        } else if (material === 'leather') {
+          variantId = 'gid://shopify/ProductVariant/42959943893131';
+        }
+      } else if (state.selectedWheelType === 'round') {
+        if (material === 'alcantara') {
+          variantId = 'gid://shopify/ProductVariant/42959943925899';
+        } else if (material === 'leather') {
+          variantId = 'gid://shopify/ProductVariant/42959943958667';
+        }
+      }
+
+      console.log(`Updating wheel variant to: ${variantId} (Type: ${state.selectedWheelType}, Material: ${material})`);
+      useCartStore.getState().setCartItems('steeringWheel', { 
+        merchandiseId: variantId,
+        quantity: 1
+      });
+    }
+  },
 
   // Make and Model selection
   selectedMake: '',

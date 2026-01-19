@@ -453,7 +453,7 @@ function DraggableCard() {
             onClick={() => setActiveComponent('wheelType')}
             className="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-md py-2 text-xs transition-all font-medium"
           >
-            Change Wheel Type
+            Change Type
           </button>
         </div>
       )
@@ -487,7 +487,7 @@ function DraggableCard() {
 
   return (
     <Card 
-      className={`fixed right-6 top-1/2 -translate-y-1/2 ${isHubPrompt ? 'min-w-[240px] max-w-[240px]' : 'min-w-80 max-w-md'} z-1000 bg-black/50 border-gray-700 backdrop-blur-sm cursor-move hidden`} 
+      className={`fixed right-6 top-1/2 -translate-y-1/2 ${isHubPrompt ? 'min-w-[170px] max-w-[170px]' : 'min-w-80 max-w-md'} z-1000 bg-black/50 border-gray-700 backdrop-blur-sm cursor-move hidden`} 
       ref={cardRef}
       onClick={(e) => e.stopPropagation()}
       onPointerDown={(e) => e.stopPropagation()}
@@ -503,12 +503,13 @@ function DraggableCard() {
           className='flex items-start justify-between cursor-grab'
           style={{ touchAction: 'none' }} // This area should be draggable
         >
-          <div className='flex-1 pb-3'>
-            <h2 className={`${isHubPrompt ? 'text-sm' : 'text-lg'} text-white capitalize font-semibold`}>
+          <div className={`flex-1 ${isHubPrompt ? 'pb-0' : 'pb-3'}`}>
+            <h2 className={`${isHubPrompt ? 'text-xs' : 'text-lg'} text-white capitalize font-semibold`}>
               {activeComponent ? `${activeComponent} Options` : 'Hub Options'}
             </h2>
-            <p className='text-gray-500 text-xs'>Drag to move this card</p>
+            {!isHubPrompt && <p className='text-gray-500 text-xs'>Drag to move this card</p>}
           </div>
+          {!isHubPrompt && (
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -524,6 +525,7 @@ function DraggableCard() {
           >
             <X size={16} />
           </button>
+          )}
         </div>
 
         {/* Component Options - these should NOT be draggable */}

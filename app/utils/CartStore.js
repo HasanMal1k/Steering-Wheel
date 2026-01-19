@@ -4,7 +4,7 @@ export const useCartStore = create((set) => ({
   cartItems: {
     // Hub needs to be configured with proper ProductVariant ID
     // hub: { merchandiseId: 'gid://shopify/ProductVariant/XXXXX', quantity: 1 },
-    steeringWheel: { merchandiseId: 'gid://shopify/ProductVariant/42621835477131', quantity: 1 },
+    steeringWheel: { merchandiseId: 'gid://shopify/ProductVariant/45112783700107', quantity: 1 },
     paddles: { merchandiseId: 'gid://shopify/ProductVariant/42632067907723', quantity: 1 },
     frontKnobs: {},
     sideRotary: {},

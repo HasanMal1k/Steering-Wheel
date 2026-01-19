@@ -359,7 +359,7 @@ function Car_Logos() {
         }
     }
 
-    switch (selectedHubLogo){
+    const logoContent = (() => { switch (selectedHubLogo){
         case null:
             return null
         
@@ -656,7 +656,15 @@ function Car_Logos() {
             )    
         default:
             return null
-    }
+    }})()
+
+    const yOffset = (selectedWheelType === 'round' || selectedWheelType === 'flat') ? 1 : 0
+
+    return (
+        <group position={[0, yOffset, 0]}>
+            {logoContent}
+        </group>
+    )
 
 
 }
