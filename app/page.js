@@ -115,10 +115,10 @@ function Main() {
   return (
     <div className="h-screen w-full overflow-hidden relative">
       {/* MeshGradient Background - Fixed positioning */}
-      <div ref={containerRef} className="fixed inset-0 w-full h-full -z-10">
+      <div ref={containerRef} className="fixed inset-0 w-full h-full -z-10 flex items-center justify-center">
         <MeshGradient
-          width={windowDimensions.width}
-          height={windowDimensions.height}
+          width={windowDimensions.width * 2} // Scale up to ensure full coverage
+          height={windowDimensions.height * 2}
           colors={[
             meshGradientControls.color1,
             meshGradientControls.color2,
