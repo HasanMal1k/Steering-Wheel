@@ -30,7 +30,7 @@ function Logo() {
 
 
   return (
-    <div className='fixed top-6 left-6 md:top-10 md:left-20 z-10 flex items-center gap-2 md:gap-4' ref={logoRef}>
+    <div className='fixed top-6 left-2 md:top-10 md:left-20 z-10 flex items-center gap-2 md:gap-4' ref={logoRef}>
         <Link href="https://tripleseven-na.com/" target="_blank" rel="noopener noreferrer">
             <Image 
             src="/images/logo.png" 

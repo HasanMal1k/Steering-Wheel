@@ -27,7 +27,7 @@ function TopOptions() {
 }, [activeComponent])
 
   return (
-    <div className='fixed top-6 right-6 md:top-10 md:right-20 z-10 flex items-center justify-center gap-3' ref={buttonsRef}>
+    <div className='fixed top-6 right-2 md:top-10 md:right-20 z-10 flex items-center justify-center gap-3' ref={buttonsRef}>
         <CartButton/>
         {/* <OptionsButton /> */}
     </div>
