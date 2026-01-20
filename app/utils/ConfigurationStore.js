@@ -101,15 +101,15 @@ export const useConfigurationStore = create((set, get) => ({
 
       if (type === 'flat') {
         if (state.selectedRimMaterial === 'alcantara') {
-          variantId = 'gid://shopify/ProductVariant/42959943860363';
+          variantId = 'gid://shopify/ProductVariant/42621835378827';
         } else if (state.selectedRimMaterial === 'leather') {
-          variantId = 'gid://shopify/ProductVariant/42959943893131';
+          variantId = 'gid://shopify/ProductVariant/42621835411595';
         }
       } else if (type === 'round') {
         if (state.selectedRimMaterial === 'alcantara') {
-          variantId = 'gid://shopify/ProductVariant/42959943925899';
+          variantId = 'gid://shopify/ProductVariant/42621835444363';
         } else if (state.selectedRimMaterial === 'leather') {
-          variantId = 'gid://shopify/ProductVariant/42959943958667';
+          variantId = 'gid://shopify/ProductVariant/42621835477131';
         }
       }
       
@@ -134,15 +134,15 @@ export const useConfigurationStore = create((set, get) => ({
 
       if (state.selectedWheelType === 'flat') {
         if (material === 'alcantara') {
-          variantId = 'gid://shopify/ProductVariant/42959943860363';
+          variantId = 'gid://shopify/ProductVariant/42621835378827';
         } else if (material === 'leather') {
-          variantId = 'gid://shopify/ProductVariant/42959943893131';
+          variantId = 'gid://shopify/ProductVariant/42621835411595';
         }
       } else if (state.selectedWheelType === 'round') {
         if (material === 'alcantara') {
-          variantId = 'gid://shopify/ProductVariant/42959943925899';
+          variantId = 'gid://shopify/ProductVariant/42621835444363';
         } else if (material === 'leather') {
-          variantId = 'gid://shopify/ProductVariant/42959943958667';
+          variantId = 'gid://shopify/ProductVariant/42621835477131';
         }
       }
 
