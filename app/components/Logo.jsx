@@ -3,9 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import gsap from 'gsap'
 import { useConfigurationStore } from '../utils/ConfigurationStore'
+import { useTextStore } from '../utils/TextStore'
 
 function Logo() {
     const { activeComponent } = useConfigurationStore()
+    const disableText = useTextStore(state => state.disableText)
     const logoRef = useRef(null)
     // console.log('logo', activeComponent)
 
@@ -30,7 +32,12 @@ function Logo() {
 
 
   return (
-    <div className='fixed top-6 left-2 md:top-10 md:left-20 z-10 flex items-center gap-2 md:gap-4' ref={logoRef}>
+    <div 
+        className='fixed top-6 left-2 md:top-10 md:left-20 z-10 flex items-center gap-2 md:gap-4' 
+        ref={logoRef}
+        onMouseEnter={() => disableText()}
+        onPointerEnter={() => disableText()}
+    >
         <Link href="https://tripleseven-na.com/" target="_blank" rel="noopener noreferrer">
             <Image 
             src="/images/logo.png" 

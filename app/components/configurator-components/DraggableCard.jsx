@@ -6,6 +6,7 @@ import gsap from 'gsap'
 import { useConfigurationStore } from '../../utils/ConfigurationStore'
 import { X, Check, ChevronDown } from 'lucide-react'
 import { useKnobs, useProtocolBoardStore, useWiringHarnessStore, useHubAdapterStore, make } from '../../utils/InventoryStore'
+import { useTextStore } from '../../utils/TextStore'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +19,7 @@ gsap.registerPlugin(Draggable, InertiaPlugin)
 function DraggableCard() {
   const cardRef = useRef()
   const draggableInstance = useRef()
+  const disableText = useTextStore(state => state.disableText)
 
   const activeComponent = useConfigurationStore(state => state.activeComponent)
   const setActiveComponent = useConfigurationStore(state => state.setActiveComponent)
@@ -496,6 +498,8 @@ function DraggableCard() {
         touchAction: 'none', // Allow dragging on the card itself
         fontFamily: 'var(--font-michroma)'
       }}
+      onMouseEnter={() => disableText()}
+      onPointerEnter={() => disableText()}
     >
       <div className='p-4 pt-0 space-y-4'>
         {/* Header - make this draggable area */}

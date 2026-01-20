@@ -24,9 +24,9 @@ export function Round_Center_Plate(props) {
       const mainPlate = centerPlateRef.current.children[0]
       if (mainPlate && mainPlate.isMesh) {
           mainPlate.material = hoverMaterial
+          enableText()
       }
     }
-    enableText()
   }
 
   const handlePointerOut = (e) => {
