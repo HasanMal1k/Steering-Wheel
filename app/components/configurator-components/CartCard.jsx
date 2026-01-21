@@ -127,9 +127,9 @@ export function CartCard() {
 
   return (
     <>
-        <div className="h-full max-w-full z-[10000] backdrop-blur-md fixed inset-0 flex items-center justify-center hidden" ref={cardRef}>
-          <Card className="w-full max-w-sm">
-            <CardHeader>
+        <div className="h-full max-w-full z-[10000] backdrop-blur-md fixed inset-0 flex items-center justify-center hidden p-4" ref={cardRef}>
+          <Card className="w-full max-w-sm max-h-full flex flex-col">
+            <CardHeader className="flex-shrink-0">
               <CardTitle>Your Configuration Items</CardTitle>
               {/* <CardDescription>
                 Enter your email below to login to your account
@@ -138,7 +138,7 @@ export function CartCard() {
                 <Button onClick={disableCardComponent}><XIcon /></Button>
               </CardAction>
             </CardHeader>
-            <CardContent>
+            <CardContent className="overflow-y-auto min-h-0">
               <div className="space-y-3">
                 <div className="text-sm font-medium text-gray-700 mb-3">Selected Items:</div>
                 {Object.entries(cartItems).map(([key, item]) => {
@@ -184,7 +184,7 @@ export function CartCard() {
                 </div>
               )}
             </CardContent>
-            <CardFooter className="flex-col gap-2">
+            <CardFooter className="flex-col gap-2 flex-shrink-0">
               <Button 
                 type="submit" 
                 className="w-full" 
