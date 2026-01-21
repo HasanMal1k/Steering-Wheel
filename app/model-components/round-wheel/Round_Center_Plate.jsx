@@ -71,7 +71,7 @@ export function Round_Center_Plate(props) {
         geometry={nodes.Plane001.geometry}
         material={materials['Material.011']}
         position={[11.857, 0.007, 45.242]}
-      />
+        />
       <mesh
         castShadow
         receiveShadow

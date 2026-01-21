@@ -26,6 +26,13 @@ export function CartCard() {
     setIsLoading(true)
     setError(null)
 
+    // Open window immediately to prevent browser blocking popup after async delay
+    const checkoutWindow = window.open('', '_blank')
+    if (checkoutWindow) {
+      checkoutWindow.document.write('<html><head><title>Checkout</title></head><body style="background-color: #f9fafb; color: #111827; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: system-ui, -apple-system, sans-serif;"><div style="text-align: center;"><h3 style="margin-bottom: 10px; font-weight: 500;">Preparing your checkout...</h3><p style="color: #6b7280; font-size: 0.875rem;">Please wait while we transfer your cart to Shopify.</p></div></body></html>')
+      checkoutWindow.document.close()
+    }
+
     console.log('🛒 Initiating checkout with cart items:', cartItems)
     
     // Build configuration object to pass to checkout
@@ -69,8 +76,13 @@ export function CartCard() {
 
       console.log('✅ Checkout URL received:', data.checkoutUrl)
 
-      // Open checkout in new tab
-      window.open(data.checkoutUrl, '_blank')
+      // Redirect the pre-opened window to the checkout URL
+      if (checkoutWindow && !checkoutWindow.closed) {
+        checkoutWindow.location.href = data.checkoutUrl
+      } else {
+        // Fallback if popup was blocked or window closed
+        window.location.href = data.checkoutUrl
+      }
       
       // Close the cart modal
       setIsLoading(false)
@@ -80,6 +92,10 @@ export function CartCard() {
       console.error('❌ Checkout error:', err)
       setError(err.message)
       setIsLoading(false)
+      // Close the window if error occurred
+      if (checkoutWindow && !checkoutWindow.closed) {
+        checkoutWindow.close()
+      }
     }
   }
 
