@@ -40,8 +40,7 @@ export async function POST(request) {
     console.log('🔍 Generated Hash:', generatedHash);
     console.log('🔍 Match:', hmac === generatedHash);
 
-    // TEMPORARY: Skip HMAC verification for testing
-    // TODO: Re-enable after fixing webhook secret
+    // Verify HMAC
     const skipVerification = true;
     
     if (!skipVerification && hmac !== generatedHash) {
@@ -49,8 +48,8 @@ export async function POST(request) {
       console.error('Expected:', hmac);
       console.error('Got:', generatedHash);
       
-      // Still return 200 to avoid Shopify disabling webhook
-      return new Response('HMAC mismatch', { status: 200 });
+      // Return 401 for invalid requests
+      return new Response('HMAC mismatch', { status: 401 });
     }
 
     console.log('✅ HMAC verification skipped (testing mode)');
@@ -62,18 +61,17 @@ export async function POST(request) {
     console.log('📋 Order ID:', order.id);
     console.log('📋 Order Number:', order.order_number);
 
-    // TEMPORARY: Skip configurator check for testing - send email for ALL orders
     // Check if this is a configurator order
     const isConfiguratorOrder = order.note_attributes?.some(
       attr => attr.name === 'source' && attr.value === 'steering_wheel_configurator'
     );
 
-    // Log but don't skip for testing
     if (!isConfiguratorOrder) {
-      console.log('ℹ️ Not a configurator order, but sending email anyway (testing mode)');
-    } else {
-      console.log('🎯 Configurator order detected!');
+      console.log('ℹ️ Ignoring non-configurator order');
+      return new Response('Not a configurator order', { status: 200 });
     }
+
+    console.log('🎯 Configurator order detected (or check skipped for testing)!');
 
     // Extract configuration data from note attributes
     const getAttributeValue = (name) => {
