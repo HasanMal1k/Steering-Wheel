@@ -275,9 +275,9 @@ function Car_Logos() {
                     <Mustang 
                         castShadow
                         receiveShadow
-                        position={[0, 1.2, 0]} 
-                        rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                        scale={60} 
+                        position={[0, 1.6, 0]} 
+                        rotation={[ Math.PI, Math.PI, Math.PI ]} 
+                        scale={1.3} 
                         onClick={handleLogoClick}
                         onPointerOver={handlePointerOver}
                         onPointerOut={handlePointerOut}
@@ -586,8 +586,8 @@ function Car_Logos() {
                             castShadow
                             receiveShadow
                             position={[0, 7.4, -0]} 
-                            rotation={[ Math.PI * 0.5, Math.PI, Math.PI ]} 
-                            scale={60} 
+                            rotation={[ Math.PI, Math.PI, Math.PI ]} 
+                            scale={1.3} 
                             onClick={handleLogoClick}
                         onPointerOver={handlePointerOver}
                         onPointerOut={handlePointerOut}

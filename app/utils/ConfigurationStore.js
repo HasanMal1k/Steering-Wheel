@@ -164,7 +164,13 @@ export const useConfigurationStore = create((set, get) => ({
     
     // Set the hub logo based on the selected make
     if (state.selectedMake) {
-      const logoName = state.selectedMake.toLowerCase();
+      let logoName = state.selectedMake.toLowerCase();
+
+      // Special case for Mustang
+      if (model.includes('Mustang')) {
+        logoName = 'mustang';
+      }
+
       console.log('Setting hub logo to:', logoName);
       set({ selectedHubLogo: logoName });
     }

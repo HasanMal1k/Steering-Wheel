@@ -112,6 +112,11 @@ export const useHubAdapterStore = create(set => ({
       id: "gid://shopify/ProductVariant/44408202330251",
       sku: '132H',
       inventory: 0
+    },
+    '175H': {
+      id: "gid://shopify/ProductVariant/", // TODO: Add Shopify ID
+      sku: '175H',
+      inventory: 0
     }
   },
 
@@ -263,6 +268,10 @@ export const useWiringHarnessStore = create(set => ({
     },
     X38: {
       value: 'gid://shopify/ProductVariant/43657628090507',
+      inventory: 0
+    },
+    X40: {
+      value: 'gid://shopify/ProductVariant/', // TODO: Add Shopify ID
       inventory: 0
     }
   },
@@ -802,6 +811,11 @@ export const getMakeData = () => {
           'protocolBoard': protocolBoardsData.S25,
           'wiringHarness': wiringHarnessData.X27,
           'hubAdapter': hubAdaptersData.B12
+        },
+        'S550 Mustang - PREORDER': {
+          'protocolBoard': protocolBoardsData.S7,
+          'wiringHarness': wiringHarnessData.X40,
+          'hubAdapter': hubAdaptersData['175H']
         }
       }
     },
