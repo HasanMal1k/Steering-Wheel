@@ -31,18 +31,20 @@ export default function useFetchWiringHarness() {
 
   useEffect(() => {
     if (data?.product) {
-      const wiringHarness = data.product.variants.edges.reduce((acc, { node }) => {
-        acc[node.title] = node;
-        return acc;
-      }, {});
-      // setWiringHarnessData(wiringHarness);
+      const fetchedVariants = data.product.variants.edges.map(edge => edge.node);
+      const variantsById = fetchedVariants.reduce((acc, v) => ({ ...acc, [v.id]: v }), {});
+      const variantsByTitle = fetchedVariants.reduce((acc, v) => ({ ...acc, [v.title]: v }), {});
 
-
-      wiringHarness && Object.entries(wiringHarness).forEach(([key, values]) => {
-        if (wiringHarnessData[key]) {
-          setWiringHarnessData(key, { inventory: values.inventoryQuantity });
-        } else {
-          console.log('false', key);
+      Object.keys(wiringHarnessData).forEach(key => {
+        const item = wiringHarnessData[key];
+        
+        // Try matching by ID first (more reliable)
+        if (item.value && variantsById[item.value]) {
+          setWiringHarnessData(key, { inventory: variantsById[item.value].inventoryQuantity });
+        } 
+        // Fallback to title match
+        else if (variantsByTitle[key]) {
+          setWiringHarnessData(key, { inventory: variantsByTitle[key].inventoryQuantity });
         }
       });
     }

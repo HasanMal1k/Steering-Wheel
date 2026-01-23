@@ -113,7 +113,7 @@ export const useConfigurationStore = create((set, get) => ({
         }
       }
       
-      console.log(`Updating wheel variant to: ${variantId} (Type: ${type}, Material: ${state.selectedRimMaterial})`);
+      // console.log(`Updating wheel variant to: ${variantId} (Type: ${type}, Material: ${state.selectedRimMaterial})`);
       useCartStore.getState().setCartItems('steeringWheel', { 
         merchandiseId: variantId,
         quantity: 1
@@ -146,7 +146,7 @@ export const useConfigurationStore = create((set, get) => ({
         }
       }
 
-      console.log(`Updating wheel variant to: ${variantId} (Type: ${state.selectedWheelType}, Material: ${material})`);
+      // console.log(`Updating wheel variant to: ${variantId} (Type: ${state.selectedWheelType}, Material: ${material})`);
       useCartStore.getState().setCartItems('steeringWheel', { 
         merchandiseId: variantId,
         quantity: 1
@@ -171,7 +171,7 @@ export const useConfigurationStore = create((set, get) => ({
         logoName = 'mustang';
       }
 
-      console.log('Setting hub logo to:', logoName);
+      // console.log('Setting hub logo to:', logoName);
       set({ selectedHubLogo: logoName });
     }
     

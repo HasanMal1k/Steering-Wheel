@@ -14,7 +14,7 @@ export const useCartStore = create((set) => ({
   },
     // itemData is an object containing the fields to update
     setCartItems: (item, itemObj) => set((state) => {
-      console.log(`🛒 CartStore: Updating ${item}`, itemObj);
+      // console.log(`🛒 CartStore: Updating ${item}`, itemObj);
       return {
         cartItems: {
           ...state.cartItems,

@@ -168,16 +168,25 @@ function DraggableCard() {
     
     // Check protocol board
     if (modelData.protocolBoard && modelData.protocolBoard.inventory <= 0) {
+      if (modelData === make?.['Ford']?.models?.['S550 Mustang - PREORDER']) {
+        // console.log('Mustang - Protocol Board (S7) Inventory:', modelData.protocolBoard.inventory);
+      }
       missing.push('Protocol Board')
     }
     
     // Check wiring harness
     if (modelData.wiringHarness && modelData.wiringHarness.inventory <= 0) {
+      if (modelData === make?.['Ford']?.models?.['S550 Mustang - PREORDER']) {
+        // console.log('Mustang - Wiring Harness (X40) Inventory:', modelData.wiringHarness.inventory);
+      }
       missing.push('Wiring Harness')
     }
     
     // Check hub adapter
     if (modelData.hubAdapter && modelData.hubAdapter.inventory <= 0) {
+      if (modelData === make?.['Ford']?.models?.['S550 Mustang - PREORDER']) {
+        // console.log('Mustang - Hub Adapter (B12) Inventory:', modelData.hubAdapter.inventory);
+      }
       missing.push('Hub Adapter')
     }
     

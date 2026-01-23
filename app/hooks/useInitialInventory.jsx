@@ -64,8 +64,8 @@ function useInitialInventory() {
   }, [availableFrontHex, availableSideHex, setInitialColors]);
 
   useEffect(() => {
-    console.log("Initial Front Knobs Hex:", availableFrontHex);
-    console.log("Initial Side Rotary Hex:", availableSideHex);
+    // console.log("Initial Front Knobs Hex:", availableFrontHex);
+    // console.log("Initial Side Rotary Hex:", availableSideHex);
   }, [availableFrontHex, availableSideHex]);
 
   // Return hex colors

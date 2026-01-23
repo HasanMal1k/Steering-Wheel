@@ -40,7 +40,7 @@ export default function useFetchHubAdapter() {
         return acc
       }, {})
 
-      console.log('Hub Adapter Data Fetched:', hubAdapter);
+      // console.log('Hub Adapter Data Fetched:', hubAdapter);
 
       // Match by SKU instead of title
       Object.entries(hubAdapter).forEach(([title, values]) => {
@@ -51,9 +51,9 @@ export default function useFetchHubAdapter() {
 
         if (matchingKey) {
           setHubAdapterData(matchingKey, { inventory: values.inventoryQuantity });
-          console.log(`✓ Matched ${title} (${values.sku}) → ${matchingKey}`);
+          // console.log(`✓ Matched ${title} (${values.sku}) → ${matchingKey}`);
         } else {
-          console.log(`✗ No match found for ${title} (SKU: ${values.sku})`);
+          // console.log(`✗ No match found for ${title} (SKU: ${values.sku})`);
         }
       });
 
@@ -68,7 +68,7 @@ export default function useFetchHubAdapter() {
 
   useEffect(() => {
     if(hubAdaptersData){
-      console.log('Hub Adapter:  ', hubAdaptersData)
+      // console.log('Hub Adapter:  ', hubAdaptersData)
     }
   }, [hubAdaptersData])
 
