@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { sendOrderNotificationEmail } from '@/lib/email';
 
 export async function POST(request) {
   try {
@@ -108,17 +109,10 @@ export async function POST(request) {
     // 5. Send Notification Email
     console.log('📧 Sending notification email...');
 
-    const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/send-email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ orderDetails }),
-    });
+    const { success, error } = await sendOrderNotificationEmail(orderDetails);
 
-    if (!emailResponse.ok) {
-      const errorData = await emailResponse.json();
-      console.error('❌ Failed to send email:', errorData);
+    if (!success) {
+      console.error('❌ Failed to send email:', error);
     } else {
       console.log('✅ Email sent successfully');
     }

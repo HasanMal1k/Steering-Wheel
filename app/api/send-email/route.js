@@ -1,7 +1,4 @@
-import { Resend } from 'resend';
-import { OrderNotificationEmail } from '@/app/emails/OrderNotification';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { sendOrderNotificationEmail } from '@/lib/email';
 
 export async function POST(request) {
   try {
@@ -14,29 +11,11 @@ export async function POST(request) {
       );
     }
 
-    const recipientEmail = process.env.ORDER_NOTIFICATION_EMAIL;
-    
-    if (!recipientEmail) {
-      console.error('❌ ORDER_NOTIFICATION_EMAIL not configured');
+    const { success, data, error } = await sendOrderNotificationEmail(orderDetails);
+
+    if (!success) {
       return new Response(
-        JSON.stringify({ error: 'Notification email not configured' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    console.log('📧 Sending order notification to:', recipientEmail);
-
-    const { data, error } = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'orders@yourdomain.com',
-      to: recipientEmail,
-      subject: `New Configurator Order #${orderDetails.orderNumber}`,
-      react: OrderNotificationEmail({ orderDetails }),
-    });
-
-    if (error) {
-      console.error('❌ Resend error:', error);
-      return new Response(
-        JSON.stringify({ error: error.message }),
+        JSON.stringify({ error }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -47,6 +26,15 @@ export async function POST(request) {
       JSON.stringify({ success: true, data }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
+  } catch (err) {
+    console.error('❌ Error processing request:', err);
+    return new Response(
+      JSON.stringify({ error: 'Internal server error' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+}
+
 
   } catch (error) {
     console.error('❌ Email sending error:', error);
