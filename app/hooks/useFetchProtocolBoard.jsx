@@ -19,6 +19,7 @@ const PRODUCT_QUERY = `
             title
             inventoryQuantity
             sku
+            price
           }
         }
       }
@@ -47,7 +48,10 @@ export default function useFetchProtocolBoard() {
     // Loop through each variant and update if it exists in the store
     Object.entries(protocolBoard).forEach(([key, values]) => {
       if (protocolBoardsData[key]) {
-        setProtocolBoardsData(key, { inventory: values.inventoryQuantity });
+        setProtocolBoardsData(key, { 
+            inventory: values.inventoryQuantity, 
+            price: { amount: values.price, currencyCode: 'USD' }
+        });
       } else {
         console.log('false', key);
       }

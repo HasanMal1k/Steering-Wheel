@@ -17,6 +17,7 @@ const PRODUCT_QUERY = `
             title
             inventoryQuantity
             sku
+            price
           }
         }
       }
@@ -48,15 +49,14 @@ export default function useFetchHubAdapter() {
         const matchingKey = Object.keys(hubAdaptersData).find(key => {
           return hubAdaptersData[key].sku === values.sku || hubAdaptersData[key].id === values.id
         });
-
+        
         if (matchingKey) {
-          setHubAdapterData(matchingKey, { inventory: values.inventoryQuantity });
-          // console.log(`✓ Matched ${title} (${values.sku}) → ${matchingKey}`);
-        } else {
-          // console.log(`✗ No match found for ${title} (SKU: ${values.sku})`);
+            setHubAdapterData(matchingKey, { 
+                inventory: values.inventoryQuantity,
+                price: { amount: values.price, currencyCode: 'USD' }
+            });
         }
       });
-
     }
   }, [data, setHubAdapterData]);
 

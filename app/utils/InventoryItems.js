@@ -573,7 +573,7 @@ export const make = {
         'wiringHarness': wiringHarnesses.X9,
         'hubAdapter': hubAdapters.B9
       },
-      'Mazda 3 (Alexa)': {
+      'Mazda 3 (Axela)': {
         'protocolBoard': protocolBoards.S9,
         'wiringHarness': wiringHarnesses.X8A,
         'hubAdapter': hubAdapters.B9
@@ -740,7 +740,7 @@ export const make = {
         'wiringHarness': wiringHarnesses.X29,  
         'hubAdapter': hubAdapters.B7
       },
-      'IC500': {
+      'IS500': {
         'protocolBoard': protocolBoards.S28,
         'wiringHarness': wiringHarnesses.X28,  
         'hubAdapter': hubAdapters.B6

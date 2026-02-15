@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 import { useEffect } from "react";
-import { useInventoryStore } from "../utils/InventoryStore";
+import { useSteeringWheelStore } from "../utils/InventoryStore";
 
 const PRODUCT_QUERY = `
   query GetProduct {
@@ -17,6 +17,7 @@ const PRODUCT_QUERY = `
             title
             inventoryQuantity
             sku
+            price
           }
         }
       }
@@ -29,32 +30,33 @@ export default function useFetchSteeringWheel() {
     query: PRODUCT_QUERY,
   });
 
-  // const { steeringWheelData, setSteeringWheelData } = useInventoryStore()
+  const { steeringWheelData, setSteeringWheelData } = useSteeringWheelStore()
 
-  // useEffect(() => {
-  //   if (data?.product) {
-  //     const steeringWheel = data.product.variants.edges.reduce((acc, { node }) => {
-  //       acc[node.title] = node
+  useEffect(() => {
+    if (data?.product) {
+      const steeringWheel = data.product.variants.edges.reduce((acc, { node }) => {
+        // Store by ID so we can lookup by ID
+        acc[node.id] = node
+        return acc
+      }, {})
+      
+      // Also store by Title if needed? Or just a flat map is fine
+      // Let's store individual updates or bulk update?
+      // Store logic is: setSteeringWheelData(key, value)
+      // Since default implementation handles key-value updates, we can loop
+      
+      Object.entries(steeringWheel).forEach(([id, node]) => {
+          setSteeringWheelData(id, { 
+              ...node, 
+              price: { amount: node.price, currencyCode: 'USD' }
+          });
+      })
+    }
+  }, [data, setSteeringWheelData]);
 
-  //       return acc
-
-  //     }, {})
-
-  //     setSteeringWheelData(steeringWheel)
-  //   }
-  // }, [data]);
-
-  // useEffect(() => {
-  //   if (error) {
-  //     console.error("❌ Error fetching product:", error);
-  //   }
-  // }, [error]);
-
-  // useEffect(() => {
-  //   if(steeringWheelData){
-  //     console.log(steeringWheelData)
-  //   }
-  // }, [steeringWheelData])
-
- 
+  useEffect(() => {
+    if (error) {
+      console.error("❌ Error fetching product:", error);
+    }
+  }, [error]);
 }

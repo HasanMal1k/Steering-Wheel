@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useKnobs, useProtocolBoardStore, useWiringHarnessStore, useHubAdapterStore, useSteeringWheelStore } from './InventoryStore';
 
 // Keep these only for hub logos
 export const hubLogos = {
@@ -54,9 +55,15 @@ export const useConfigurationStore = create((set, get) => ({
     // Update cart if itemId provided
     if (itemId && typeof window !== 'undefined') {
       const { useCartStore } = require('./CartStore');
+      // Look up price
+      const knobs = useKnobs.getState().frontKnobs;
+      const knobEntry = Object.values(knobs).find(k => k.id === itemId);
+      const price = knobEntry ? knobEntry.price : null;
+
       useCartStore.getState().setCartItems('frontKnobs', { 
         merchandiseId: itemId, 
-        quantity: 1 
+        quantity: 1,
+        price
       });
     }
   },
@@ -65,9 +72,15 @@ export const useConfigurationStore = create((set, get) => ({
     // Update cart if itemId provided
     if (itemId && typeof window !== 'undefined') {
       const { useCartStore } = require('./CartStore');
+      // Look up price
+      const rotaries = useKnobs.getState().sideRotary;
+      const rotaryEntry = Object.values(rotaries).find(k => k.id === itemId);
+      const price = rotaryEntry ? rotaryEntry.price : null;
+
       useCartStore.getState().setCartItems('sideRotary', { 
         merchandiseId: itemId, 
-        quantity: 1 
+        quantity: 1,
+        price
       });
     }
   },
@@ -114,9 +127,14 @@ export const useConfigurationStore = create((set, get) => ({
       }
       
       // console.log(`Updating wheel variant to: ${variantId} (Type: ${type}, Material: ${state.selectedRimMaterial})`);
+      const wheels = useSteeringWheelStore.getState().steeringWheelData;
+      const wheelEntry = wheels[variantId];
+      const price = wheelEntry ? wheelEntry.price : null;
+
       useCartStore.getState().setCartItems('steeringWheel', { 
         merchandiseId: variantId,
-        quantity: 1
+        quantity: 1,
+        price
       });
     }
   },
@@ -147,9 +165,14 @@ export const useConfigurationStore = create((set, get) => ({
       }
 
       // console.log(`Updating wheel variant to: ${variantId} (Type: ${state.selectedWheelType}, Material: ${material})`);
+      const wheels = useSteeringWheelStore.getState().steeringWheelData;
+      const wheelEntry = wheels[variantId];
+      const price = wheelEntry ? wheelEntry.price : null;
+
       useCartStore.getState().setCartItems('steeringWheel', { 
         merchandiseId: variantId,
-        quantity: 1
+        quantity: 1,
+        price
       });
     }
   },
@@ -181,21 +204,33 @@ export const useConfigurationStore = create((set, get) => ({
       const cartStore = useCartStore.getState();
       
       if (protocolBoardId) {
+        const boards = useProtocolBoardStore.getState().protocolBoardsData;
+        const board = Object.values(boards).find(b => b.id === protocolBoardId);
+
         cartStore.setCartItems('protocolBoard', { 
           merchandiseId: protocolBoardId, 
-          quantity: 1 
+          quantity: 1,
+          price: board ? board.price : null
         });
       }
       if (wiringHarnessId) {
+        const harnesses = useWiringHarnessStore.getState().wiringHarnessData;
+        const harness = Object.values(harnesses).find(h => h.value === wiringHarnessId);
+
         cartStore.setCartItems('wiringHarnesses', { 
           merchandiseId: wiringHarnessId, 
-          quantity: 1 
+          quantity: 1,
+          price: harness ? harness.price : null
         });
       }
       if (hubAdapterId) {
+        const adapters = useHubAdapterStore.getState().hubAdaptersData;
+        const adapter = Object.values(adapters).find(a => a.id === hubAdapterId);
+
         cartStore.setCartItems('hubAdapter', { 
           merchandiseId: hubAdapterId, 
-          quantity: 1 
+          quantity: 1,
+          price: adapter ? adapter.price : null
         });
       }
     }

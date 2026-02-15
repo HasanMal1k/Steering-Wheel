@@ -1,5 +1,6 @@
 import { useConfigurationStore } from "@/app/utils/ConfigurationStore"
 import { useCartStore } from "@/app/utils/CartStore"
+import { useSteeringWheelStore, useKnobs, useProtocolBoardStore, useWiringHarnessStore, useHubAdapterStore } from "@/app/utils/InventoryStore"
 import { Button } from "../ui/button"
 import {
   Card,
@@ -19,6 +20,42 @@ export function CartCard() {
   const cartItems = useCartStore(state => state.cartItems)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // Subscribing to inventory stores for price lookup
+  const wheels = useSteeringWheelStore(state => state.steeringWheelData)
+  const frontKnobs = useKnobs(state => state.frontKnobs)
+  const sideRotary = useKnobs(state => state.sideRotary)
+  const protocolBoards = useProtocolBoardStore(state => state.protocolBoardsData)
+  const wiringHarnesses = useWiringHarnessStore(state => state.wiringHarnessData)
+  const hubAdapters = useHubAdapterStore(state => state.hubAdaptersData)
+
+  const getPrice = (key, item) => {
+    if (item.price) return item.price;
+    if (!item.merchandiseId) return null;
+    
+    if (key === 'steeringWheel') return wheels[item.merchandiseId]?.price;
+    if (key === 'frontKnobs') {
+        const k = Object.values(frontKnobs).find(x => x.id === item.merchandiseId);
+        return k?.price;
+    }
+    if (key === 'sideRotary') {
+        const k = Object.values(sideRotary).find(x => x.id === item.merchandiseId);
+        return k?.price;
+    }
+    if (key === 'protocolBoard') {
+        const b = Object.values(protocolBoards).find(x => x.id === item.merchandiseId);
+        return b?.price;
+    }
+    if (key === 'wiringHarnesses') {
+        const w = Object.values(wiringHarnesses).find(x => x.value === item.merchandiseId);
+        return w?.price;
+    }
+    if (key === 'hubAdapter') {
+        const h = Object.values(hubAdapters).find(x => x.id === item.merchandiseId);
+        return h?.price;
+    }
+    return null;
+  }
 
   const cardRef = useRef()
 
@@ -138,20 +175,49 @@ export function CartCard() {
                 <Button onClick={disableCardComponent}><XIcon /></Button>
               </CardAction>
             </CardHeader>
-            <CardContent className="overflow-y-auto min-h-0">
+            <CardContent className="overflow-y-auto min-h-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/40">
               <div className="space-y-3">
-                <div className="text-sm font-medium text-gray-700 mb-3">Selected Items:</div>
+                <div className="text-sm font-medium text-gray-100 mb-3">Selected Items:</div>
                 {Object.entries(cartItems).map(([key, item]) => {
                   if (!item.merchandiseId) return null
+                  const price = getPrice(key, item);
                   return (
                     <div key={key} className="flex justify-between items-center py-2 border-b border-gray-200">
                       <div className="flex-1">
                         <p className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
                         <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
                       </div>
+                      {price && (
+                        <div className="font-semibold text-gray-900">
+                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: price.currencyCode }).format(price.amount)}
+                        </div>
+                      )}
                     </div>
                   )
                 })}
+                
+                {/* Grand Total Section */}
+                {Object.values(cartItems).some(item => item.merchandiseId) && (
+                   <div className="mt-6 pt-4 border-t-2 border-gray-900">
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-xl font-bold text-white uppercase tracking-wide">Total:</span>
+                        <span className="text-3xl font-extrabold text-white">
+                          {(() => {
+                            const total = Object.entries(cartItems).reduce((sum, [key, item]) => {
+                              const price = getPrice(key, item);
+                              if (item.merchandiseId && price) {
+                                return sum + (parseFloat(price.amount) * (item.quantity || 1));
+                              }
+                              return sum;
+                            }, 0);
+                            const currency = 'USD';
+                            return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(total);
+                          })()}
+                        </span>
+                      </div>
+                   </div>
+                )}
+
                 {Object.values(cartItems).filter(item => item.merchandiseId).length === 0 && (
                   <p className="text-gray-500 text-center py-4">No items configured yet</p>
                 )}

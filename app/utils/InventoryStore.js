@@ -418,6 +418,19 @@ export const useKnobs = create(set => ({
     })),
 }));
 
+export const useSteeringWheelStore = create(set => ({
+  steeringWheelData: {},
+  setSteeringWheelData: (key, value) => set((state) => ({
+    steeringWheelData: {
+      ...state.steeringWheelData,
+      [key]: {
+        ...state.steeringWheelData[key],
+        ...value
+      }
+    }
+  }))
+}));
+
 // Helper function to get live data from stores
 export const getMakeData = () => {
   const protocolBoardsData = useProtocolBoardStore.getState().protocolBoardsData;
@@ -652,7 +665,7 @@ export const getMakeData = () => {
           'wiringHarness': wiringHarnessData.X9,
           'hubAdapter': hubAdaptersData.B9
         },
-        'Mazda 3 (Alexa)': {
+        'Mazda 3 (Axela)': {
           'protocolBoard': protocolBoardsData.S9,
           'wiringHarness': wiringHarnessData.X8A,
           'hubAdapter': hubAdaptersData.B9
@@ -827,7 +840,7 @@ export const getMakeData = () => {
           'wiringHarness': wiringHarnessData.X29,  
           'hubAdapter': hubAdaptersData.B7
         },
-        'IC500': {
+        'IS500': {
           'protocolBoard': protocolBoardsData.S28,
           'wiringHarness': wiringHarnessData.X28,  
           'hubAdapter': hubAdaptersData.B6

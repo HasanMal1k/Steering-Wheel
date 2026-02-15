@@ -17,6 +17,7 @@ const PRODUCT_QUERY = `
             title
             inventoryQuantity
             sku
+            price
           }
         }
       }
@@ -40,11 +41,19 @@ export default function useFetchWiringHarness() {
         
         // Try matching by ID first (more reliable)
         if (item.value && variantsById[item.value]) {
-          setWiringHarnessData(key, { inventory: variantsById[item.value].inventoryQuantity });
+          const variant = variantsById[item.value];
+          setWiringHarnessData(key, { 
+            inventory: variant.inventoryQuantity, 
+            price: { amount: variant.price, currencyCode: 'USD' }
+          });
         } 
         // Fallback to title match
         else if (variantsByTitle[key]) {
-          setWiringHarnessData(key, { inventory: variantsByTitle[key].inventoryQuantity });
+          const variant = variantsByTitle[key];
+          setWiringHarnessData(key, { 
+            inventory: variant.inventoryQuantity, 
+            price: { amount: variant.price, currencyCode: 'USD' }
+          });
         }
       });
     }

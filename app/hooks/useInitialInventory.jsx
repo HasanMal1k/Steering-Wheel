@@ -31,7 +31,8 @@ function useInitialInventory() {
         setInitialColors(available[1].color, null); // Set front color
         setCartItems('frontKnobs', {
           merchandiseId: available[1].id,
-          quantity: 1
+          quantity: 1,
+          price: available[1].price
         });
       }
     }
@@ -50,7 +51,8 @@ function useInitialInventory() {
         setInitialColors(null, available[1].color); // Set side color
         setCartItems('sideRotary', {
           merchandiseId: available[1].id,
-          quantity: 1
+          quantity: 1,
+          price: available[1].price
         });
       }
     }

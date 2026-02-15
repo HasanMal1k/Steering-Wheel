@@ -18,6 +18,7 @@ const PRODUCT_QUERY = `
             title
             inventoryQuantity
             sku
+            price
           }
         }
       }
@@ -34,10 +35,12 @@ export default function useFetchHub() {
 
   useEffect(() => {
     if (data?.product?.variants?.edges?.length > 0) {
-      const variantId = data.product.variants.edges[0].node.id;
+      const node = data.product.variants.edges[0].node;
+      const variantId = node.id;
       setCartItems('hub', {
          merchandiseId: variantId,
-         quantity: 1
+         quantity: 1,
+         price: { amount: node.price, currencyCode: 'USD' }
       });
     }
   }, [data, setCartItems]);

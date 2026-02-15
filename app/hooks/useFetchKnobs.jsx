@@ -17,6 +17,7 @@ const PRODUCT_QUERY = `
             title
             inventoryQuantity
             sku
+            price
           }
         }
       }
@@ -60,7 +61,10 @@ export default function useFetchKnobs() {
 
       sideJoysStickData && Object.entries(sideJoysStickData).forEach(([key, values]) => {
         if (sideRotary[key]) {
-          setSideRotary(key, { inventory: values.inventoryQuantity });  
+          setSideRotary(key, { 
+            inventory: values.inventoryQuantity, 
+            price: { amount: values.price, currencyCode: 'USD' }
+          });  
         } else {
           console.log('false', key);
         }
@@ -68,7 +72,10 @@ export default function useFetchKnobs() {
 
       frontJoyStickData && Object.entries(frontJoyStickData).forEach(([key, values]) => {
         if (frontKnobs[key]) {
-          setFrontKnobs(key, { inventory: values.inventoryQuantity });  
+          setFrontKnobs(key, { 
+            inventory: values.inventoryQuantity, 
+            price: { amount: values.price, currencyCode: 'USD' }
+          });  
         } else {
           console.log('false', key);
         }
