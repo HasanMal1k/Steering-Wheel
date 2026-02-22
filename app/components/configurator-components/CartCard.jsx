@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "../ui/card"
 import { XIcon } from "lucide-react"
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState, useMemo } from "react"
 import gsap from "gsap"
 
 export function CartCard() {
@@ -58,6 +58,75 @@ export function CartCard() {
   }
 
   const cardRef = useRef()
+
+  const totalAmount = useMemo(() => {
+    return Object.entries(cartItems).reduce((sum, [key, item]) => {
+      const price = getPrice(key, item)
+      if (item.merchandiseId && price) {
+        return sum + (parseFloat(price.amount) * (item.quantity || 1))
+      }
+      return sum
+    }, 0)
+  }, [cartItems, wheels, frontKnobs, sideRotary, protocolBoards, wiringHarnesses, hubAdapters])
+
+  const hasCartItems = Object.values(cartItems).some(item => item.merchandiseId)
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
+  }
+
+  const PriceCounter = ({ value }) => {
+    const digits = value.toFixed(2).split("")
+    const digitHeight = 20
+    const digitRefs = useRef([])
+
+    useEffect(() => {
+      digits.forEach((ch, index) => {
+        if (ch === ".") return
+        const digit = Number(ch)
+        const el = digitRefs.current[index]
+        if (!el || Number.isNaN(digit)) return
+
+        gsap.to(el, {
+          y: -digit * digitHeight,
+          duration: 0.5,
+          ease: "power3.out"
+        })
+      })
+    }, [digits])
+
+    return (
+      <span className="inline-flex items-center text-sm font-medium text-white">
+        <span className="mr-1">$</span>
+        {digits.map((ch, index) => {
+          if (ch === ".") {
+            return (
+              <span key={`dot-${index}`} className="mx-0.5">.</span>
+            )
+          }
+          return (
+            <span
+              key={`digit-${index}`}
+              className="relative overflow-hidden"
+              style={{ width: "1ch", height: digitHeight }}
+            >
+              <span
+                ref={(el) => (digitRefs.current[index] = el)}
+                className="absolute left-0 top-0 flex flex-col"
+                style={{ lineHeight: `${digitHeight}px` }}
+              >
+                {Array.from({ length: 10 }, (_, i) => (
+                  <span key={i} className="h-5 flex items-center justify-center">
+                    {i}
+                  </span>
+                ))}
+              </span>
+            </span>
+          )
+        })}
+      </span>
+    )
+  }
 
   const handleCheckout = async () => {
     setIsLoading(true)
@@ -197,22 +266,12 @@ export function CartCard() {
                 })}
                 
                 {/* Grand Total Section */}
-                {Object.values(cartItems).some(item => item.merchandiseId) && (
+                {hasCartItems && (
                    <div className="mt-6 pt-4 border-t-2 border-gray-900">
                       <div className="flex justify-between items-baseline">
                         <span className="text-xl font-bold text-white uppercase tracking-wide">Total:</span>
                         <span className="text-3xl font-extrabold text-white">
-                          {(() => {
-                            const total = Object.entries(cartItems).reduce((sum, [key, item]) => {
-                              const price = getPrice(key, item);
-                              if (item.merchandiseId && price) {
-                                return sum + (parseFloat(price.amount) * (item.quantity || 1));
-                              }
-                              return sum;
-                            }, 0);
-                            const currency = 'USD';
-                            return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(total);
-                          })()}
+                          {formatCurrency(totalAmount)}
                         </span>
                       </div>
                    </div>
@@ -251,14 +310,21 @@ export function CartCard() {
               )}
             </CardContent>
             <CardFooter className="flex-col gap-2 flex-shrink-0">
-              <Button 
-                type="submit" 
-                className="w-full" 
-                onClick={handleCheckout}
-                disabled={isLoading || Object.values(cartItems).filter(item => item.merchandiseId).length === 0}
-              >
-                {isLoading ? 'Creating Checkout...' : 'Add to Cart'}
-              </Button>
+              <div className="flex w-full items-center gap-3">
+                <Button 
+                  type="submit" 
+                  className="flex-1" 
+                  onClick={handleCheckout}
+                  disabled={isLoading || Object.values(cartItems).filter(item => item.merchandiseId).length === 0}
+                >
+                  {isLoading ? 'Creating Checkout...' : 'Add to Cart'}
+                </Button>
+                <div className="rounded-md border border-white/15 bg-black/60 px-3 py-2">
+                  {hasCartItems ? <PriceCounter value={totalAmount} /> : (
+                    <span className="text-sm font-medium text-white/60">$0.00</span>
+                  )}
+                </div>
+              </div>
             </CardFooter>
           </Card>
         </div>

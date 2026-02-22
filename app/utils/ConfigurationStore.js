@@ -110,6 +110,16 @@ export const useConfigurationStore = create((set, get) => ({
     if (typeof window !== 'undefined') {
       const state = get();
       const { useCartStore } = require('./CartStore');
+
+      if (type === 'hub') {
+        useCartStore.getState().setCartItems('steeringWheel', { 
+          merchandiseId: null,
+          quantity: 0,
+          price: null
+        });
+        return;
+      }
+
       let variantId = 'gid://shopify/ProductVariant/45112783700107'; // Default GT3
 
       if (type === 'flat') {
@@ -148,6 +158,16 @@ export const useConfigurationStore = create((set, get) => ({
     if (typeof window !== 'undefined') {
       const state = get();
       const { useCartStore } = require('./CartStore');
+
+      if (state.selectedWheelType === 'hub') {
+        useCartStore.getState().setCartItems('steeringWheel', { 
+          merchandiseId: null,
+          quantity: 0,
+          price: null
+        });
+        return;
+      }
+
       let variantId = 'gid://shopify/ProductVariant/45112783700107'; // Default GT3
 
       if (state.selectedWheelType === 'flat') {

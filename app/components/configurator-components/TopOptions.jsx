@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import CartButton from './CartButton'
+import CartButton, { CartPriceBadge } from './CartButton'
 import OptionsButton from './OptionsButton'
 import { useConfigurationStore } from '@/app/utils/ConfigurationStore'
 import { useTextStore } from '@/app/utils/TextStore'
@@ -35,6 +35,7 @@ function TopOptions() {
         onMouseEnter={() => disableText()}
         onPointerEnter={() => disableText()}
     >
+        <CartPriceBadge />
         <CartButton/>
         {/* <OptionsButton /> */}
     </div>
