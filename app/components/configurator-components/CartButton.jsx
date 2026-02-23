@@ -55,7 +55,11 @@ function CartPriceBadge() {
     if (item.price) return item.price
     if (!item.merchandiseId) return null
 
-    if (key === 'steeringWheel') return wheels[item.merchandiseId]?.price
+    if (key === 'steeringWheel') {
+      const wheelPrice = wheels[item.merchandiseId]?.price
+      console.log(`💰 Getting ${key}:`, { merchandiseId: item.merchandiseId, wheelPrice, allWheels: wheels })
+      return wheelPrice
+    }
     if (key === 'frontKnobs') {
       const k = Object.values(frontKnobs).find(x => x.id === item.merchandiseId)
       return k?.price
@@ -80,10 +84,14 @@ function CartPriceBadge() {
   }
 
   const totalAmount = useMemo(() => {
+    console.log("🛒 Cart Items:", cartItems);
     return Object.entries(cartItems).reduce((sum, [key, item]) => {
       const price = getPrice(key, item)
+      console.log(`📊 ${key}:`, { item, price, merchandiseId: item.merchandiseId });
       if (item.merchandiseId && price) {
-        return sum + (parseFloat(price.amount) * (item.quantity || 1))
+        const itemTotal = parseFloat(price.amount) * (item.quantity || 1)
+        console.log(`✅ ${key} total: ${itemTotal} (amount: ${price.amount}, qty: ${item.quantity})`);
+        return sum + itemTotal
       }
       return sum
     }, 0)

@@ -136,10 +136,16 @@ export const useConfigurationStore = create((set, get) => ({
         }
       }
       
-      // console.log(`Updating wheel variant to: ${variantId} (Type: ${type}, Material: ${state.selectedRimMaterial})`);
       const wheels = useSteeringWheelStore.getState().steeringWheelData;
       const wheelEntry = wheels[variantId];
       const price = wheelEntry ? wheelEntry.price : null;
+
+      console.log(`🛼 setSelectedWheelType(${type}):`, {
+        variantId,
+        wheelEntry: wheelEntry ? { title: wheelEntry.title, price: wheelEntry.price, sku: wheelEntry.sku } : null,
+        priceToSet: price,
+        allWheelKeys: Object.keys(wheels)
+      });
 
       useCartStore.getState().setCartItems('steeringWheel', { 
         merchandiseId: variantId,

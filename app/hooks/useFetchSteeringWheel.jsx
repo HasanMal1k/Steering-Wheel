@@ -2,8 +2,8 @@ import { useQuery } from "urql";
 import { useEffect } from "react";
 import { useSteeringWheelStore } from "../utils/InventoryStore";
 
-const PRODUCT_QUERY = `
-  query GetProduct {
+const FLAT_ROUND_QUERY = `
+  query GetFlatRoundProduct {
     product(id: "gid://shopify/Product/7505098834059") {
       id
       title
@@ -25,38 +25,87 @@ const PRODUCT_QUERY = `
   }
 `;
 
+const GT3_QUERY = `
+  query GetGT3Product {
+    product(id: "gid://shopify/Product/7505438245003") {
+      id
+      title
+      status
+      totalInventory
+      productType
+      variants(first: 1000) {
+        edges {
+          node {
+            id
+            title
+            inventoryQuantity
+            sku
+            price
+          }
+        }
+      }
+    }
+  }
+`;
+
 export default function useFetchSteeringWheel() {
-  const [{ data, fetching, error }] = useQuery({
-    query: PRODUCT_QUERY,
+  const [{ data: flatRoundData, fetching: flatRoundFetching, error: flatRoundError }] = useQuery({
+    query: FLAT_ROUND_QUERY,
+  });
+
+  const [{ data: gt3Data, fetching: gt3Fetching, error: gt3Error }] = useQuery({
+    query: GT3_QUERY,
   });
 
   const { steeringWheelData, setSteeringWheelData } = useSteeringWheelStore()
 
   useEffect(() => {
-    if (data?.product) {
-      const steeringWheel = data.product.variants.edges.reduce((acc, { node }) => {
-        // Store by ID so we can lookup by ID
+    if (flatRoundData?.product) {
+      console.log("🎡 Flat/Round Product:", flatRoundData.product.title);
+      const flatRoundWheels = flatRoundData.product.variants.edges.reduce((acc, { node }) => {
         acc[node.id] = node
         return acc
       }, {})
       
-      // Also store by Title if needed? Or just a flat map is fine
-      // Let's store individual updates or bulk update?
-      // Store logic is: setSteeringWheelData(key, value)
-      // Since default implementation handles key-value updates, we can loop
-      
-      Object.entries(steeringWheel).forEach(([id, node]) => {
-          setSteeringWheelData(id, { 
-              ...node, 
-              price: { amount: node.price, currencyCode: 'USD' }
-          });
+      console.log("📊 Flat/Round Wheels loaded:", Object.keys(flatRoundWheels));
+      Object.entries(flatRoundWheels).forEach(([id, node]) => {
+        console.log(`  Setting flat/round wheel ${id}:`, { price: node.price, title: node.title, sku: node.sku });
+        setSteeringWheelData(id, { 
+          ...node, 
+          price: { amount: node.price, currencyCode: 'USD' }
+        });
       })
     }
-  }, [data, setSteeringWheelData]);
+  }, [flatRoundData, setSteeringWheelData]);
 
   useEffect(() => {
-    if (error) {
-      console.error("❌ Error fetching product:", error);
+    if (gt3Data?.product) {
+      console.log("🎡 GT3 Product:", gt3Data.product.title);
+      const gt3Wheels = gt3Data.product.variants.edges.reduce((acc, { node }) => {
+        acc[node.id] = node
+        return acc
+      }, {})
+      
+      console.log("📊 GT3 Wheels loaded:", Object.keys(gt3Wheels));
+      Object.entries(gt3Wheels).forEach(([id, node]) => {
+        console.log(`  Setting GT3 wheel ${id}:`, { price: node.price, title: node.title, sku: node.sku });
+        setSteeringWheelData(id, { 
+          ...node, 
+          price: { amount: node.price, currencyCode: 'USD' }
+        });
+      })
     }
-  }, [error]);
+  }, [gt3Data, setSteeringWheelData]);
+
+  useEffect(() => {
+    if (flatRoundError) {
+      console.error("❌ Error fetching flat/round product:", flatRoundError);
+    }
+  }, [flatRoundError]);
+
+  useEffect(() => {
+    if (gt3Error) {
+      console.error("❌ Error fetching GT3 product:", gt3Error);
+    }
+  }, [gt3Error]);
 }
